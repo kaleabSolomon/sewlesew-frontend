@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 // Define button variants with CVA
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-bold transition-colors", // Base styles
+  "inline-flex items-center justify-center text-sm font-bold transition-colors", // Base styles
   {
     variants: {
       variant: {

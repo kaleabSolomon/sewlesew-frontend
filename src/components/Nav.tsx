@@ -3,7 +3,7 @@ import Button from "./ui/Button";
 
 const Nav = () => {
   return (
-    <div className="fixed top-0 left-0 w-full z-50 sm:px-28 px-8 py-4 bg-transparent text-md flex items-center justify-between text-white bg-gradient-to-b from-black/60 to-gray-100/0 ">
+    <div className="fixed top-0 left-0 w-full h-16 z-50 sm:px-28 px-8 py-4 bg-transparent text-md flex items-center justify-between text-white bg-gradient-to-b from-black/60 to-gray-100/0 ">
       <div className="flex gap-x-8 items-center text-sm">
         <h1 className="text-xl  font-inter text-customTeal ">
           Kena<span className="font-bold">Lib</span>
