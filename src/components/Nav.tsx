@@ -44,7 +44,7 @@ const Nav = () => {
           ? "bg-white text-black shadow-lg"
           : isScrolling
           ? " backdrop-blur-md "
-          : "backdrop-blur-none bg-gradient-to-b from-black/90 to-gray-900/10"
+          : "backdrop-blur-none bg-gradient-to-b from-black/90 to-black/0"
       }`}
     >
       <div className="flex gap-x-8 items-center text-sm">
