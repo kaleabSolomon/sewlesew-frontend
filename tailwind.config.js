@@ -8,7 +8,7 @@ export default {
       },
       textColor: {
         customTeal: "#13adb7",
-        customTealLight: "#37b3ba",
+        customTealLight: "#45e4ed",
         customTealDark: "#128f96",
       },
       backgroundColor: {
