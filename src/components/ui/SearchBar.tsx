@@ -2,7 +2,7 @@ import { FiSearch } from "react-icons/fi";
 
 const SearchBar = () => {
   return (
-    <div className="flex items-center bg-gray-100  rounded-full shadow-sm px-4 py-4 w-2/3 my-5">
+    <div className="flex items-center bg-white  rounded-full shadow-sm px-4 py-4 w-2/3 my-5">
       <input
         type="text"
         placeholder="Find donations..."

@@ -4,13 +4,13 @@ import clsx from "clsx";
 
 // Define button variants with CVA
 const buttonVariants = cva(
-  "inline-flex items-center justify-center text-sm font-bold transition-colors", // Base styles
+  "inline-flex items-center justify-center text-sm transition-colors", // Base styles
   {
     variants: {
       variant: {
         primary: "bg-customTeal text-white  hover:bg-customTealLight",
         secondary:
-          "bg-transparent text-customTeal hover:bg-customTealLight hover:text-white border border-customTeal border-2",
+          "bg-transparent text-customTeal hover:bg-customTealLight hover:text-white border border-customTeal border-1",
 
         outline:
           " bg-transparent text-white border border-white hover:bg-gray-100/10",

@@ -12,7 +12,7 @@
   box-sizing: border-box;
 }
 body {
-  @apply bg-[#E5E5E5] font-inter;
+  @apply bg-[#f5f5f5] font-inter;
 }
 @layer utilities {
   .transition-backdrop {
