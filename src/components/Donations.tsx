@@ -1,5 +1,6 @@
 import SearchBar from "./ui/SearchBar";
 import Categories from "./ui/Categories";
+import Campaigns from "./Campaigns";
 
 const Donations = () => {
   return (
@@ -8,8 +9,8 @@ const Donations = () => {
         Open <span className="text-customTeal ">donations</span>
       </h1>
       <SearchBar />
-
       <Categories />
+      <Campaigns />
     </div>
   );
 };
