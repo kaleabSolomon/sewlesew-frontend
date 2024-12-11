@@ -91,3 +91,36 @@ export const campaigns = [
     },
   },
 ];
+
+export const faqData = [
+  {
+    question: "What is your refund policy?",
+    answer:
+      "We offer a 30-day money-back guarantee on all purchases. If you're not satisfied, contact support for assistance.",
+  },
+  {
+    question: "How do I change my password?",
+    answer:
+      "To change your password, go to the settings page, click 'Change Password,' and follow the instructions.",
+  },
+  {
+    question: "Do you offer customer support?",
+    answer:
+      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+  },
+  {
+    question: "Do you offer customer support?",
+    answer:
+      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+  },
+  {
+    question: "Do you offer customer support?",
+    answer:
+      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+  },
+  {
+    question: "Do you offer customer support?",
+    answer:
+      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+  },
+];
