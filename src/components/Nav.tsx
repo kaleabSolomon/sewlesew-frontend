@@ -39,12 +39,12 @@ const Nav = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 sm:px-28 px-8 py-4 flex items-center justify-between text-white transition-backdrop${
+      className={`fixed top-0 left-0 w-full z-50 sm:px-28 px-8 py-4 flex items-center justify-between  transition-backdrop ${
         isBeyondHero
-          ? "bg-white text-black shadow-lg"
+          ? "bg-white text-black shadow-lg border-2"
           : isScrolling
-          ? " backdrop-blur-md "
-          : "backdrop-blur-none bg-gradient-to-b from-black/90 to-black/0"
+          ? " backdrop-blur-md text-white "
+          : "text-white backdrop-blur-none bg-gradient-to-b from-black/90 to-black/0"
       }`}
     >
       <div className="flex gap-x-8 items-center text-sm">
