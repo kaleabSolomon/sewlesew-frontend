@@ -3,7 +3,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 
 // Define button variants with CVA
-const buttonVariants = cva(
+export const buttonVariants = cva(
   "inline-flex items-center justify-center text-sm transition-colors", // Base styles
   {
     variants: {
@@ -21,6 +21,7 @@ const buttonVariants = cva(
         sm: "px-2 py-1 text-md",
         md: "px-4 py-2 text-lg",
         lg: "px-6 py-3 text-xl",
+        icon: "h-9 w-9",
       },
       loading: {
         true: "opacity-50 pointer-events-none",

@@ -19,3 +19,8 @@ body {
     transition: backdrop-filter 0.5s ease, background-color 0.5s ease;
   }
 }
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
