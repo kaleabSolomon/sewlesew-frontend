@@ -14,33 +14,35 @@ import { GrLinkNext } from "react-icons/gr";
 
 const Donations = () => {
   return (
-    <div className="mx-20 my-16  flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <h1 className="font-semibold text-4xl">
         Open <span className="text-customTeal ">donations</span>
       </h1>
       <SearchBar />
       <Categories />
       <Campaigns />
-      <div className=" flex justify-between w-full mt-12">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">2</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+      <div className=" flex justify-between w-full mt-8 mb-24 ">
+        <div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">2</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
 
         <p className="text-customTeal flex w-32 items-center gap-2">
           See More <GrLinkNext />
