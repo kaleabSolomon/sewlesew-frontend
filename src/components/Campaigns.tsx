@@ -7,7 +7,7 @@ const Campaigns = () => {
     <div className="flex flex-wrap items-start justify-around max-w-6xl gap-y-6">
       {campaigns.map((campaign) => {
         return (
-          <div className="w-[329px] h-[440px] bg-white rounded-lg overflow-hidden shadow-lg">
+          <div className="group w-[329px] h-[440px] bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-xl hover:border-nonetransition-all">
             <div className="w-full h-[210px] mb-2 rounded-xl">
               <img
                 src={campaign.imgUrl}
@@ -24,7 +24,7 @@ const Campaigns = () => {
                   {campaign.stats.totalDonation} Donations
                 </h1>
               </div>
-              <h1 className="text-lg text-gray-800 font-bold">
+              <h1 className="text-lg text-gray-800 font-bold group-hover:text-customTeal  transition-all">
                 {campaign.title}
               </h1>
               <p className=" text-gray-700 text-sm font-light pt-2 pb-4">
