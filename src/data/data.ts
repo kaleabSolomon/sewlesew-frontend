@@ -94,33 +94,38 @@ export const campaigns = [
 
 export const faqData = [
   {
-    question: "What is your refund policy?",
+    question: "What is the purpose of this platform?",
     answer:
-      "We offer a 30-day money-back guarantee on all purchases. If you're not satisfied, contact support for assistance.",
+      "Our platform connects individuals and organizations with donors to raise funds for various causes, such as medical emergencies, education, and community projects.",
   },
   {
-    question: "How do I change my password?",
+    question: "How do I start a fundraising campaign?",
     answer:
-      "To change your password, go to the settings page, click 'Change Password,' and follow the instructions.",
+      "Sign up or log in, click 'Create Campaign,' fill in the required details, and submit your campaign for review and approval.",
   },
   {
-    question: "Do you offer customer support?",
+    question: "How can I donate to a campaign?",
     answer:
-      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+      "Browse campaigns, select one you wish to support, click 'Donate,' and complete the payment process using the available payment methods.",
   },
   {
-    question: "Do you offer customer support?",
+    question: "Is my payment information secure?",
     answer:
-      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+      "Yes, we use secure payment gateways and industry-standard encryption to ensure your payment information is protected.",
   },
   {
-    question: "Do you offer customer support?",
+    question: "Are there any fees for using the platform?",
     answer:
-      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+      "A small service fee is deducted from each donation to cover operational costs. The details of the fee are displayed during the donation process.",
   },
   {
-    question: "Do you offer customer support?",
+    question: "What happens if a campaign does not reach its goal?",
     answer:
-      "Yes, we provide 24/7 customer support. You can reach us via chat or email anytime.",
+      "Funds are transferred to the campaign owner regardless of whether the goal is met. Owners are encouraged to provide updates on fund usage.",
+  },
+  {
+    question: "How do I report a fraudulent campaign?",
+    answer:
+      "If you suspect a campaign is fraudulent, click 'Report' on the campaign page or contact our support team with relevant details.",
   },
 ];

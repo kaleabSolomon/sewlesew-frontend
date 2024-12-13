@@ -17,13 +17,13 @@ const Faq = () => {
 
       <div className="w-full flex justify-between">
         <div className="w-2/5 bg-customTealDark">
-          <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="relative w-[300px] h-[760px]">
+          <div className="flex items-center justify-center min-h-screen bg-[#f8fefc]">
+            <div className="relative w-[300px] h-[760px] ">
               {/* Enlarged teal backgrond strip */}
               <div className="absolute left-[-60px] top-[-40px] w-[200px] h-full bg-customTealLight rounded-md"></div>
 
               {/* Phone container */}
-              <div className="relative bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="relative bg-white rounded-xl shadow-3xl overflow-hidden">
                 {/* Phone app image */}
                 <img
                   src={mobApp}

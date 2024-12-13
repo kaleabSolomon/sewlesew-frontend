@@ -22,6 +22,10 @@ export default {
         customTealLight: "#37b3ba",
         customTealDark: "#128f96",
       },
+      boxShadow: {
+        "3xl":
+          "0 -10px 20px rgba(19, 173, 183, 0.2), 10px 0 30px rgba(19, 173, 183, 0.2), 0 10px 200px rgba(19, 173, 183, 0.2)",
+      },
       backgroundImage: {
         heroImg: "url('./src/assets/kenalib-hero.png')",
       },
