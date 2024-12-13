@@ -12,7 +12,7 @@ const Campaigns = () => {
               <img
                 src={campaign.imgUrl}
                 alt="campaign image"
-                className="w-full h-full rounded-"
+                className="w-full h-full brightness-75 group-hover:brightness-100 transition-all"
               />
             </div>
             <div className="px-6">

@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
 import Donations from "@/components/Donations";
 import Faq from "@/components/Faq";
+import Stats from "@/components/Stats";
 
 const Landing = () => {
   return (
@@ -15,6 +16,7 @@ const Landing = () => {
       <div className="mx-96 my-16  ">
         <Donations />
         <Faq />
+        <Stats />
       </div>
     </div>
   );
