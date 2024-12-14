@@ -4,6 +4,7 @@ import Donations from "@/components/Donations";
 import Faq from "@/components/Faq";
 import Stats from "@/components/Stats";
 import Partners from "@/components/Partners";
+import Footer from "@/components/Footer";
 
 const Landing = () => {
   return (
@@ -20,6 +21,7 @@ const Landing = () => {
         <Stats />
         <Partners />
       </div>
+      <Footer />
     </div>
   );
 };
