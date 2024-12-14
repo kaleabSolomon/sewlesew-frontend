@@ -40,9 +40,9 @@ const Nav = () => {
 
   return (
     <div
-      className={`fixed top-0 z-50 sm:px-28 px-12 py-4 flex items-center justify-between transition-all duration-700 ease-in-out transition-backdrop ${
+      className={`fixed top-0 z-50 sm:px-28 px-12 py-4 flex items-center justify-between flex-grow transition-all duration-300 transition-backdrop ${
         isBeyondHero
-          ? "bg-white/90 text-black shadow-lg border-2 left-8 right-8 mt-4 rounded-full "
+          ? "bg-white/90 text-gray-700 shadow-lg border-2 left-8 right-8 mt-4 rounded-full border-customTealLight font-semibold "
           : isScrolling
           ? "w-full backdrop-blur-md text-white "
           : " w-full text-white backdrop-blur-none bg-gradient-to-b from-black/90 to-black/0"
@@ -53,21 +53,27 @@ const Nav = () => {
           SewLe<span className="font-bold">Sew</span>
         </h1>
 
-        <NavLink>Home</NavLink>
         <NavLink>Disasters</NavLink>
         <NavLink>Charity</NavLink>
         <NavLink>Events</NavLink>
       </div>
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-4 items-center">
         <Button
-          variant="ghost"
+          variant="primary"
           size="md"
           shape="rounded"
           className="flex gap-1"
         >
           <PiSignInBold /> Signin
         </Button>
-        <h1 className="text-sm">(+251)9-4210-2626</h1>
+        <Button
+          variant="secondary"
+          size="md"
+          shape="rounded"
+          className="flex gap-1"
+        >
+          <PiSignInBold /> Create
+        </Button>
       </div>
     </div>
   );
