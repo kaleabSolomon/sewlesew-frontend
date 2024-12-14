@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import Donations from "@/components/Donations";
 import Faq from "@/components/Faq";
 import Stats from "@/components/Stats";
+import Partners from "@/components/Partners";
 
 const Landing = () => {
   return (
@@ -17,6 +18,7 @@ const Landing = () => {
         <Donations />
         <Faq />
         <Stats />
+        <Partners />
       </div>
     </div>
   );
