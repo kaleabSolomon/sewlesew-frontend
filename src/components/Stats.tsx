@@ -2,7 +2,7 @@ import Stat from "./ui/Stat";
 
 const Stats = () => {
   return (
-    <div className="mb-32">
+    <div className="mb-20">
       <p className="font-light text-gray-700 text-xs my-4">
         HUMANITARIAN MISSION
       </p>

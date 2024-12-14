@@ -6,6 +6,7 @@ import redCrescent from "../assets/redCrescent.png";
 import ethOrthodox from "../assets/ethOrhodox.png";
 
 import eTelecom from "../assets/ethio-telecom-1200px-logo.png";
+import ContactCard from "./ui/contactCard";
 
 const Partners = () => {
   return (
@@ -73,6 +74,8 @@ const Partners = () => {
           />
         </a>
       </div>
+
+      <ContactCard />
     </div>
   );
 };
