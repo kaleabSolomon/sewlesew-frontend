@@ -34,7 +34,11 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      colors: {},
+      colors: {
+        customTeal: "#13adb7",
+        customTealLight: "#37b3ba",
+        customTealDark: "#128f96",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
