@@ -20,7 +20,7 @@ const Faq = () => {
           <div className="flex items-center justify-center min-h-screen bg-[#f8fefc]">
             <div className="relative w-[300px] h-[760px] ">
               {/* Enlarged teal backgrond strip */}
-              <div className="absolute left-[-60px] top-[-40px] w-[200px] h-full bg-customTealLight rounded-md"></div>
+              <div className="absolute left-[-60px] top-[-40px] w-[200px] h-full bg-customTealLight "></div>
 
               {/* Phone container */}
               <div className="relative bg-white rounded-xl shadow-3xl overflow-hidden">
