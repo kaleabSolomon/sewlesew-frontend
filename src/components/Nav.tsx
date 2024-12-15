@@ -2,7 +2,8 @@ import { PiSignInBold } from "react-icons/pi";
 import Button from "./ui/Button";
 import { useEffect, useRef, useState } from "react";
 import NavLink from "./ui/NavLink";
-import { IoAddCircleSharp } from "react-icons/io5";
+import { IoAddCircleSharp, IoClose } from "react-icons/io5";
+import { CiMenuFries } from "react-icons/ci";
 
 const Nav = () => {
   const [isScrolling, setIsScrolling] = useState(false);
@@ -12,6 +13,7 @@ const Nav = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
+    console.log(isMenuOpen);
   };
   useEffect(() => {
     let scrollTimeout: string | number | NodeJS.Timeout | undefined;
@@ -104,20 +106,21 @@ const Nav = () => {
 
       {/* Hamburger Menu Button */}
       <div className="lg:hidden">
-        <button
-          className="text-3xl focus:outline-none"
+        <Button
+          // className="text-3xl focus:outline-none"
+          variant="ghost"
           onClick={toggleMenu}
           aria-label="Toggle Menu"
         >
-          {isMenuOpen ? "✕" : "☰"} {/* Close or Hamburger Icon */}
-        </button>
+          {isMenuOpen ? <IoClose size={24} /> : <CiMenuFries size={24} />}
+        </Button>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div
           ref={menuRef}
-          className={`absolute top-full right-8 text-gray-700 shadow-md flex flex-col items-center gap-4 py-4  border border-customTealLight rounded-lg transition-all mt-2 duration-300 transform ${
+          className={`lg:hidden absolute top-full w-60 right-8 text-gray-700 shadow-md flex flex-col items-center gap-4 py-4  border border-customTealLight rounded-lg transition-all mt-2 duration-300 transform ${
             isBeyondHero ? "bg-white/90" : "text-white backdrop-blur-md"
           } ${
             isMenuOpen

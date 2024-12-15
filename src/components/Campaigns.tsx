@@ -4,7 +4,7 @@ import { FaShare } from "react-icons/fa6";
 
 const Campaigns = () => {
   return (
-    <div className="flex flex-wrap items-start justify-evenly max-w-6xl gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 max-w-6xl gap-6">
       {campaigns.map((campaign) => {
         return (
           <div className="group w-[329px] h-[440px] bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-xl hover:border-nonetransition-all">
