@@ -5,7 +5,7 @@ interface statProps {
 
 const Stat = ({ amount, description }: statProps) => {
   return (
-    <div className=" group p-6 bg-white shadow-md rounded-lg  hover:bg-customTealLight transition-colors">
+    <div className=" w-60 h-36 group p-6 bg-white shadow-md rounded-lg  hover:bg-customTealLight transition-colors">
       <h3 className="text-4xl font-bold text-customTeal group-hover:text-white">
         {amount}
       </h3>

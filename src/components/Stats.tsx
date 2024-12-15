@@ -11,8 +11,8 @@ const Stats = () => {
         <span className="text-customTeal">Shortages</span> and{" "}
         <span className="text-customTeal">Emergency Relief</span>.
       </h1>
-      <div className=" py-10">
-        <div className="max-w-7xl mx-auto text-center">
+      <div className="py-10 flex items-center justify-center">
+        <div className="max-w-7xl text-center">
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <Stat amount="80M+" description="Birr Raised" />
             <Stat amount="100+" description="Campaigns Closed" />
