@@ -4,7 +4,7 @@ import mobApp from "../assets/kenalib-mob-app.jpg";
 
 const Faq = () => {
   return (
-    <div>
+    <div className="mb-16">
       <p className="font-light text-gray-700 text-xs my-4">
         MODERN CROUDFUNDING PLATFORM
       </p>
@@ -15,9 +15,9 @@ const Faq = () => {
         <span className="text-customTeal">transparently</span>.
       </h1>
 
-      <div className="w-full flex justify-between">
-        <div className="w-2/5 bg-customTealDark">
-          <div className="flex items-center justify-center min-h-screen bg-[#f8fefc]">
+      <div className="w-full flex flex-col items-center lg:flex-row lg:justify-between lg:items-start ">
+        <div className="w-2/5 bg-customTealDark hidden md:block">
+          <div className="flex items-center justify-center pt-20 bg-[#f8fefc]">
             <div className="relative w-[300px] h-[760px] ">
               {/* Enlarged teal backgrond strip */}
               <div className="absolute left-[-60px] top-[-40px] w-[200px] h-full bg-customTealLight "></div>
@@ -34,7 +34,7 @@ const Faq = () => {
             </div>
           </div>
         </div>
-        <div className="w-3/5 pt-20  px-20">
+        <div className="w-[400px] sm:w-4/6 lg:w-3/5 pt-10 lg:pt-20 lg:px-20">
           <p className="text-gray-500 italic text-sm mb-6">
             Empowering change, one campaign at a time. Our platform connects
             passionate individuals and communities with donors to bring
