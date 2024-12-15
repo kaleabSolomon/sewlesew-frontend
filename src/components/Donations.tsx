@@ -18,8 +18,10 @@ const Donations = () => {
       <h1 className="font-semibold text-4xl">
         Open <span className="text-customTeal ">donations</span>
       </h1>
-      <SearchBar />
-      <Categories />
+      <div className="flex  items-center md:flex-col ">
+        <SearchBar />
+        <Categories />
+      </div>
       <Campaigns />
       <div className=" flex justify-between w-full mt-8 mb-24 ">
         <div>

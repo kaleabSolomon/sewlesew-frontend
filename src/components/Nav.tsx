@@ -62,7 +62,7 @@ const Nav = () => {
     <div
       className={`fixed top-0 z-50 sm:px-28 px-12 py-4 flex items-center justify-between flex-grow transition-all duration-300 transition-backdrop ${
         isBeyondHero
-          ? "bg-white/90 text-gray-700 shadow-lg border-2 left-8 right-8 mt-4 rounded-full border-customTealLight font-semibold"
+          ? "bg-teal-50/90 text-gray-700 shadow-lg border-2 left-8 right-8 mt-4 rounded-full border-customTealLight font-semibold"
           : isScrolling
           ? "w-full backdrop-blur-md text-white"
           : "w-full text-white backdrop-blur-none bg-gradient-to-b from-black/90 to-black/0"
@@ -117,7 +117,7 @@ const Nav = () => {
       {isMenuOpen && (
         <div
           ref={menuRef}
-          className={`absolute top-full right-8 text-gray-700 shadow-md flex flex-col items-center gap-4 py-4  border-2 border-customTealLight rounded-lg transition-all mt-2 duration-300 transform ${
+          className={`absolute top-full right-8 text-gray-700 shadow-md flex flex-col items-center gap-4 py-4  border border-customTealLight rounded-lg transition-all mt-2 duration-300 transform ${
             isBeyondHero ? "bg-white/90" : "text-white backdrop-blur-md"
           } ${
             isMenuOpen

@@ -4,7 +4,7 @@ import { CiBookmark } from "react-icons/ci";
 
 const Campaigns = () => {
   return (
-    <div className="flex flex-wrap items-start justify-around max-w-6xl gap-y-6">
+    <div className="flex flex-wrap items-start justify-evenly max-w-6xl gap-6">
       {campaigns.map((campaign) => {
         return (
           <div className="group w-[329px] h-[440px] bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-xl hover:border-nonetransition-all">
