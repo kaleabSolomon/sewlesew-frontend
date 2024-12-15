@@ -16,6 +16,7 @@ export const buttonVariants = cva(
           " bg-transparent text-white border border-white hover:bg-gray-100/10 ",
 
         ghost: "bg-transparent text-customTeal",
+        destructive: "bg-red-800 hover:bg-red-700 text-white",
       },
       size: {
         sm: "px-2 py-1 text-md",
