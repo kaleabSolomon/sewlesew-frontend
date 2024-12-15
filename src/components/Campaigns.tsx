@@ -1,6 +1,6 @@
 import { campaigns } from "@/data/data";
 import Button from "./ui/Button";
-import { CiBookmark } from "react-icons/ci";
+import { FaShare } from "react-icons/fa6";
 
 const Campaigns = () => {
   return (
@@ -32,12 +32,11 @@ const Campaigns = () => {
               </p>
 
               <div className="w-full flex gap-2">
-                <Button variant="secondary" shape="block">
-                  <CiBookmark />
-                </Button>
-
                 <Button variant="secondary" shape="block" className="w-full">
                   Donate now
+                </Button>
+                <Button variant="secondary" shape="block">
+                  <FaShare />
                 </Button>
               </div>
             </div>
