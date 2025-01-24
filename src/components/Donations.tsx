@@ -1,16 +1,9 @@
 import SearchBar from "./ui/SearchBar";
 import Categories from "./ui/Categories";
 import Campaigns from "./Campaigns";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationEllipsis,
-  PaginationNext,
-} from "./ui/pagination";
+
 import { GrLinkNext } from "react-icons/gr";
+import Pagination from "./ui/pagination";
 
 const Donations = () => {
   return (
@@ -25,25 +18,7 @@ const Donations = () => {
       <Campaigns />
       <div className=" flex justify-between w-full mt-8 mb-24 ">
         <div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">2</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <Pagination currentPage={1} totalPages={4} onPageChange={() => {}} />
         </div>
 
         <p className="text-customTeal flex w-32 items-center gap-2">
