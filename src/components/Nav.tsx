@@ -105,12 +105,13 @@ const Nav = () => {
       </div>
 
       {/* Hamburger Menu Button */}
-      <div className="lg:hidden">
+      <div className="lg:hidden ">
         <Button
           // className="text-3xl focus:outline-none"
           variant="ghost"
           onClick={toggleMenu}
           aria-label="Toggle Menu"
+          className="text-customTeal hover:text-customTealLight"
         >
           {isMenuOpen ? <IoClose size={24} /> : <CiMenuFries size={24} />}
         </Button>

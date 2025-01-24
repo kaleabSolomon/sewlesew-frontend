@@ -6,7 +6,7 @@ const Stats = () => {
       <p className="font-light text-gray-700 text-xs my-4">
         HUMANITARIAN MISSION
       </p>
-      <h1 className="text-3xl font-bold leading-12 w-[500px]">
+      <h1 className="text-3xl font-bold leading-12 w-[400px] sm:w-[500px]">
         Help the Affected by <span className="text-customTeal">Disasters</span>,{" "}
         <span className="text-customTeal">Shortages</span> and{" "}
         <span className="text-customTeal">Emergency Relief</span>.

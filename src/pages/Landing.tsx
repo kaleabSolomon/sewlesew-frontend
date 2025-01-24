@@ -17,7 +17,7 @@ const Landing = () => {
       </div>
       <div
         className="max-w-6xl mx-auto
-       my-16 border-2 border-black  px-4 sm:px-6 lg:px-8"
+       my-16 px-4 sm:px-6 lg:px-8"
       >
         <Donations />
         <Faq />

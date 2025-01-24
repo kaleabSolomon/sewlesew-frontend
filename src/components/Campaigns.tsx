@@ -1,6 +1,7 @@
 import { campaigns } from "@/data/data";
 import Button from "./ui/Button";
 import { FaShare } from "react-icons/fa6";
+import ProgressBar from "./ui/ProgressBar";
 
 const Campaigns = () => {
   return (
@@ -27,10 +28,10 @@ const Campaigns = () => {
               <h1 className="text-lg text-gray-800 font-bold group-hover:text-customTeal  transition-all">
                 {campaign.title}
               </h1>
-              <p className=" text-gray-700 text-sm font-light pt-2 pb-4">
+              <p className=" text-gray-700 text-sm font-light pt-2 pb-2">
                 {campaign.description}
               </p>
-
+              <ProgressBar progress={70} />
               <div className="w-full flex gap-2">
                 <Button variant="secondary" shape="block" className="w-full">
                   Donate now

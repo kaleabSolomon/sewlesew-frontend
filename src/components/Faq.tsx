@@ -9,7 +9,7 @@ const Faq = () => {
         MODERN CROUDFUNDING PLATFORM
       </p>
 
-      <h1 className="text-3xl font-bold leading-12 w-[450px]">
+      <h1 className="text-3xl font-bold leading-12 w-[400px] sm:w-[450px]">
         Distribute aid <span className="text-customTeal">easily</span>,{" "}
         <span className="text-customTeal">quickly</span> and{" "}
         <span className="text-customTeal">transparently</span>.

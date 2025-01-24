@@ -1,5 +1,4 @@
 import chapaLogo from "../assets/chapa-logo.png";
-import telebirrLogo from "../assets/Telebirr.png";
 import safaricom from "../assets/safaricom.png";
 import redCross from "../assets/redCross.png";
 import redCrescent from "../assets/redCrescent.png";
@@ -19,28 +18,22 @@ const Partners = () => {
         the years.
       </h1>
 
-      <div className="flex flex-row flex-wrap gap-1 lg:gap-6 mt-2 lg:mt-4 items-center py-10">
+      <div className="flex flex-row flex-wrap gap-1 lg:gap-6 mt-2 lg:mt-4 items-center justify-center py-10">
         <a href="https://redcrosseth.org/" target="_blank" rel="noreferrer">
           <img
             src={redCross}
             alt="pr1"
-            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-20 lg:w-30"
+            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-20"
           />
         </a>
         <a href="https://chapa.co/" target="_blank" rel="noreferrer">
           <img
             src={chapaLogo}
             alt="pr1"
-            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-24 lg:w-40"
+            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-24"
           />
         </a>
-        <a href="https://ethiotelebirr.com/" target="_blank" rel="noreferrer">
-          <img
-            src={telebirrLogo}
-            alt="pr1"
-            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-22 lg:w-36"
-          />
-        </a>
+
         <a
           href="https://www.ethiopianorthodox.org/"
           target="_blank"
@@ -49,28 +42,28 @@ const Partners = () => {
           <img
             src={ethOrthodox}
             alt="pr1"
-            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-20 lg:w-30"
+            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-20 "
           />
         </a>
         <a href="https://www.ethiotelecom.et/" target="_blank" rel="noreferrer">
           <img
             src={eTelecom}
             alt="pr1"
-            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-24 lg:w-40"
+            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-24"
           />
         </a>
         <a href="https://www.ifrc.org/" target="_blank" rel="noreferrer">
           <img
             src={redCrescent}
             alt="pr1"
-            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-10 lg:w-20"
+            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-10"
           />
         </a>
         <a href="https://safaricom.et/" target="_blank" rel="noreferrer">
           <img
             src={safaricom}
             alt="pr1"
-            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-24 lg:w-40"
+            className="object-contain filter md:grayscale hover:scale-110 hover:filter-none duration-200 w-24"
           />
         </a>
       </div>

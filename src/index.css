@@ -11,6 +11,7 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 body {
   @apply bg-[#f8fefc] font-inter;
 }
