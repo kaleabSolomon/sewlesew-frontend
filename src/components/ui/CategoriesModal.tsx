@@ -44,7 +44,7 @@ const CategoriesModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <Button
           variant="destructive"
           size="icon"
-          className="absolute top-4 right-4 "
+          className="absolute top-4 right-4"
           shape="rounded"
           onClick={onClose}
         >
@@ -54,7 +54,9 @@ const CategoriesModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Categories</h2>
         <ul className="grid grid-cols-3 gap-3">
           {categories.map((category) => (
-            <Button variant="secondary">{category}</Button>
+            <Button key={category.id} variant="secondary">
+              {category.label}
+            </Button>
           ))}
         </ul>
       </div>
