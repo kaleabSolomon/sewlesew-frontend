@@ -5,8 +5,38 @@ import Faq from "@/components/Faq";
 import Stats from "@/components/Stats";
 import Partners from "@/components/Partners";
 import Footer from "@/components/Footer";
+import { useEffect, useState } from "react";
+import { getCampaigns } from "@/services/campaign";
 
 const Landing = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [campaigns, setCampaigns] = useState([]);
+
+  const handleError = (err: string) => {
+    setError(err);
+  };
+
+  const handleIsLoading = (isLoading: boolean) => {
+    setIsLoading(isLoading);
+  };
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const data = await getCampaigns(
+          handleIsLoading, // Pass loading handler
+          handleError // Pass error handler
+        );
+
+        setCampaigns(data);
+      } catch (err) {
+        // The error is already handled in the `getCampaigns` function
+        console.error("Error fetching campaigns:", err);
+      }
+    };
+
+    fetchCampaigns();
+  }, []);
   return (
     <div>
       <Nav />
@@ -19,7 +49,7 @@ const Landing = () => {
         className="max-w-6xl mx-auto
        my-16 px-4 sm:px-6 lg:px-8"
       >
-        <Donations />
+        <Donations isLoading={isLoading} error={error} campaigns={campaigns} />
         <Faq />
         <Stats />
         <Partners />
