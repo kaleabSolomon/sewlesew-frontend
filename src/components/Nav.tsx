@@ -99,6 +99,7 @@ const Nav = () => {
           size="md"
           shape="rounded"
           className="flex gap-1"
+          onClick={() => alert()}
         >
           <PiSignInBold /> Signin
         </Button>
