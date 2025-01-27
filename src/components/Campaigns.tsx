@@ -26,6 +26,10 @@ const Campaigns: FC<CampaignProps> = ({ isLoading, error, campaigns }) => {
       <h2 className="text-red-500 text-xl font-semibold">Error</h2>
       <p className="text-gray-600">{error}</p>
     </div>
+  ) : campaigns.length == 0 ? (
+    <div className="w-full h-100 flex items-center justify-center">
+      nothing found
+    </div>
   ) : (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 max-w-6xl gap-6">
       {campaigns.map((campaign) => {

@@ -5,10 +5,17 @@ import { IoClose } from "react-icons/io5";
 
 type ModalProps = {
   isOpen: boolean;
+  selectedCategory: string;
+  handleSelectCategory: (id: string) => void;
   onClose: () => void;
 };
 
-const CategoriesModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const CategoriesModal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  selectedCategory,
+  handleSelectCategory,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal when clicking outside of it
@@ -54,7 +61,13 @@ const CategoriesModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Categories</h2>
         <ul className="grid grid-cols-3 gap-3">
           {categories.map((category) => (
-            <Button key={category.id} variant="secondary">
+            <Button
+              key={category.id}
+              variant={
+                selectedCategory === category.id ? "primary" : "secondary"
+              }
+              onClick={() => handleSelectCategory(category.id)}
+            >
               {category.label}
             </Button>
           ))}
