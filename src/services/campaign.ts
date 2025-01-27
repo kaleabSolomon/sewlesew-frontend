@@ -2,16 +2,11 @@ import axios from "axios";
 import axiosInstance from "./axiosInstance";
 
 export const getCampaigns = async (
-  onIsLoading: (isLoading: boolean) => void,
-  onError: (err: string) => void,
   page?: number,
   limit?: number,
   category?: string,
   fullName?: string
 ) => {
-  onIsLoading(true);
-  onError("");
-
   try {
     const params = new URLSearchParams();
     if (page) {
@@ -35,18 +30,13 @@ export const getCampaigns = async (
       },
     });
 
+    console.log(res.data);
     return res.data;
   } catch (err) {
-    onIsLoading(false);
-
     if (axios.isAxiosError(err)) {
-      onError(err.response?.data.message);
-      console.error(err.response?.data);
-    } else {
-      onError("An unexpected error occurred.");
+      console.error(err.response?.data); // Log for debugging
+      throw new Error(err.response?.data.message || "An error occurred");
     }
-    throw err;
-  } finally {
-    onIsLoading(false);
+    throw new Error("An unexpected error occurred");
   }
 };
