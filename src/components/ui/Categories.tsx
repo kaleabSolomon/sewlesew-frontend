@@ -1,18 +1,42 @@
 import Button from "./Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoFilterOutline } from "react-icons/io5";
 import CategoriesModal from "./CategoriesModal";
 import { categories } from "@/data/data";
 
-const Categories = () => {
+const Categories = ({
+  fetchCampaigns,
+}: {
+  fetchCampaigns: (
+    page?: number,
+    limit?: number,
+    category?: string,
+    fullName?: string
+  ) => void;
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const handleSelectCategory = (id: string) => {
+    setSelectedCategory(id);
+  };
+  useEffect(() => {
+    fetchCampaigns(1, 6, selectedCategory);
+  }, [selectedCategory]);
 
   return (
     <div className="space-x-5">
       {/* Desktop View */}
       <div className="hidden md:block space-x-2 space-y-2 mb-8">
-        {categories.slice(0, 5).map((category) => (
-          <Button key={category.id} variant="secondary">
+        {categories.slice(0, 6).map((category) => (
+          <Button
+            key={category.id}
+            variant={selectedCategory === category.id ? "primary" : "secondary"}
+            onClick={(e) => {
+              console.log(e.target);
+              handleSelectCategory(category.id);
+            }}
+          >
             {category.label}
           </Button>
         ))}
@@ -37,6 +61,8 @@ const Categories = () => {
       {/* Modal */}
       <CategoriesModal
         isOpen={isModalOpen}
+        selectedCategory={selectedCategory}
+        handleSelectCategory={handleSelectCategory}
         onClose={() => setIsModalOpen(false)}
       />
     </div>

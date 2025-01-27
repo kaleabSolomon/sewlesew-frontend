@@ -1,7 +1,7 @@
 import React from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-const Pagination = ({ currentPage, totalPages }) => {
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const getPaginationRange = () => {
     const range = [];
 
