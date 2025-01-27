@@ -12,6 +12,7 @@ const Landing = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [campaigns, setCampaigns] = useState([]);
+  const [meta, setMetadata] = useState({});
 
   const handleError = (err: string) => {
     setError(err);
@@ -23,12 +24,13 @@ const Landing = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const data = await getCampaigns(
+        const res = await getCampaigns(
           handleIsLoading, // Pass loading handler
           handleError // Pass error handler
         );
 
-        setCampaigns(data);
+        setCampaigns(res.data);
+        setMetadata(res.metadata);
       } catch (err) {
         // The error is already handled in the `getCampaigns` function
         console.error("Error fetching campaigns:", err);
@@ -49,7 +51,12 @@ const Landing = () => {
         className="max-w-6xl mx-auto
        my-16 px-4 sm:px-6 lg:px-8"
       >
-        <Donations isLoading={isLoading} error={error} campaigns={campaigns} />
+        <Donations
+          isLoading={isLoading}
+          error={error}
+          campaigns={campaigns}
+          meta={meta}
+        />
         <Faq />
         <Stats />
         <Partners />

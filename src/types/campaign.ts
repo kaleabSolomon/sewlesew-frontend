@@ -17,3 +17,10 @@ export interface CampaignPreview {
     Donation: number;
   };
 }
+
+export interface campaignMetadata {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+}

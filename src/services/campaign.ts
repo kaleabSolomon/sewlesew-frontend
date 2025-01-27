@@ -15,7 +15,7 @@ export const getCampaigns = async (
       },
     });
 
-    return res.data.data;
+    return res.data;
   } catch (err) {
     onIsLoading(false);
 
