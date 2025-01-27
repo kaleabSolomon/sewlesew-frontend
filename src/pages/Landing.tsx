@@ -7,12 +7,18 @@ import Partners from "@/components/Partners";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { getCampaigns } from "@/services/campaign";
+import { campaignMetadata } from "@/types/campaign";
 
 const Landing = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [campaigns, setCampaigns] = useState([]);
-  const [meta, setMetadata] = useState({});
+  const [meta, setMetadata] = useState<campaignMetadata>({
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 0,
+    pageSize: 0,
+  });
 
   const handleError = (err: string) => {
     setError(err);

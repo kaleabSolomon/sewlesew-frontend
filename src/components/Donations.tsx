@@ -12,6 +12,7 @@ interface DonationProps {
   campaigns: CampaignPreview[];
   meta: campaignMetadata;
 }
+
 const Donations: FC<DonationProps> = ({
   isLoading,
   error,
@@ -33,7 +34,6 @@ const Donations: FC<DonationProps> = ({
           <Pagination
             currentPage={meta.currentPage}
             totalPages={meta.totalPages}
-            onPageChange={() => {}}
           />
         </div>
 
