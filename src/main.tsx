@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/ui/ErrorPage.tsx";
+import { CampaingContextProvider } from "./context/campaignContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,8 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <CampaingContextProvider>
+      <RouterProvider router={router} />
+    </CampaingContextProvider>
   </StrictMode>
 );
