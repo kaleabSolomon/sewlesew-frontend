@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/ui/ErrorPage.tsx";
 import { CampaingContextProvider } from "./context/campaignContext.tsx";
+import Signin from "./pages/Signin.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth/signin",
-    element: <div>signin page</div>,
+    element: <Signin />,
   },
 ]);
 createRoot(document.getElementById("root")!).render(
