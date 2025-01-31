@@ -56,7 +56,7 @@ const VerifyAccount = () => {
 
   return (
     <AuthLayout>
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-96 text-center">
+      <div className="bg-white p-6 rounded-2xl shadow-lg w-[450px] text-center">
         <h2 className="text-2xl font-bold mb-4">Verify Your Account</h2>
         <p className="text-gray-600 mb-2">
           Enter the 6-digit code sent to your email or phone.
