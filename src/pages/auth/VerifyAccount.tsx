@@ -1,5 +1,4 @@
 import Button from "@/components/ui/Button";
-import AuthLayout from "@/layout/AuthLayout";
 import { useState, useEffect } from "react";
 import { FiClock, FiRefreshCw } from "react-icons/fi";
 
@@ -55,50 +54,48 @@ const VerifyAccount = () => {
   };
 
   return (
-    <AuthLayout>
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-[450px] text-center">
-        <h2 className="text-2xl font-bold mb-4">Verify Your Account</h2>
-        <p className="text-gray-600 mb-2">
-          Enter the 6-digit code sent to your email or phone.
-        </p>
+    <div className="bg-white p-6 rounded-2xl shadow-lg w-[450px] text-center">
+      <h2 className="text-2xl font-bold mb-4">Verify Your Account</h2>
+      <p className="text-gray-600 mb-2">
+        Enter the 6-digit code sent to your email or phone.
+      </p>
 
-        <form onSubmit={handleVerify} className="space-y-4">
-          <input
-            type="text"
-            maxLength={6}
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="123456"
-            className="w-full px-4 py-3 border rounded-lg text-center text-xl tracking-widest focus:ring focus:ring-customTeal outline-none"
-          />
+      <form onSubmit={handleVerify} className="space-y-4">
+        <input
+          type="text"
+          maxLength={6}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          placeholder="123456"
+          className="w-full px-4 py-3 border rounded-lg text-center text-xl tracking-widest focus:ring focus:ring-customTeal outline-none"
+        />
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <Button
-            type="submit"
-            className="w-full bg-customTeal text-white py-3 rounded-lg"
-          >
-            Verify
-          </Button>
-        </form>
+        <Button
+          type="submit"
+          className="w-full bg-customTeal text-white py-3 rounded-lg"
+        >
+          Verify
+        </Button>
+      </form>
 
-        <div className="flex items-center justify-between text-gray-600 mt-4">
-          <div className="flex items-center space-x-2">
-            <FiClock className="text-lg" />
-            <span>{formatTime(timer)}</span>
-          </div>
-
-          <Button
-            className="text-customTeal flex items-center space-x-2"
-            onClick={handleResend}
-            disabled={resendDisabled}
-          >
-            <FiRefreshCw />
-            <span>Resend Code</span>
-          </Button>
+      <div className="flex items-center justify-between text-gray-600 mt-4">
+        <div className="flex items-center space-x-2">
+          <FiClock className="text-lg" />
+          <span>{formatTime(timer)}</span>
         </div>
+
+        <Button
+          className="text-customTeal flex items-center space-x-2"
+          onClick={handleResend}
+          disabled={resendDisabled}
+        >
+          <FiRefreshCw />
+          <span>Resend Code</span>
+        </Button>
       </div>
-    </AuthLayout>
+    </div>
   );
 };
 
