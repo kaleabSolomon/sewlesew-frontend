@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiMail, FiPhone, FiLock, FiUser, FiCalendar } from "react-icons/fi";
+import { FiMail, FiPhone, FiLock, FiUser } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import AuthLayout from "@/layout/AuthLayout";

@@ -5,8 +5,8 @@ import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/ui/ErrorPage.tsx";
 import { CampaingContextProvider } from "./context/campaignContext.tsx";
-import Signin from "./pages/Signin.tsx";
-import Signup from "./pages/Signup.tsx";
+import Signin from "./pages/auth/Signin.tsx";
+import Signup from "./pages/auth/Signup.tsx";
 
 const router = createBrowserRouter([
   {
