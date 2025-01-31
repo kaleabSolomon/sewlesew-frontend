@@ -7,6 +7,7 @@ import ErrorPage from "./components/ui/ErrorPage.tsx";
 import { CampaingContextProvider } from "./context/campaignContext.tsx";
 import Signin from "./pages/auth/Signin.tsx";
 import Signup from "./pages/auth/Signup.tsx";
+import VerifyAccount from "./pages/auth/VerifyAccount.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/auth/signup",
     element: <Signup />,
+  },
+  {
+    path: "/auth/verify",
+    element: <VerifyAccount />,
   },
 ]);
 createRoot(document.getElementById("root")!).render(
