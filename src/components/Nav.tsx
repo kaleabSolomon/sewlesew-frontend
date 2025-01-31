@@ -4,8 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import NavLink from "./ui/NavLink";
 import { IoAddCircleSharp, IoClose } from "react-icons/io5";
 import { CiMenuFries } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
+  const navigate = useNavigate();
+
   const [isScrolling, setIsScrolling] = useState(false);
   const [isBeyondHero, setIsBeyondHero] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -99,7 +102,9 @@ const Nav = () => {
           size="md"
           shape="rounded"
           className="flex gap-1"
-          onClick={() => alert()}
+          onClick={() => {
+            navigate("/auth/signin");
+          }}
         >
           <PiSignInBold /> Signin
         </Button>

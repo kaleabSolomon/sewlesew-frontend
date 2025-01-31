@@ -39,7 +39,7 @@ const SignIn = () => {
 
   return (
     <AuthLayout>
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-96">
+      <div className="bg-white p-6 rounded-2xl shadow-lg w-[450px]">
         <h2 className="text-2xl font-bold text-center mb-4">SignIn</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">

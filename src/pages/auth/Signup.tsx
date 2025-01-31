@@ -75,7 +75,7 @@ const Signup = () => {
 
   return (
     <AuthLayout>
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-96">
+      <div className="bg-white p-6 rounded-2xl shadow-lg w-[450px]">
         <h2 className="text-2xl font-bold text-center mb-4">Sign Up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* First Name */}
