@@ -8,6 +8,8 @@ import { CampaingContextProvider } from "./context/campaignContext.tsx";
 import Signin from "./pages/auth/Signin.tsx";
 import Signup from "./pages/auth/Signup.tsx";
 import VerifyAccount from "./pages/auth/VerifyAccount.tsx";
+import ResetPassword from "./pages/auth/ResetPassword.tsx";
+import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
   {
     path: "/auth/verify",
     element: <VerifyAccount />,
+  },
+  {
+    path: "/auth/reset-password",
+    element: <ResetPassword />,
+  },
+  {
+    path: "auth/forgot-password",
+    element: <ForgotPassword />,
   },
 ]);
 createRoot(document.getElementById("root")!).render(
