@@ -3,9 +3,8 @@ import { FiMail, FiPhone, FiLock, FiUser, FiCalendar } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import AuthLayout from "@/layout/AuthLayout";
-
-const isValidEmail = (value: string) => /\S+@\S+\.\S+/.test(value);
-const isValidPhone = (value: string) => /^(\+251|0)[1-9]\d{8}$/.test(value);
+import Button from "@/components/ui/Button";
+import { isValidEmail, isValidPhone } from "@/utils/validators";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -26,7 +25,10 @@ const Signup = () => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission
+
+    setError(""); // Clear previous errors
+
     if (
       !firstName ||
       !lastName ||
@@ -36,14 +38,39 @@ const Signup = () => {
       !passwordConfirm
     ) {
       setError("All fields are required");
-      return;
+      return; // Stop submission
     }
+
+    if (!isValidEmail(identifier) && !isValidPhone(identifier)) {
+      setError("Enter a valid email or phone number");
+      return; // Stop submission
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return; // Stop submission
+    }
+
     if (password !== passwordConfirm) {
       setError("Passwords do not match");
-      return;
+      return; // Stop submission
     }
-    // Submit logic here
-    console.log({ firstName, lastName, identifier, dateOfBirth, password });
+
+    // Determine whether it's an email or phone number
+    const requestData = isValidEmail(identifier)
+      ? { email: identifier }
+      : { phoneNumber: identifier };
+
+    const requestBody = {
+      firstName,
+      lastName,
+      dateOfBirth,
+      password,
+      passwordConfirm,
+      ...requestData, // Includes either email or phoneNumber
+    };
+
+    console.log(requestBody);
   };
 
   return (
@@ -101,9 +128,7 @@ const Signup = () => {
               onChange={(e) => setDateOfBirth(e.target.value)}
               className="w-full px-4 py-3 border rounded-lg focus:ring focus:ring-customTeal outline-none"
             />
-            <span className="absolute right-4 top-3 text-gray-400">
-              <FiCalendar />
-            </span>
+            <span className="absolute right-4 top-3 text-gray-400"></span>
           </div>
 
           {/* Password */}
@@ -136,12 +161,12 @@ const Signup = () => {
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <button
+          <Button
             type="submit"
             className="w-full bg-customTeal text-white py-3 rounded-lg"
           >
             Sign Up
-          </button>
+          </Button>
         </form>
 
         <div className="border-t-2 border-t-gray-200 mt-4 flex justify-center text-gray-600">
@@ -149,10 +174,10 @@ const Signup = () => {
         </div>
 
         <div className="text-center mt-2">
-          <button className="w-full text-gray-700 border py-3 rounded-lg flex items-center justify-center space-x-2 shadow">
+          <Button className="w-full text-gray-700 border py-3 rounded-lg flex items-center justify-center space-x-2 shadow">
             <FaGoogle />
             <span>Sign up with Google</span>
-          </button>
+          </Button>
         </div>
 
         <div className="flex justify-center text-gray-600">
