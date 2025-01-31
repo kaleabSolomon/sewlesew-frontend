@@ -10,6 +10,7 @@ import Signup from "./pages/auth/Signup.tsx";
 import VerifyAccount from "./pages/auth/VerifyAccount.tsx";
 import ResetPassword from "./pages/auth/ResetPassword.tsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
+import AuthLayout from "./layout/AuthLayout.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,24 +19,15 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/auth/signin",
-    element: <Signin />,
-  },
-  {
-    path: "/auth/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/auth/verify",
-    element: <VerifyAccount />,
-  },
-  {
-    path: "/auth/reset-password",
-    element: <ResetPassword />,
-  },
-  {
-    path: "auth/forgot-password",
-    element: <ForgotPassword />,
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      { path: "signin", element: <Signin /> },
+      { path: "signup", element: <Signup /> },
+      { path: "verify", element: <VerifyAccount /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "reset-password/:token", element: <ResetPassword /> }, // Secure reset password
+    ],
   },
 ]);
 createRoot(document.getElementById("root")!).render(
