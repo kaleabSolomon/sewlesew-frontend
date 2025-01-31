@@ -3,6 +3,7 @@ import { FiMail, FiLock, FiPhone } from "react-icons/fi";
 import Button from "@/components/ui/Button";
 import { FaGoogle } from "react-icons/fa6";
 import AuthLayout from "@/layout/AuthLayout";
+import { Link } from "react-router-dom";
 
 const isValidEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -86,6 +87,12 @@ const SignIn = () => {
             <FaGoogle />
             <span>Sign in with Google</span>
           </Button>
+        </div>
+        <div className="flex justify-center text-gray-600">
+          dont have an account?
+          <Link className="text-customTeal ml-2" to={"/auth/signup"}>
+            Sign Up
+          </Link>
         </div>
       </div>
     </AuthLayout>
