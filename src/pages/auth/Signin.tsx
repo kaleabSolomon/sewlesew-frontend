@@ -3,14 +3,7 @@ import { FiMail, FiLock, FiPhone } from "react-icons/fi";
 import Button from "@/components/ui/Button";
 import { FaGoogle } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-
-const isValidEmail = (email: string) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
-
-const isValidEthiopianPhone = (phone: string) => {
-  return /^(?:\+251|0)?(?:9[0-9]{8})$/.test(phone);
-};
+import { isValidEmail, isValidPhone } from "@/utils/validators";
 
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
@@ -20,7 +13,7 @@ const SignIn = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isValidEmail(identifier) && !isValidEthiopianPhone(identifier)) {
+    if (!isValidEmail(identifier) && !isValidPhone(identifier)) {
       setError("Enter a valid email or Ethiopian phone number.");
       return;
     }
