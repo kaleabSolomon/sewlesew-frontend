@@ -4,13 +4,14 @@ import Button from "@/components/ui/Button";
 import { FaGoogle } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
+import { signIn } from "@/services/auth";
 
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isValidEmail(identifier) && !isValidPhone(identifier)) {
@@ -18,7 +19,8 @@ const SignIn = () => {
       return;
     }
     setError("");
-    console.log("Logging in with:", { identifier, password });
+
+    await signIn(identifier, password);
   };
 
   const handlePasswordChange = (pwd: string) => {
