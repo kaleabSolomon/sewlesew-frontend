@@ -6,19 +6,23 @@ import { isValidEmail } from "@/utils/validators";
 
 export const signIn = async (identifier: string, password: string) => {
   try {
+    console.log("starting auth");
     const identifierBody = isValidEmail(identifier)
       ? { email: identifier }
-      : { phoenNumber: identifier };
+      : { phoneNumber: identifier };
     const reqBody = {
       ...identifierBody,
       password,
     };
+
+    console.log(reqBody);
 
     const { data } = await axiosInstance.post<SignInResponse>(
       "/auth/local/signin",
       reqBody
     );
 
+    console.log(data);
     // Store tokens in cookies
     Cookie.set("access_token", data.access_token, {
       secure: true,
