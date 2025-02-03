@@ -1,7 +1,12 @@
 import Cookie from "js-cookie";
 import axiosInstance from "./axiosInstance";
 import axios from "axios";
-import { AuthError, signinData, SignInResponseSuccess } from "@/types/auth";
+import {
+  AuthError,
+  signinData,
+  SignInResponseSuccess,
+  SignupData,
+} from "@/types/auth";
 import { isValidEmail } from "@/utils/validators";
 
 export const signIn = async (
@@ -54,6 +59,48 @@ export const signIn = async (
     } else {
       onError("An unexpected error occurred. Could not sign you in.");
       console.error("Unexpected sign-in error:", error);
+    }
+  } finally {
+    onIsLoading(false);
+  }
+};
+
+export const signUp = async (
+  signupData: SignupData,
+  onIsLoading: (isLoading: boolean) => void,
+  onError: (err: string) => void
+) => {
+  onIsLoading(true); // Indicate the request has started
+
+  try {
+    // Determine whether identifier is an email or phone number
+    const identifierBody = isValidEmail(signupData.identifier)
+      ? { email: signupData.identifier }
+      : { phoneNumber: signupData.identifier };
+
+    const reqBody = {
+      firstName: signupData.firstName,
+      lastName: signupData.lastName,
+      dateOfBirth: signupData.dateOfBirth,
+      password: signupData.password,
+      passwordConfirm: signupData.passwordConfirm,
+      ...identifierBody,
+    };
+
+    // Make API request
+    const { data } = await axiosInstance.post("/auth/local/signup", reqBody);
+
+    return data; // Return response data on success
+  } catch (error) {
+    onIsLoading(false); // Stop loading on error
+
+    if (axios.isAxiosError(error) && error.response) {
+      const errData = error.response.data as AuthError;
+      onError(errData.message || "Sign-up failed.");
+      console.error("Sign-up error:", errData);
+    } else {
+      onError("An unexpected error occurred. Could not sign you up.");
+      console.error("Unexpected sign-up error:", error);
     }
   } finally {
     onIsLoading(false);
