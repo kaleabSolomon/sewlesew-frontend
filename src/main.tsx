@@ -12,12 +12,19 @@ import ResetPassword from "./pages/auth/ResetPassword.tsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 import AuthLayout from "./layout/AuthLayout.tsx";
 import { ToastContainer } from "react-toastify";
+import ProtectedRoute from "./components/protectedRoute.tsx";
+import Home from "./pages/home/home.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/home",
+    element: <ProtectedRoute />,
+    children: [{ path: "", element: <Home /> }],
   },
   {
     path: "/auth",
@@ -27,7 +34,7 @@ const router = createBrowserRouter([
       { path: "signup", element: <Signup /> },
       { path: "verify", element: <VerifyAccount /> },
       { path: "forgot-password", element: <ForgotPassword /> },
-      { path: "reset-password/:token", element: <ResetPassword /> }, // Secure reset password
+      { path: "reset-password/:token", element: <ResetPassword /> },
     ],
   },
 ]);
