@@ -11,6 +11,7 @@ import VerifyAccount from "./pages/auth/VerifyAccount.tsx";
 import ResetPassword from "./pages/auth/ResetPassword.tsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 import AuthLayout from "./layout/AuthLayout.tsx";
+import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,12 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <CampaingContextProvider>
       <RouterProvider router={router} />
+      <ToastContainer
+        closeOnClick
+        pauseOnFocusLoss={false}
+        autoClose={3000}
+        pauseOnHover={false}
+      ></ToastContainer>
     </CampaingContextProvider>
   </StrictMode>
 );
