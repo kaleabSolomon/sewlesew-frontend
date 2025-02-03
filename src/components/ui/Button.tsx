@@ -1,4 +1,5 @@
 import React from "react";
+import { Loader2 } from "lucide-react";
 import { cva, VariantProps } from "class-variance-authority";
 import clsx from "clsx";
 
@@ -62,7 +63,11 @@ const Button: React.FC<ButtonProps> = ({
       className={clsx(buttonVariants({ variant, size, shape }), className)}
       {...props}
     >
-      {loading ? "loading" : props.children}
+      {loading ? (
+        <Loader2 className="w-5 h-5 animate-spin absolute" />
+      ) : (
+        props.children
+      )}
     </button>
   );
 };
