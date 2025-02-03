@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiMail, FiLock, FiPhone } from "react-icons/fi";
 import Button from "@/components/ui/Button";
 import { FaGoogle } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { signIn } from "@/services/auth";
 
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -18,15 +21,45 @@ const SignIn = () => {
       setError("Enter a valid email or Ethiopian phone number.");
       return;
     }
-    setError("");
+    const toastId = toast.loading("Signing you in...");
+    try {
+      const data = await signIn(
+        { identifier, password },
+        handleIsLoading,
+        handleError
+      );
 
-    await signIn(identifier, password);
+      if (data) {
+        toast.update(toastId, {
+          render: "Signed in successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.dismiss();
+    }
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.dismiss();
+      toast.error(error, { autoClose: 3000 });
+      handleError("");
+    }
+  }, [error]);
 
   const handlePasswordChange = (pwd: string) => {
     setPassword(pwd);
   };
-
+  const handleIsLoading = (isLoading: boolean) => {
+    setIsLoading(isLoading);
+  };
+  const handleError = (error: string) => {
+    setError(error);
+  };
   const handleIdentifierChange = (ident: string) => {
     setIdentifier(ident);
   };
@@ -66,6 +99,7 @@ const SignIn = () => {
         <Button
           type="submit"
           className="w-full bg-customTeal text-white py-3 rounded-lg"
+          loading={isLoading}
         >
           Sign In
         </Button>
