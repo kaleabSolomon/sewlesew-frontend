@@ -1,3 +1,4 @@
+import { jwtPayload } from "@/types/auth";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -23,7 +24,7 @@ export function decodeToken(tokenName: string) {
 
   if (!token) return null;
 
-  const decodedToken = jwtDecode(token);
+  const decodedToken: jwtPayload = jwtDecode(token);
 
   return decodedToken;
 }
