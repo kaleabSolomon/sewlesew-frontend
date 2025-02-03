@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiMail, FiLock, FiPhone } from "react-icons/fi";
 import Button from "@/components/ui/Button";
 import { FaGoogle } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { signIn } from "@/services/auth";
@@ -10,7 +10,7 @@ import { signIn } from "@/services/auth";
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -36,6 +36,8 @@ const SignIn = () => {
           isLoading: false,
           autoClose: 3000,
         });
+
+        navigate("/home");
       }
     } catch (err) {
       console.error(err);
