@@ -20,3 +20,12 @@ export interface signinData {
   identifier: string;
   password: string;
 }
+
+export interface SignupData {
+  firstName: string;
+  lastName: string;
+  identifier: string;
+  dateOfBirth: string;
+  password: string;
+  passwordConfirm: string;
+}
