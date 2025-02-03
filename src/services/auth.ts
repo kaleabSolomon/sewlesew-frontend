@@ -1,29 +1,39 @@
 import Cookie from "js-cookie";
 import axiosInstance from "./axiosInstance";
 import axios from "axios";
-import { SignInResponse } from "@/types/auth";
+import { AuthError, signinData, SignInResponseSuccess } from "@/types/auth";
 import { isValidEmail } from "@/utils/validators";
 
-export const signIn = async (identifier: string, password: string) => {
+export const signIn = async (
+  signinData: signinData,
+  onIsLoading: (isLoading: boolean) => void,
+  onError: (err: string) => void
+) => {
+  onIsLoading(true); // Indicate that the request has started
+
   try {
-    console.log("starting auth");
-    const identifierBody = isValidEmail(identifier)
-      ? { email: identifier }
-      : { phoneNumber: identifier };
+    // Determine whether identifier is an email or phone number
+    const identifierBody = isValidEmail(signinData.identifier)
+      ? { email: signinData.identifier }
+      : { phoneNumber: signinData.identifier };
+
     const reqBody = {
       ...identifierBody,
-      password,
+      password: signinData.password,
     };
 
-    console.log(reqBody);
-
-    const { data } = await axiosInstance.post<SignInResponse>(
+    // Make API request
+    const { data } = await axiosInstance.post<SignInResponseSuccess>(
       "/auth/local/signin",
       reqBody
     );
 
-    console.log(data);
-    // Store tokens in cookies
+    // Ensure successful authentication
+    if (!data.access_token || !data.refresh_token) {
+      throw new Error("Invalid response from server");
+    }
+
+    // Store tokens securely in cookies
     Cookie.set("access_token", data.access_token, {
       secure: true,
       sameSite: "Strict",
@@ -32,13 +42,20 @@ export const signIn = async (identifier: string, password: string) => {
       secure: true,
       sameSite: "Strict",
     });
+
+    return data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error("Sign-in error:", error.response?.data || error.message);
-      throw new Error(error.response?.data?.message || "Sign-in failed");
+    onIsLoading(false); // Stop loading on error
+
+    if (axios.isAxiosError(error) && error.response) {
+      const errData = error.response.data as AuthError;
+      onError(errData.message || "Authentication failed.");
+      console.error("Sign-in error:", errData);
     } else {
-      console.error("Sign-in error:", error);
-      throw new Error("Sign-in failed");
+      onError("An unexpected error occurred. Could not sign you in.");
+      console.error("Unexpected sign-in error:", error);
     }
+  } finally {
+    onIsLoading(false);
   }
 };
