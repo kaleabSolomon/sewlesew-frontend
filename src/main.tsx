@@ -12,9 +12,10 @@ import ResetPassword from "./pages/auth/ResetPassword.tsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 import AuthLayout from "./layout/AuthLayout.tsx";
 import { ToastContainer } from "react-toastify";
-import ProtectedRoute from "./components/protectedRoute.tsx";
+import ProtectedRoute from "./components/routes/protectedRoute.tsx";
 import Home from "./pages/home/home.tsx";
 import { AuthContextProvider } from "./context/authContext.tsx";
+import PublicRoute from "./components/routes/publicRoutes.tsx";
 
 const router = createBrowserRouter([
   {
@@ -29,13 +30,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/auth",
-    element: <AuthLayout />,
+    element: <PublicRoute />, // ✅ PublicRoute now wraps AuthLayout
     children: [
-      { path: "signin", element: <Signin /> },
-      { path: "signup", element: <Signup /> },
-      { path: "verify", element: <VerifyAccount /> },
-      { path: "forgot-password", element: <ForgotPassword /> },
-      { path: "reset-password/:token", element: <ResetPassword /> },
+      {
+        path: "",
+        element: <AuthLayout />, // ✅ Keeps the layout for all auth pages
+        children: [
+          { path: "signin", element: <Signin /> },
+          { path: "signup", element: <Signup /> },
+          { path: "verify", element: <VerifyAccount /> },
+          { path: "forgot-password", element: <ForgotPassword /> },
+          { path: "reset-password/:token", element: <ResetPassword /> },
+        ],
+      },
     ],
   },
 ]);
