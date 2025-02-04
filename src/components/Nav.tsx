@@ -5,6 +5,7 @@ import NavLink from "./ui/NavLink";
 import { IoAddCircleSharp, IoClose } from "react-icons/io5";
 import { CiMenuFries } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { isAuthenticated } from "@/utils/auth";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const Nav = () => {
   return (
     <div
       className={`fixed top-0 z-50 sm:px-28 px-12 py-4 flex items-center justify-between flex-grow transition-all duration-300 transition-backdrop ${
-        isBeyondHero
+        isBeyondHero || isAuthenticated()
           ? "bg-teal-50/90 text-gray-700 shadow-lg border-2 left-8 right-8 mt-4 rounded-full border-customTealLight font-semibold"
           : isScrolling
           ? "w-full backdrop-blur-md text-white"
