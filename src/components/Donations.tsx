@@ -24,7 +24,7 @@ const Donations = () => {
   return (
     <div className="flex flex-col items-center">
       <h1 className="font-semibold text-4xl">
-        Open <span className="text-customTeal ">donations</span>
+        Open <span className="text-customTeal ">Campaigns</span>
       </h1>
       <div className="flex items-center md:flex-col mb-6 ">
         <SearchBar fetchCampaigns={fetchCampaigns} />

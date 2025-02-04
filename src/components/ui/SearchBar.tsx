@@ -38,7 +38,7 @@ const SearchBar = ({
     <div className="w-full max-w-2xl flex items-center  border border-customTeal bg-teal-200/5 rounded-lg shadow-sm px-4 py-3 my-5">
       <input
         type="text"
-        placeholder="Find donations..."
+        placeholder="Find campaigns..."
         className="flex-grow bg-transparent text-teal-800 focus:outline-none placeholder-teal-700"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
