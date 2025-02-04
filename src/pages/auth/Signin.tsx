@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { signIn } from "@/services/auth";
+import { useAuthContext } from "@/context/authContext";
 
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
@@ -13,6 +14,8 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const { updateAuthData } = useAuthContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +29,8 @@ const SignIn = () => {
       const data = await signIn(
         { identifier, password },
         handleIsLoading,
-        handleError
+        handleError,
+        updateAuthData
       );
 
       if (data) {

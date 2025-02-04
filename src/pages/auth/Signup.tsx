@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { FiMail, FiPhone, FiLock, FiUser } from "react-icons/fi";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "@/components/ui/Button";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { signUp } from "@/services/auth";
 import { toast } from "react-toastify";
+import { useAuthContext } from "@/context/authContext";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -16,6 +17,10 @@ const Signup = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const { updateAuthData } = useAuthContext();
+
+  const navigate = useNavigate();
 
   const handleIsLoading = (isLoading: boolean) => {
     setIsLoading(isLoading);
@@ -73,7 +78,8 @@ const Signup = () => {
           passwordConfirm,
         },
         handleIsLoading, // Not using loading state separately
-        handleError // Update error state
+        handleError, // Update error state
+        updateAuthData
       );
 
       console.log(data);
@@ -87,7 +93,7 @@ const Signup = () => {
         });
 
         // Optionally, redirect the user to the sign-in page after successful signup
-        // navigate("/signin");
+        navigate("/home");
       }
     } catch (err) {
       console.error(err);

@@ -1,12 +1,33 @@
 import Button from "@/components/ui/Button";
+import { useAuthContext } from "@/context/authContext";
+import { resendCode, verifyAccount } from "@/services/auth";
 import { useState, useEffect } from "react";
 import { FiClock, FiRefreshCw } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const VerifyAccount = () => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(600); // 10 minutes = 600 seconds
-  const [resendDisabled, setResendDisabled] = useState(true);
+  const [verificationLoading, setVerificationLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleVerificationLoading = (isLoading: boolean) => {
+    setVerificationLoading(isLoading);
+  };
+  const handleError = (error: string) => {
+    setError(error);
+  };
+
+  const handleResendLoading = (isLoading: boolean) => {
+    setResendLoading(isLoading);
+  };
+
+  const { authData } = useAuthContext();
+
+  console.log(authData?.identifier);
 
   // Countdown timer effect
   useEffect(() => {
@@ -15,8 +36,6 @@ const VerifyAccount = () => {
         setTimer((prev) => prev - 1);
       }, 1000);
       return () => clearInterval(interval);
-    } else {
-      setResendDisabled(false); // Enable resend button after countdown ends
     }
   }, [timer]);
 
@@ -31,7 +50,7 @@ const VerifyAccount = () => {
   };
 
   // Handle verification submission
-  const handleVerify = (e: React.FormEvent) => {
+  const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -39,18 +58,53 @@ const VerifyAccount = () => {
       setError("Enter a valid 6-digit code.");
       return;
     }
+
+    try {
+      const data = await verifyAccount(
+        Number(code),
+        authData?.identifier || "",
+        handleVerificationLoading,
+        handleError
+      );
+
+      if (data) {
+        toast.success("verified account successfully. logging you in.");
+        if (authData) {
+          authData.isVerified = true;
+        }
+        navigate("/home");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+  useEffect(() => {
+    if (error) {
+      toast.dismiss();
+      toast.error(error, { autoClose: 3000 });
+      handleError("");
+    }
+  }, [error]);
   // Handle Resend Code
-  const handleResend = () => {
-    setResendDisabled(true);
-    setTimer(600); // Reset countdown to 10 minutes
+  const handleResend = async () => {
+    setError("");
 
-    // Simulated resend request
-    fetch("/api/resend-code", { method: "POST" })
-      .then((res) => res.json())
-      .then(() => console.log("Code resent"))
-      .catch((err) => console.error("Resend error:", err));
+    try {
+      const data = await resendCode(
+        authData?.identifier || "sth",
+        handleResendLoading,
+        handleError
+      );
+
+      if (data) {
+        toast.success("verification code has been sent.");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    setTimer(600); // Reset countdown to 10 minutes
   };
 
   return (
@@ -75,6 +129,7 @@ const VerifyAccount = () => {
         <Button
           type="submit"
           className="w-full bg-customTeal text-white py-3 rounded-lg"
+          loading={verificationLoading}
         >
           Verify
         </Button>
@@ -89,7 +144,7 @@ const VerifyAccount = () => {
         <Button
           className="text-customTeal flex items-center space-x-2"
           onClick={handleResend}
-          disabled={resendDisabled}
+          loading={resendLoading}
         >
           <FiRefreshCw />
           <span>Resend Code</span>
