@@ -16,17 +16,32 @@ import ProtectedRoute from "./components/routes/protectedRoute.tsx";
 import Home from "./pages/home/home.tsx";
 import { AuthContextProvider } from "./context/authContext.tsx";
 import PublicRoute from "./components/routes/publicRoutes.tsx";
+import Landing from "./pages/Landing.tsx";
+import HomeLayout from "./layout/homeLayout.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <PublicRoute />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "",
+        element: <HomeLayout />,
+        children: [{ path: "", element: <Landing /> }],
+      },
+    ],
   },
   {
     path: "/home",
     element: <ProtectedRoute />,
-    children: [{ path: "", element: <Home /> }],
+    children: [
+      {
+        path: "",
+        element: <HomeLayout />,
+        children: [{ path: "", element: <Home /> }],
+      },
+    ],
   },
   {
     path: "/auth",

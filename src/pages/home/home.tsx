@@ -1,14 +1,12 @@
-import Cookie from "js-cookie";
+import Donations from "@/components/Donations";
+import { useAuthContext } from "@/context/authContext";
 
 const Home = () => {
-  const accessToken = Cookie.get("access_token");
-  const refreshToken = Cookie.get("refresh_token");
+  const { authData } = useAuthContext();
 
   return (
-    <div>
-      <h1>Home Page</h1>
-      <p>Access Token: {accessToken || "No token found"}</p>
-      <p>Refresh Token: {refreshToken || "No token found"}</p>
+    <div className="mt-32">
+      <Donations />
     </div>
   );
 };
