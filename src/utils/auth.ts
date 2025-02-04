@@ -12,13 +12,6 @@ export const isAuthenticated = (): boolean => {
   return isAuthed;
 };
 
-export function getAuthData() {
-  return {
-    accessToken: Cookies.get("access_token"),
-    refreshToken: Cookies.get("refresh_token"),
-  };
-}
-
 export function decodeToken(tokenName: string) {
   const token = Cookies.get(tokenName);
 
