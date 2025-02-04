@@ -12,7 +12,8 @@ import { isValidEmail } from "@/utils/validators";
 export const signIn = async (
   signinData: signinData,
   onIsLoading: (isLoading: boolean) => void,
-  onError: (err: string) => void
+  onError: (err: string) => void,
+  updateAuthData: () => void
 ) => {
   onIsLoading(true); // Indicate that the request has started
 
@@ -48,6 +49,8 @@ export const signIn = async (
       sameSite: "Strict",
     });
 
+    updateAuthData();
+
     return data;
   } catch (error) {
     onIsLoading(false); // Stop loading on error
@@ -68,7 +71,8 @@ export const signIn = async (
 export const signUp = async (
   signupData: SignupData,
   onIsLoading: (isLoading: boolean) => void,
-  onError: (err: string) => void
+  onError: (err: string) => void,
+  updateAuthData: () => void
 ) => {
   onIsLoading(true); // Indicate the request has started
 
@@ -89,7 +93,17 @@ export const signUp = async (
 
     // Make API request
     const { data } = await axiosInstance.post("/auth/local/signup", reqBody);
+    // Store tokens securely in cookies
+    Cookie.set("access_token", data.access_token, {
+      secure: true,
+      sameSite: "Strict",
+    });
+    Cookie.set("refresh_token", data.refresh_token, {
+      secure: true,
+      sameSite: "Strict",
+    });
 
+    updateAuthData();
     return data; // Return response data on success
   } catch (error) {
     onIsLoading(false); // Stop loading on error
@@ -106,3 +120,96 @@ export const signUp = async (
     onIsLoading(false);
   }
 };
+
+export const verifyAccount = async (
+  verificationCode: number,
+  identifier: string,
+  onIsLoading: (isLoading: boolean) => void,
+  onError: (err: string) => void
+) => {
+  onIsLoading(true);
+
+  const ident = isValidEmail(identifier)
+    ? { email: identifier }
+    : { phoneNumber: identifier };
+
+  console.log({
+    ...ident,
+    verificationCode,
+  });
+
+  try {
+    const { data } = await axiosInstance.post("/auth/verify-account", {
+      ...ident,
+      verificationCode,
+    });
+
+    return data; // Return response data on success
+  } catch (error) {
+    onIsLoading(false); // Stop loading on error
+
+    if (axios.isAxiosError(error) && error.response) {
+      const errData = error.response.data as { message: string };
+      onError(errData.message || "Verification failed.");
+      console.error("Verification error:", errData);
+    } else {
+      onError("An unexpected error occurred. Could not verify your account.");
+      console.error("Unexpected verification error:", error);
+    }
+  } finally {
+    onIsLoading(false);
+  }
+};
+export const resendCode = async (
+  identifier: string,
+  onIsLoading: (isLoading: boolean) => void,
+  onError: (err: string) => void
+) => {
+  onIsLoading(true);
+
+  const ident = isValidEmail(identifier)
+    ? { email: identifier }
+    : { phoneNumber: identifier };
+
+  try {
+    const { data } = await axiosInstance.post(
+      "/auth/verify-account/resend",
+      ident
+    );
+
+    return data; // Return response data on success
+  } catch (error) {
+    onIsLoading(false); // Stop loading on error
+
+    if (axios.isAxiosError(error) && error.response) {
+      const errData = error.response.data as { message: string };
+      onError(errData.message || "Verification failed.");
+      console.error("Verification error:", errData);
+    } else {
+      onError("An unexpected error occurred. Could not verify your account.");
+      console.error("Unexpected verification error:", error);
+    }
+  } finally {
+    onIsLoading(false);
+  }
+};
+
+// export const refreshAt = async () => {
+//   try {
+//     const { data } = await axiosInstance.post("auth/refresh");
+
+//     if (!data) throw new Error("couldn't refresh");
+//     // Store tokens securely in cookies
+//     Cookie.set("access_token", data.access_token, {
+//       secure: true,
+//       sameSite: "Strict",
+//     });
+//     Cookie.set("refresh_token", data.refresh_token, {
+//       secure: true,
+//       sameSite: "Strict",
+//     });
+//     return data;
+//   } catch (err) {
+//     console.error("error while refreshing...", err);
+//   }
+// };
