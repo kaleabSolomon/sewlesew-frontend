@@ -1,22 +1,21 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated, decodeToken } from "../utils/auth";
+import { isAuthenticated } from "../utils/auth";
+import { useAuthContext } from "@/context/authContext";
 
 const ProtectedRoute = () => {
+  const { authData } = useAuthContext();
+
   if (!isAuthenticated()) {
     return <Navigate to="/auth/signin" replace />;
   }
 
-  const decodedToken = decodeToken("access_token");
+  console.log(authData);
 
-  if (!decodedToken) {
+  if (!authData?.isActive) {
     return <Navigate to="/auth/signin" replace />;
   }
 
-  if (!decodedToken.isActive) {
-    return <Navigate to="/auth/signin" replace />;
-  }
-
-  if (!decodedToken.isVerified) {
+  if (!authData.isVerified) {
     return <Navigate to="/auth/verify" replace />;
   }
 

@@ -14,6 +14,7 @@ import AuthLayout from "./layout/AuthLayout.tsx";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/protectedRoute.tsx";
 import Home from "./pages/home/home.tsx";
+import { AuthContextProvider } from "./context/authContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -40,14 +41,16 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CampaingContextProvider>
-      <RouterProvider router={router} />
-      <ToastContainer
-        closeOnClick
-        pauseOnFocusLoss={false}
-        autoClose={3000}
-        pauseOnHover={false}
-      ></ToastContainer>
-    </CampaingContextProvider>
+    <AuthContextProvider>
+      <CampaingContextProvider>
+        <RouterProvider router={router} />
+        <ToastContainer
+          closeOnClick
+          pauseOnFocusLoss={false}
+          autoClose={3000}
+          pauseOnHover={false}
+        ></ToastContainer>
+      </CampaingContextProvider>
+    </AuthContextProvider>
   </StrictMode>
 );
