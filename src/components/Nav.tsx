@@ -6,6 +6,7 @@ import { IoAddCircleSharp, IoClose } from "react-icons/io5";
 import { CiMenuFries } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { isAuthenticated } from "@/utils/auth";
+import { FaUser } from "react-icons/fa";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -98,17 +99,24 @@ const Nav = () => {
         >
           <IoAddCircleSharp size={20} /> Create Campaign
         </Button>
-        <Button
-          variant="primary"
-          size="md"
-          shape="rounded"
-          className="flex gap-1"
-          onClick={() => {
-            navigate("/auth/signin");
-          }}
-        >
-          <PiSignInBold /> Signin
-        </Button>
+
+        {isAuthenticated() ? (
+          <div className="h-10 w-10 rounded-full bg-customTeal flex items-center justify-center ">
+            <FaUser size={16} color="white" />
+          </div>
+        ) : (
+          <Button
+            variant="primary"
+            size="md"
+            shape="rounded"
+            className="flex gap-1"
+            onClick={() => {
+              navigate("/auth/signin");
+            }}
+          >
+            <PiSignInBold /> Signin
+          </Button>
+        )}
       </div>
 
       {/* Hamburger Menu Button */}
@@ -129,7 +137,9 @@ const Nav = () => {
         <div
           ref={menuRef}
           className={`lg:hidden absolute top-full w-60 right-8 text-gray-700 shadow-md flex flex-col items-center gap-4 py-4  border border-customTealLight rounded-lg transition-all mt-2 duration-300 transform ${
-            isBeyondHero ? "bg-white/90" : "text-white backdrop-blur-md"
+            isBeyondHero || isAuthenticated()
+              ? "bg-white/90"
+              : "text-white backdrop-blur-md"
           } ${
             isMenuOpen
               ? "translate-y-0 opacity-100"
