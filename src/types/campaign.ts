@@ -7,6 +7,11 @@ export interface CampaignPreview {
   category: string;
   deadline: string;
   status: string;
+  businessId: string | null;
+  charityId: string | null;
+  charity: {
+    isOrganizational: boolean;
+  } | null;
   campaignMedia: [
     {
       id: string;
