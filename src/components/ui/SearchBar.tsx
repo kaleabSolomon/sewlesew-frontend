@@ -35,15 +35,15 @@ const SearchBar = ({
   }, [debouncedSearchTerm]);
 
   return (
-    <div className="w-80 flex items-center bg-white rounded-full shadow-lg px-4 py-4  md:w-1/2 my-5">
+    <div className="w-full max-w-2xl flex items-center  border border-customTeal bg-teal-200/5 rounded-lg shadow-sm px-4 py-3 my-5">
       <input
         type="text"
         placeholder="Find donations..."
-        className="flex-grow bg-transparent text-gray-600 focus:outline-none placeholder-gray-400"
+        className="flex-grow bg-transparent text-teal-800 focus:outline-none placeholder-teal-700"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)} // Update input value
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <FiSearch className="text-gray-400 text-xl" />
+      <FiSearch className="text-teal-600 text-xl" />
     </div>
   );
 };
