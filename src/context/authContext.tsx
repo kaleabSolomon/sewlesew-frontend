@@ -36,7 +36,6 @@ export function AuthContextProvider({ children }: { children: ReactNode }) {
   // Function to update auth data from token
   const updateAuthData = () => {
     const decodedUser = decodeToken("access_token") as jwtPayload;
-    console.log(decodedUser.identifier);
     setAuthData(decodedUser);
   };
 
