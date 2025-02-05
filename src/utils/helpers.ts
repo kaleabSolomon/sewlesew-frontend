@@ -13,3 +13,12 @@ export function formatDaysLeft(targetDate: string): string {
     return `Expired ${Math.abs(daysLeft)} days ago`;
   }
 }
+export const daysAgo = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const now = new Date();
+  const diffInDays = Math.floor(
+    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  return diffInDays === 0 ? "Today" : `${diffInDays} days ago`;
+};
