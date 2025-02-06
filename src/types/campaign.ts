@@ -23,9 +23,92 @@ export interface CampaignPreview {
   };
 }
 
+export interface ICampaignDetail {
+  id: string;
+  userId: string;
+  title: string;
+  description: string;
+  goalAmount: number;
+  raisedAmount: number;
+  category: string;
+  deadline: string;
+  createdAt: string;
+  status: string;
+
+  charity: {
+    id: string;
+    fullName: string;
+    isOrganization: string;
+    website: string | null;
+    publicEmail: string | null;
+    publicPhoneNumber: string | null;
+    region: string;
+    city: string;
+    relativeLocation: string | null;
+  } | null;
+  campaignMedia: [
+    {
+      id: string;
+      imageType: string;
+      url: string;
+    }
+  ];
+
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    profilePicture: string | null;
+  };
+  business: {
+    id: string;
+    fullName: string;
+    website: string | null;
+    sector: string;
+    publicEmail: string | null;
+    publicPhoneNumber: string | null;
+    region: string;
+    city: string;
+    relativeLocation: string | null;
+  } | null;
+  Donation: [
+    {
+      id: string;
+      amount: number;
+      paymentStatus: string;
+      donorFirstName: string;
+      donorLastName: string;
+      isAnonymous: boolean;
+      createdAt: string;
+    }
+  ];
+}
+
 export interface campaignMetadata {
   totalItems: number;
   totalPages: number;
   currentPage: number;
   pageSize: number;
+}
+export interface Donation {
+  id: string;
+  amount: number;
+  paymentStatus: string;
+  donorFirstName: string;
+  donorLastName: string;
+  isAnonymous: boolean;
+  createdAt: string;
+}
+
+export interface CampaignResipient {
+  id: string;
+  fullName: string;
+  website: string | null;
+  publicEmail: string | null;
+  publicPhoneNumber: string | null;
+  region: string;
+  city: string;
+  relativeLocation: string | null;
+  isOrganization?: boolean;
+  sector: string | null;
 }
