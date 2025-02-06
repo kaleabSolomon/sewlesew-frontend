@@ -32,6 +32,24 @@ const router = createBrowserRouter([
       { path: "/campaign/:id", element: <CampaignDetail /> },
     ],
   },
+  {
+    path: "/auth",
+    element: <PublicRoute />,
+    children: [
+      {
+        path: "",
+        element: <AuthLayout />,
+        children: [
+          { path: "signin", element: <Signin /> },
+          { path: "signup", element: <Signup /> },
+          { path: "verify", element: <VerifyAccount /> },
+          { path: "forgot-password", element: <ForgotPassword /> },
+          { path: "reset-password/:token", element: <ResetPassword /> },
+        ],
+      },
+    ],
+  },
+
   // {
   //   path: "/home",
   //   element: <ProtectedRoute />,
@@ -43,23 +61,6 @@ const router = createBrowserRouter([
   //     },
   //   ],
   // },
-  {
-    path: "/auth",
-    element: <PublicRoute />, // ✅ PublicRoute now wraps AuthLayout
-    children: [
-      {
-        path: "",
-        element: <AuthLayout />, // ✅ Keeps the layout for all auth pages
-        children: [
-          { path: "signin", element: <Signin /> },
-          { path: "signup", element: <Signup /> },
-          { path: "verify", element: <VerifyAccount /> },
-          { path: "forgot-password", element: <ForgotPassword /> },
-          { path: "reset-password/:token", element: <ResetPassword /> },
-        ],
-      },
-    ],
-  },
 ]);
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

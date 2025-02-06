@@ -1,10 +1,8 @@
-import { useAuthContext } from "@/context/authContext";
+import { isAuthenticated } from "@/utils/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
 const PublicRoute = () => {
-  const { authData } = useAuthContext();
-
-  if (authData?.isVerified) {
+  if (isAuthenticated()) {
     return <Navigate to="/" replace />;
   }
 
