@@ -40,3 +40,32 @@ export const getCampaigns = async (
     throw new Error("An unexpected error occurred");
   }
 };
+
+export const getCampaign = async (
+  id: string,
+  onIsLoading: (isLoading: boolean) => void,
+  onError: (err: string) => void
+) => {
+  onIsLoading(true); // Indicate that the request has started
+
+  try {
+    const { data } = await axiosInstance.get(`/campaign/${id}`);
+    console.log(data);
+    return data;
+  } catch (error) {
+    onIsLoading(false); // Stop loading on error
+
+    if (axios.isAxiosError(error) && error.response) {
+      const errData = error.response.data;
+      onError(errData.message || "failed to get detaild of campaign");
+      console.error("fetching error: ", errData);
+    } else {
+      onError(
+        "An unexpected error occurred. Could not fetch the campaign detail"
+      );
+      console.error("Unexpected error:", error);
+    }
+  } finally {
+    onIsLoading(false);
+  }
+};
