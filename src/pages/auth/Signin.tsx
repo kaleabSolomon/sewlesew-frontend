@@ -41,7 +41,7 @@ const SignIn = () => {
           autoClose: 3000,
         });
 
-        navigate("/home");
+        navigate("/");
       }
     } catch (err) {
       console.error(err);

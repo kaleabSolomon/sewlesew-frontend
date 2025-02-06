@@ -72,7 +72,7 @@ const VerifyAccount = () => {
         if (authData) {
           authData.isVerified = true;
         }
-        navigate("/home");
+        navigate("/");
       }
     } catch (err) {
       console.log(err);

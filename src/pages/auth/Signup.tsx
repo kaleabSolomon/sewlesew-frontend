@@ -93,7 +93,7 @@ const Signup = () => {
         });
 
         // Optionally, redirect the user to the sign-in page after successful signup
-        navigate("/home");
+        navigate("/");
       }
     } catch (err) {
       console.error(err);
