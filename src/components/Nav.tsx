@@ -7,6 +7,8 @@ import { CiMenuFries } from "react-icons/ci";
 import { useLocation, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "@/utils/auth";
 import { FaUser } from "react-icons/fa";
+import { getUserBrief } from "@/services/user";
+import { userBrief } from "@/types/user";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ const Nav = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const [isBeyondHero, setIsBeyondHero] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [profile, setProfile] = useState<userBrief | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const isCampaignDetailsPage = location.pathname.startsWith("/campaign");
@@ -23,6 +26,7 @@ const Nav = () => {
     setIsMenuOpen((prev) => !prev);
     console.log(isMenuOpen);
   };
+
   useEffect(() => {
     let scrollTimeout: string | number | NodeJS.Timeout | undefined;
 
@@ -56,6 +60,19 @@ const Nav = () => {
   }, []);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getUserBrief();
+        setProfile(data);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
@@ -70,9 +87,9 @@ const Nav = () => {
 
   return (
     <div
-      className={`fixed top-0 z-50 sm:px-28 px-12 py-4 flex items-center justify-between flex-grow transition-all duration-300 transition-backdrop ${
+      className={`fixed top-0 z-50 sm:px-28 px-12 py-4 flex items-center justify-between  flex-grow transition-all duration-300 transition-backdrop ${
         isBeyondHero || isCampaignDetailsPage
-          ? "bg-teal-50/90 text-gray-700 shadow-lg border-2 left-8 right-8 mt-4 rounded-full border-customTealLight font-semibold"
+          ? "bg-teal-50/90 text-gray-700 shadow-lg border-2 left-8 right-8 mt-4 rounded-full  border-customTealLight font-semibold"
           : isScrolling
           ? "w-full backdrop-blur-md text-white"
           : "w-full text-white backdrop-blur-none bg-gradient-to-b from-black/90 to-black/0"
@@ -129,7 +146,11 @@ const Nav = () => {
             className="h-10 w-10 rounded-full bg-customTeal flex items-center justify-center "
             onClick={toggleMenu}
           >
-            <FaUser size={16} color="white" />
+            {profile && profile.profilePicture ? (
+              <img src={profile.profilePicture} alt="profile" />
+            ) : (
+              <FaUser size={16} color="white" />
+            )}
           </button>
         ) : (
           <Button
