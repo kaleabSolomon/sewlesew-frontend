@@ -21,7 +21,7 @@ const Categories = ({
     setSelectedCategory(id);
   };
   useEffect(() => {
-    fetchCampaigns(1, 6, selectedCategory);
+    fetchCampaigns(1, 9, selectedCategory);
   }, [selectedCategory]);
 
   return (
