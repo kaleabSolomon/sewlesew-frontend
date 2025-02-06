@@ -5,6 +5,7 @@ import { CampaignPreview } from "@/types/campaign";
 import { FC } from "react";
 import { formatDaysLeft } from "@/utils/helpers";
 import CampaignSkeleton from "./ui/CampaignSkeleton";
+import { useNavigate } from "react-router-dom";
 
 interface CampaignProps {
   isLoading: boolean;
@@ -13,6 +14,7 @@ interface CampaignProps {
 }
 
 const Campaigns: FC<CampaignProps> = ({ isLoading, error, campaigns }) => {
+  const navigate = useNavigate();
   return isLoading ? (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 max-w-6xl gap-6">
       {Array(6)
@@ -31,16 +33,26 @@ const Campaigns: FC<CampaignProps> = ({ isLoading, error, campaigns }) => {
       nothing found
     </div>
   ) : (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 max-w-6xl gap-6">
+    <div className="grid   grid-cols-1 md:grid-cols-2 xl:grid-cols-3 max-w-6xl gap-6">
       {campaigns.map((campaign) => {
         return (
-          <div className="group w-[329px] h-[440px] bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-xl hover:border-nonetransition-all">
-            <div className="w-full h-[210px] mb-2 rounded-xl">
+          <div className="group w-[329px] h-[460px] bg-white rounded-lg overflow-hidden border border-gray-200 hover:shadow-xl hover:border-none transition-all">
+            <div className="relative w-full h-[210px] mb-2 rounded-xl">
               <img
                 src={campaign.campaignMedia[0].url}
                 alt="campaign image"
                 className="w-full h-full brightness-75 group-hover:brightness-100 transition-all"
               />
+              {/* Tag Badge - Aligned to the Top Right */}
+              <span className="absolute top-2 right-0 bg-customTealLight text-white text-xs font-semibold px-3 py-1 rounded-l-full">
+                {campaign.businessId
+                  ? "Business"
+                  : campaign.charityId
+                  ? campaign.charity?.isOrganizational
+                    ? "Charity"
+                    : "Personal"
+                  : "Personal"}
+              </span>
             </div>
             <div className="px-6">
               <div className="flex justify-between py-2">
@@ -51,17 +63,22 @@ const Campaigns: FC<CampaignProps> = ({ isLoading, error, campaigns }) => {
                   {campaign._count.Donation} Donations
                 </h1>
               </div>
-              <h1 className="text-lg text-gray-800 font-bold group-hover:text-customTeal  transition-all">
+              <h1 className="text-lg text-gray-800 font-bold group-hover:text-customTeal transition-all">
                 {campaign.title}
               </h1>
-              <p className=" line-clamp-2 text-gray-700 text-sm font-light pt-2 pb-2">
+              <p className="line-clamp-2 text-gray-700 text-sm font-light pt-2 pb-2">
                 {campaign.description}
               </p>
               <ProgressBar
                 progress={(campaign.raisedAmount / campaign.goalAmount) * 100}
               />
               <div className="w-full flex gap-2">
-                <Button variant="secondary" shape="block" className="w-full">
+                <Button
+                  variant="secondary"
+                  shape="block"
+                  className="w-full"
+                  onClick={() => navigate(`/campaign/${campaign.id}`)}
+                >
                   Donate now
                 </Button>
                 <Button variant="secondary" shape="block">
