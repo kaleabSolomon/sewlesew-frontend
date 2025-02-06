@@ -7,7 +7,7 @@ interface ProgressBarProps {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ progress, color }) => {
   return (
-    <div className="relative w-full h-4 bg-gray-200 overflow-hidden my-2">
+    <div className="relative w-full h-5 bg-gray-200 overflow-hidden my-2">
       <div
         className="h-full  transition-all duration-500 ease-in-out"
         style={{
