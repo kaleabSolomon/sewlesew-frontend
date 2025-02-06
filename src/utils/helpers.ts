@@ -22,3 +22,14 @@ export const daysAgo = (isoDate: string): string => {
 
   return diffInDays === 0 ? "Today" : `${diffInDays} days ago`;
 };
+
+export function formatText(text: string): string {
+  return text
+    .toLowerCase() // Convert the entire text to lowercase
+    .split("_") // Split by "_"
+    .map(
+      (word, index) =>
+        index === 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word // Capitalize only the first word
+    )
+    .join(" "); // Join with spaces
+}
