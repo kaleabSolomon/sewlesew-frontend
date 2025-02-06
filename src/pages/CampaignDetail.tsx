@@ -5,6 +5,7 @@ import { getCampaign } from "@/services/campaign";
 import { ICampaignDetail } from "@/types/campaign";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AlertTriangle } from "lucide-react";
 
 export default function CampaignDetail() {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +45,7 @@ export default function CampaignDetail() {
   return (
     <div>
       {isLoading && (
-        <>
+        <div className="max-w-6xl mt-32 mx-auto p-6 grid grid-cols-3 gap-6">
           {/* Detail Card Skeleton */}
           <div className="col-span-2 space-y-4">
             <div className="bg-gray-200 h-10 w-3/4 rounded animate-pulse" />
@@ -67,15 +68,21 @@ export default function CampaignDetail() {
             <div className="bg-gray-300 h-16 w-full rounded animate-pulse" />
             <div className="bg-gray-300 h-16 w-full rounded animate-pulse" />
           </div>
-        </>
+        </div>
       )}
 
       {error && (
-        <div className="col-span-3 text-center text-red-600">
-          <h2 className="text-xl font-semibold">
-            We couldn't load the campaign details.
-          </h2>
-          <p>Please try again later.</p>
+        <div className="w-full mt-44 mx-auto flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center text-center bg-red-50 p-6 rounded-lg border border-red-300 shadow-md ">
+            <AlertTriangle className="w-12 h-12 text-red-600 mb-4" />
+            <h2 className="text-2xl font-semibold text-red-700">
+              Oops! Something went wrong. 😞
+            </h2>
+            <p className="text-gray-700 mt-2">
+              We couldn't load the campaign details. This might be a temporary
+              issue—hang tight!
+            </p>
+          </div>
         </div>
       )}
 
