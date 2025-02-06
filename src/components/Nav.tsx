@@ -4,17 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import NavLink from "./ui/NavLink";
 import { IoAddCircleSharp, IoClose } from "react-icons/io5";
 import { CiMenuFries } from "react-icons/ci";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "@/utils/auth";
 import { FaUser } from "react-icons/fa";
 
 const Nav = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isScrolling, setIsScrolling] = useState(false);
   const [isBeyondHero, setIsBeyondHero] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const isCampaignDetailsPage = location.pathname.startsWith("/campaign");
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -68,7 +71,7 @@ const Nav = () => {
   return (
     <div
       className={`fixed top-0 z-50 sm:px-28 px-12 py-4 flex items-center justify-between flex-grow transition-all duration-300 transition-backdrop ${
-        isBeyondHero || isAuthenticated()
+        isBeyondHero || isCampaignDetailsPage
           ? "bg-teal-50/90 text-gray-700 shadow-lg border-2 left-8 right-8 mt-4 rounded-full border-customTealLight font-semibold"
           : isScrolling
           ? "w-full backdrop-blur-md text-white"
@@ -121,15 +124,24 @@ const Nav = () => {
 
       {/* Hamburger Menu Button */}
       <div className="lg:hidden ">
-        <Button
-          // className="text-3xl focus:outline-none"
-          variant="ghost"
-          onClick={toggleMenu}
-          aria-label="Toggle Menu"
-          className="text-customTeal hover:text-customTealLight"
-        >
-          {isMenuOpen ? <IoClose size={24} /> : <CiMenuFries size={24} />}
-        </Button>
+        {isAuthenticated() ? (
+          <button
+            className="h-10 w-10 rounded-full bg-customTeal flex items-center justify-center "
+            onClick={toggleMenu}
+          >
+            <FaUser size={16} color="white" />
+          </button>
+        ) : (
+          <Button
+            // className="text-3xl focus:outline-none"
+            variant="ghost"
+            onClick={toggleMenu}
+            aria-label="Toggle Menu"
+            className="text-customTeal hover:text-customTealLight"
+          >
+            {isMenuOpen ? <IoClose size={24} /> : <CiMenuFries size={24} />}
+          </Button>
+        )}
       </div>
 
       {/* Mobile Menu */}
@@ -137,9 +149,7 @@ const Nav = () => {
         <div
           ref={menuRef}
           className={`lg:hidden absolute top-full w-60 right-8 text-gray-700 shadow-md flex flex-col items-center gap-4 py-4  border border-customTealLight rounded-lg transition-all mt-2 duration-300 transform ${
-            isBeyondHero || isAuthenticated()
-              ? "bg-white/90"
-              : "text-white backdrop-blur-md"
+            isBeyondHero ? "bg-white/90" : "text-white backdrop-blur-md"
           } ${
             isMenuOpen
               ? "translate-y-0 opacity-100"
