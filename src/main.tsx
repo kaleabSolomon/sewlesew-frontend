@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/ui/ErrorPage.tsx";
 import { CampaingContextProvider } from "./context/campaignContext.tsx";
@@ -13,36 +12,37 @@ import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 import AuthLayout from "./layout/AuthLayout.tsx";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/routes/protectedRoute.tsx";
-import Home from "./pages/home/home.tsx";
 import { AuthContextProvider } from "./context/authContext.tsx";
 import PublicRoute from "./components/routes/publicRoutes.tsx";
 import Landing from "./pages/Landing.tsx";
 import HomeLayout from "./layout/homeLayout.tsx";
+import CampaignDetail from "./pages/CampaignDetail.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PublicRoute />,
+    element: <HomeLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
         path: "",
-        element: <HomeLayout />,
+        element: <ProtectedRoute />,
         children: [{ path: "", element: <Landing /> }],
       },
+      { path: "/campaign/:id", element: <CampaignDetail /> },
     ],
   },
-  {
-    path: "/home",
-    element: <ProtectedRoute />,
-    children: [
-      {
-        path: "",
-        element: <HomeLayout />,
-        children: [{ path: "", element: <Home /> }],
-      },
-    ],
-  },
+  // {
+  //   path: "/home",
+  //   element: <ProtectedRoute />,
+  //   children: [
+  //     {
+  //       path: "",
+  //       element: <HomeLayout />,
+  //       children: [{ path: "", element: <Home /> }],
+  //     },
+  //   ],
+  // },
   {
     path: "/auth",
     element: <PublicRoute />, // ✅ PublicRoute now wraps AuthLayout

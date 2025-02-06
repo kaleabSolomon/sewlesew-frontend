@@ -1,8 +1,10 @@
 import Donations from "@/components/Donations";
+import Hero from "@/components/Hero";
 
 const Home = () => {
   return (
     <div className="mt-32">
+      <Hero />
       <Donations />
     </div>
   );
