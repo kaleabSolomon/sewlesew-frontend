@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import NavLink from "./ui/NavLink";
 import { IoAddCircleSharp, IoClose } from "react-icons/io5";
 import { CiMenuFries } from "react-icons/ci";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "@/utils/auth";
 import { FaUser } from "react-icons/fa";
 import { getUserBrief } from "@/services/user";
@@ -112,9 +112,9 @@ const Nav = () => {
       }`}
     >
       {/* Left Side */}
-      <h1 className="text-xl font-inter text-customTeal">
+      <Link to="/" className="text-xl font-inter text-customTeal">
         SewLe<span className="font-bold">Sew</span>
-      </h1>
+      </Link>
 
       {/* Right Side */}
       <div className="flex gap-4 items-center">
