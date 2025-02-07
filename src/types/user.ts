@@ -4,6 +4,6 @@ export interface userBrief {
   lastName: string;
   email: string | null;
   phoneNumber: string | null;
-  dateOfBrith: string;
+  dateOfBirth: string;
   profilePicture: string | null;
 }
