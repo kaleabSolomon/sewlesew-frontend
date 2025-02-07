@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
+        rubik: ["Rubik", "sans-serif"],
       },
       textColor: {
         customTeal: "#13adb7",

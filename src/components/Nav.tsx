@@ -21,7 +21,6 @@ const Nav = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [profile, setProfile] = useState<userBrief | null>(null);
 
-  console.log("my profile:", profile);
   const isHome = location.pathname === "/";
 
   const toggleMenu = () => {
@@ -33,30 +32,23 @@ const Nav = () => {
   console.log("Is Mobile:", isMobile);
 
   useEffect(() => {
-    let scrollTimeout: string | number | NodeJS.Timeout | undefined;
+    let scrollTimeout: NodeJS.Timeout;
 
     const handleScroll = () => {
-      const scrollY = window.scrollY;
+      setIsScrolling((prev) => (prev ? prev : true)); // Only update if needed
 
-      // Set isScrolling to true when the user scrolls
-      setIsScrolling(true);
+      setIsBeyondHero(window.scrollY > 1000);
 
-      if (scrollY > 1000) {
-        setIsBeyondHero(true);
-      } else {
-        setIsBeyondHero(false);
-      }
-
-      // Clear the timeout if it's already running
+      // Clear previous timeout
       clearTimeout(scrollTimeout);
 
-      // Set a timeout to remove the effect after the user stops scrolling
+      // Set timeout to detect stop scrolling
       scrollTimeout = setTimeout(() => {
         setIsScrolling(false);
-      }, 200); // Adjust timeout duration as needed
+      }, 200);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -64,9 +56,16 @@ const Nav = () => {
     };
   }, []);
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    const handleResize = () => {
+      setIsMobile((prev) => {
+        const newValue = window.innerWidth < 1024;
+        return prev !== newValue ? newValue : prev; // Only update if changed
+      });
+    };
+
     window.addEventListener("resize", handleResize);
-    console.log(isAuthenticated());
+    handleResize(); // Run once to initialize state
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -135,20 +134,23 @@ const Nav = () => {
 
         {/* Authenticated User Profile (Desktop) */}
         {isAuthenticated() ? (
-          <button
-            className="h-10 w-10 rounded-full bg-customTeal flex items-center justify-center"
-            onClick={toggleMenu}
-          >
-            {profile && profile.profilePicture ? (
-              <img
-                src={profile.profilePicture}
-                alt="profile"
-                className="rounded-full"
-              />
-            ) : (
-              <FaUser size={16} color="white" />
-            )}
-          </button>
+          <div className="flex gap-x-2 items-center">
+            <button
+              className="h-10 w-10 rounded-full bg-customTeal flex items-center justify-center"
+              onClick={toggleMenu}
+            >
+              {profile && profile.profilePicture ? (
+                <img
+                  src={profile.profilePicture}
+                  alt="profile"
+                  className="rounded-full"
+                />
+              ) : (
+                <FaUser size={16} color="white" />
+              )}
+            </button>
+            <h1>Hello, {profile?.firstName}</h1>
+          </div>
         ) : isMobile ? (
           <Button
             variant="ghost"
