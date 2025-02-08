@@ -1,5 +1,7 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
+import { CampaignFormData } from "@/types/campaign";
+import Cookies from "js-cookie";
 
 export const getCampaigns = async (
   page?: number,
@@ -67,5 +69,32 @@ export const getCampaign = async (
     }
   } finally {
     onIsLoading(false);
+  }
+};
+
+export const createCampaign = async (data: CampaignFormData, type: string) => {
+  try {
+    const url = `${
+      type === "business"
+        ? "/business"
+        : type === "charity"
+        ? "/charity/organization"
+        : "/charity/personal"
+    }`;
+    const res = await axiosInstance.post(`/campaign${url}`, data, {
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${Cookies.get("access_token")}`,
+      },
+    });
+
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    if (axios.isAxiosError(err)) {
+      console.error(err.response?.data); // Log for debugging
+      throw new Error(err.response?.data.message || "An error occurred");
+    }
+    throw new Error("An unexpected error occurred");
   }
 };
