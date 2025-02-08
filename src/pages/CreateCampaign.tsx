@@ -3,6 +3,7 @@ import ProgressBar from "@/components/ui/ProgressBar";
 import { banks, categories, sectors } from "@/data/data";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const CreateCampaign = () => {
   const [step, setStep] = useState(1);
@@ -36,6 +37,10 @@ const CreateCampaign = () => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  const { type = "" } = useParams();
+
+  console.log("type: ", type);
+
   console.log(formData);
 
   const nextStep = () => setStep(step + 1);
@@ -50,7 +55,8 @@ const CreateCampaign = () => {
       newErrors.contactPhoneNumber = "Contact Phone Number is required";
     if (!formData.region) newErrors.region = "Region is required";
     if (!formData.city) newErrors.city = "City is required";
-    if (!formData.sector) newErrors.sector = "Sector is required";
+    if (type === "business" && !formData.sector)
+      newErrors.sector = "Sector is required";
     if (!formData.category) newErrors.category = "Category is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // If no errors, return true
@@ -58,12 +64,13 @@ const CreateCampaign = () => {
 
   const validateSectionTwo = () => {
     const newErrors: { [key: string]: string } = {};
-    if (!formData.tinNumber) newErrors.tinNumber = "Tin number is required";
-    if (!formData.licenseNumber)
+    if (type !== "personal" && !formData.tinNumber)
+      newErrors.tinNumber = "Tin number is required";
+    if (type !== "personal" && !formData.licenseNumber)
       newErrors.licenseNumber = "license number is required";
-    if (!formData.tinCertificate)
+    if (type !== "personal" && !formData.tinCertificate)
       newErrors.tinCertificate = "Please upload your tin ceritificate";
-    if (!formData.registrationLicense)
+    if (type !== "personal" && !formData.registrationLicense)
       newErrors.registrationLicense =
         "Please upload your registration certificate.";
     setErrors(newErrors);
@@ -283,12 +290,26 @@ const CreateCampaign = () => {
 
       {step === 1 && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            <span className="text-customTeal">Personal Information:</span> Tell
+            us A little bit about you
+            {type === "business"
+              ? "r business."
+              : type === "charity"
+              ? "r charity."
+              : "."}
+          </h2>
           <input
             type="text"
             name="fullName"
             value={formData.fullName || ""}
-            placeholder="Full Name"
+            placeholder={
+              type === "business"
+                ? "Business Name. eg. SewleSew plc."
+                : type === "charity"
+                ? "Charity Name. eg. International Rescue Committee (IRC)"
+                : "Full Name. eg. Kaleab Solomon "
+            }
             onChange={handleChange}
             required
             className="w-full p-2 border rounded mb-2 "
@@ -385,27 +406,37 @@ const CreateCampaign = () => {
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
-          <input
-            type="text"
-            name="website"
-            value={formData.website || ""}
-            placeholder="Website (Optional)"
-            onChange={handleChange}
-            className="w-full p-2 border rounded mb-2"
-          />
-          <select
-            name="sector"
-            onChange={handleChange}
-            value={formData.sector || ""}
-            className="w-full p-2 border rounded mb-2"
-          >
-            <option value="">Select Sector</option>
-            {sectors.map((sector) => {
-              return <option value={sector.id}>{sector.label}</option>;
-            })}
-          </select>
-          {errors.sector && (
-            <p className="text-red-500 text-sm">{errors.sector}</p>
+          {type !== "personal" && (
+            <input
+              type="text"
+              name="website"
+              value={formData.website || ""}
+              placeholder="Website (Optional)"
+              onChange={handleChange}
+              className="w-full p-2 border rounded mb-2"
+            />
+          )}
+          {type === "business" && (
+            <div>
+              <select
+                name="sector"
+                onChange={handleChange}
+                value={formData.sector || ""}
+                className="w-full p-2 border rounded mb-2"
+              >
+                <option value="">Select Sector</option>
+                {sectors.map((sector) => {
+                  return (
+                    <option key={sector.id} value={sector.id}>
+                      {sector.label}
+                    </option>
+                  );
+                })}
+              </select>
+              {errors.sector && (
+                <p className="text-red-500 text-sm">{errors.sector}</p>
+              )}
+            </div>
           )}
           <select
             name="category"
@@ -417,7 +448,7 @@ const CreateCampaign = () => {
             <option value="">Select Category</option>
             {categories.map((category) => {
               return (
-                category.types.includes("Business") && (
+                category.types.includes(type) && (
                   <option value={category.id}>{category.label}</option>
                 )
               );
@@ -442,91 +473,128 @@ const CreateCampaign = () => {
 
       {step === 2 && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Legal Information</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            <span className="text-customTeal">Legal Information:</span> We need
+            you to upload some documents to verify your cause.
+          </h2>
 
           {/* TIN Number */}
-          <input
-            type="text"
-            name="tinNumber"
-            placeholder="TIN Number"
-            value={formData.tinNumber || ""}
-            onChange={handleChange}
-            required
-            className={`w-full p-2 border rounded mb-2 ${
-              errors.tinNumber ? "border-red-500" : ""
-            }`}
-          />
+          {type !== "personal" && (
+            <div>
+              <input
+                type="text"
+                name="tinNumber"
+                placeholder="TIN Number"
+                value={formData.tinNumber || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (!isNaN(Number(value))) {
+                    handleChange(e);
+                  }
+                }}
+                required
+                className={`w-full p-2 border rounded mb-2 ${
+                  errors.tinNumber ? "border-red-500" : ""
+                }`}
+              />
 
-          {errors.tinNumber && (
-            <p className="text-red-500 text-sm">{errors.tinNumber}</p>
+              {errors.tinNumber && (
+                <p className="text-red-500 text-sm">{errors.tinNumber}</p>
+              )}
+            </div>
           )}
-
           {/* License Number */}
-          <input
-            type="text"
-            name="licenseNumber"
-            placeholder="License Number"
-            value={formData.licenseNumber || ""}
-            onChange={handleChange}
-            required
-            className={`w-full p-2 border rounded mb-2 ${
-              errors.licenseNumber ? "border-red-500" : ""
-            }`}
-          />
-          {errors.licenseNumber && (
-            <p className="text-red-500 text-sm">{errors.licenseNumber}</p>
+
+          {type !== "personal" && (
+            <div>
+              <input
+                type="text"
+                name="licenseNumber"
+                placeholder="License Number"
+                value={formData.licenseNumber || ""}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (!isNaN(Number(value))) {
+                    handleChange(e);
+                  }
+                }}
+                required
+                className={`w-full p-2 border rounded mb-2 ${
+                  errors.licenseNumber ? "border-red-500" : ""
+                }`}
+              />
+              {errors.licenseNumber && (
+                <p className="text-red-500 text-sm">{errors.licenseNumber}</p>
+              )}
+            </div>
           )}
 
           {/* TIN Certificate */}
-          <label className="block font-semibold mb-1">
-            TIN Certificate (PDF, DOCX, Image)
-          </label>
-          <input
-            type="file"
-            name="tinCertificate"
-            onChange={handleFileChange}
-            required
-            accept=".pdf,.docx,.png,.jpg,.jpeg"
-            className={`w-full p-2 border rounded mb-2 ${
-              errors.tinCertificate ? "border-red-500" : ""
-            }`}
-          />
-          {errors.tinCertificate && (
-            <p className="text-red-500 text-sm">{errors.tinCertificate}</p>
+          {type !== "personal" && (
+            <div>
+              <label className="block font-semibold mb-1">
+                TIN Certificate (PDF, DOCX, Image)
+              </label>
+              <input
+                type="file"
+                name="tinCertificate"
+                onChange={handleFileChange}
+                required
+                accept=".pdf,.docx,.png,.jpg,.jpeg"
+                className={`w-full p-2 border rounded mb-2 ${
+                  errors.tinCertificate ? "border-red-500" : ""
+                }`}
+              />
+              {errors.tinCertificate && (
+                <p className="text-red-500 text-sm">{errors.tinCertificate}</p>
+              )}
+            </div>
           )}
 
           {/* Registration Certificate */}
-          <label className="block font-semibold mb-1">
-            Registration License (PDF, DOCX, Image)
-          </label>
-          <input
-            type="file"
-            name="registrationLicense"
-            onChange={handleFileChange}
-            required
-            accept=".pdf,.docx,.png,.jpg,.jpeg"
-            className={`w-full p-2 border rounded mb-2 ${
-              errors.registrationLicense ? "border-red-500" : ""
-            }`}
-          />
-          {errors.registratonLicense && (
-            <p className="text-red-500 text-sm">{errors.registrationLicense}</p>
+
+          {type !== "personal" && (
+            <div>
+              <label className="block font-semibold mb-1">
+                Registration License (PDF, DOCX, Image)
+              </label>
+              <input
+                type="file"
+                name="registrationLicense"
+                onChange={handleFileChange}
+                required
+                accept=".pdf,.docx,.png,.jpg,.jpeg"
+                className={`w-full p-2 border rounded mb-2 ${
+                  errors.registrationLicense ? "border-red-500" : ""
+                }`}
+              />
+              {errors.registratonLicense && (
+                <p className="text-red-500 text-sm">
+                  {errors.registrationLicense}
+                </p>
+              )}
+            </div>
           )}
-          <label className="block font-semibold mb-1">
-            Personal Documents (Optional - PDF, DOCX, Image)
-          </label>
-          <input
-            type="file"
-            name="personalDocument"
-            onChange={handleFileChange}
-            required
-            accept=".pdf,.docx,.png,.jpg,.jpeg"
-            className={`w-full p-2 border rounded mb-2 ${
-              errors.personalDocument ? "border-red-500" : ""
-            }`}
-          />
-          {errors.personalDocument && (
-            <p className="text-red-500 text-sm">{errors.personalDocument}</p>
+          {type === "personal" && (
+            <div>
+              <label className="block font-semibold mb-1">
+                Personal Document (Optional - PDF, DOCX, Image)
+              </label>
+              <input
+                type="file"
+                name="personalDocument"
+                onChange={handleFileChange}
+                accept=".pdf,.docx,.png,.jpg,.jpeg"
+                className={`w-full p-2 border rounded mb-2 ${
+                  errors.personalDocument ? "border-red-500" : ""
+                }`}
+              />
+              {errors.personalDocument && (
+                <p className="text-red-500 text-sm">
+                  {errors.personalDocument}
+                </p>
+              )}
+            </div>
           )}
 
           {/* Supporting Files */}
@@ -600,7 +668,7 @@ const CreateCampaign = () => {
 
           {/* Goal Amount */}
           <input
-            type="number"
+            type="text"
             name="goalAmount"
             placeholder="Goal Amount"
             value={formData.goalAmount || ""}
