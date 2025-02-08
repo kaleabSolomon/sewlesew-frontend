@@ -112,3 +112,32 @@ export interface CampaignResipient {
   isOrganization?: boolean;
   sector: string | null;
 }
+
+export interface CampaignFormData {
+  fullName: string;
+  publicEmail?: string;
+  publicPhoneNumber?: string;
+  contactEmail: string;
+  contactPhoneNumber: string;
+  region: string;
+  city: string;
+  relativeLocation: string;
+  website?: string;
+  sector?: string;
+  category: string;
+  tinNumber: string;
+  licenseNumber: string;
+  tinCertificate: File | null;
+  registrationLicense: File | null;
+  personalDocument: File | null;
+  coverImage: File | null;
+  otherImages: File[];
+  supportingFiles: File[];
+  title: string;
+  description: string;
+  goalAmount: string;
+  deadline: string;
+  bankName: string;
+  holderName: string;
+  accountNumber: string;
+}
