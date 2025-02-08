@@ -5,11 +5,13 @@ import { useAuthContext } from "@/context/authContext";
 const ProtectedRoute = () => {
   const { authData } = useAuthContext();
 
-  // if (!isAuthenticated()) {
-  //   return <Navigate to="/auth/signin" replace />;
-  // }
+  if (!isAuthenticated()) {
+    return <Navigate to="/auth/signin" replace />;
+  }
 
   // console.log(authData);
+
+  console.log("Auth: ", isAuthenticated(), "\nAuthData: ", authData);
 
   if (isAuthenticated() && !authData?.isActive) {
     return <Navigate to="/auth/signin" replace />;
