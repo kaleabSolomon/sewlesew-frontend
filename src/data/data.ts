@@ -90,6 +90,14 @@ export const sectors = [
   { id: "OTHER", label: "Other" },
 ];
 
+export const banks = [
+  { id: "AWASH_BANK", label: "Awash Bank" },
+  { id: "ABAY_BANK", label: "Abay Bank" },
+  { id: "COMMERCIAL_BANK_OF_ETHIOPIA", label: "Commercial Bank of Ethiopia" },
+  { id: "ABYSSINIA_BANK", label: "Abyssinia Bank" },
+  { id: "ZEMEN_BANK", label: "Zemen Bank" },
+];
+
 export const campaigns = [
   {
     title: "Flood in Lamboa",
