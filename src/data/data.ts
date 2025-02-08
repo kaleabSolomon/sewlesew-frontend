@@ -75,6 +75,21 @@ export const categories = [
   { id: "DISASTER_RELIEF", label: "Disaster Relief", types: ["Charity"] },
 ];
 
+export const sectors = [
+  { id: "AGRICULTURE", label: "Agriculture" },
+  { id: "CONSTRUCTION", label: "Construction" },
+  { id: "EDUCATION", label: "Education" },
+  { id: "ENERGY", label: "Energy" },
+  { id: "MANUFACTURING", label: "Manufacturing" },
+  { id: "MEDIA", label: "Media" },
+  { id: "MINING", label: "Mining" },
+  { id: "TECHNOLOGY", label: "Technology" },
+  { id: "TEXTILE", label: "Textile" },
+  { id: "TOURISM", label: "Tourism" },
+  { id: "TRANSPORT", label: "Transport" },
+  { id: "OTHER", label: "Other" },
+];
+
 export const campaigns = [
   {
     title: "Flood in Lamboa",
