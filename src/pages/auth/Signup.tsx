@@ -82,8 +82,6 @@ const Signup = () => {
         updateAuthData
       );
 
-      console.log(data);
-
       if (data) {
         toast.update(toastId, {
           render: "Signed up successfully!",
@@ -93,7 +91,7 @@ const Signup = () => {
         });
 
         // Optionally, redirect the user to the sign-in page after successful signup
-        navigate("/");
+        navigate("/auth/verify");
       }
     } catch (err) {
       console.error(err);

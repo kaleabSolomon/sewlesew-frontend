@@ -115,7 +115,7 @@ export interface CampaignResipient {
 
 export interface CampaignFormData {
   fullName: string;
-  publicEmail?: string;
+  publicEmail: string;
   publicPhoneNumber?: string;
   contactEmail: string;
   contactPhoneNumber: string;

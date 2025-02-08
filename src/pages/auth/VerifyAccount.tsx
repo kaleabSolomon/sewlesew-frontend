@@ -25,7 +25,7 @@ const VerifyAccount = () => {
     setResendLoading(isLoading);
   };
 
-  const { authData } = useAuthContext();
+  const { authData, updateAuthData } = useAuthContext();
 
   console.log(authData?.identifier);
 
@@ -64,7 +64,8 @@ const VerifyAccount = () => {
         Number(code),
         authData?.identifier || "",
         handleVerificationLoading,
-        handleError
+        handleError,
+        updateAuthData
       );
 
       if (data) {
