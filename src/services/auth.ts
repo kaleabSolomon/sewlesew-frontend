@@ -125,7 +125,8 @@ export const verifyAccount = async (
   verificationCode: number,
   identifier: string,
   onIsLoading: (isLoading: boolean) => void,
-  onError: (err: string) => void
+  onError: (err: string) => void,
+  updateAuthData: () => void
 ) => {
   onIsLoading(true);
 
@@ -133,16 +134,13 @@ export const verifyAccount = async (
     ? { email: identifier }
     : { phoneNumber: identifier };
 
-  console.log({
-    ...ident,
-    verificationCode,
-  });
-
   try {
     const { data } = await axiosInstance.post("/auth/verify-account", {
       ...ident,
       verificationCode,
     });
+
+    updateAuthData();
 
     return data; // Return response data on success
   } catch (error) {

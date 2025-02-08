@@ -27,10 +27,6 @@ const Nav = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  console.log("Menu Open:", isMenuOpen);
-  console.log("Authenticated:", isAuthenticated());
-  console.log("Is Mobile:", isMobile);
-
   useEffect(() => {
     let scrollTimeout: NodeJS.Timeout;
 

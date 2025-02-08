@@ -15,7 +15,6 @@ export default function CampaignDetail() {
   const param = useParams();
 
   const campaignId = param.id;
-  console.log(campaignId);
 
   const handleIsLoading = (loading: boolean) => {
     setIsLoading(loading);
