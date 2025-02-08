@@ -3,9 +3,14 @@ import React from "react";
 interface ProgressBarProps {
   progress: number;
   color?: string;
+  displayPercentage?: boolean;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ progress, color }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({
+  progress,
+  color,
+  displayPercentage = true,
+}) => {
   return (
     <div className="relative w-full h-5 bg-gray-200 overflow-hidden my-2">
       <div
@@ -15,14 +20,16 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress, color }) => {
           backgroundColor: color || "#13adb7", // Default to a teal-green color
         }}
       ></div>
-      <span
-        className="absolute inset-0 flex items-center justify-center text-xs font-semibold"
-        style={{
-          color: progress > 40 ? "white" : "#37b3ba",
-        }}
-      >
-        {progress}%
-      </span>
+      {displayPercentage && (
+        <span
+          className=" absolute inset-0 flex items-center justify-center text-xs font-semibold"
+          style={{
+            color: progress > 40 ? "white" : "#37b3ba",
+          }}
+        >
+          {progress}%
+        </span>
+      )}
     </div>
   );
 };
