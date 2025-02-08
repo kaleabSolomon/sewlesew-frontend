@@ -21,7 +21,10 @@ const CreateCampaign = () => {
     tinNumber: "",
     licenseNumber: "",
     tinCertificate: null,
-    registrationCertificate: null,
+    registrationLicense: null,
+    personalDocument: null,
+    coverImage: null,
+    otherImages: [],
     supportingFiles: [],
     title: "",
     description: "",
@@ -60,8 +63,8 @@ const CreateCampaign = () => {
       newErrors.licenseNumber = "license number is required";
     if (!formData.tinCertificate)
       newErrors.tinCertificate = "Please upload your tin ceritificate";
-    if (!formData.registrationCertificate)
-      newErrors.registrationCertificate =
+    if (!formData.registrationLicense)
+      newErrors.registrationLicense =
         "Please upload your registration certificate.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // If no errors, return true
@@ -74,6 +77,9 @@ const CreateCampaign = () => {
     if (!formData.goalAmount)
       newErrors.goalAmount = "A goal amount is required";
     if (!formData.deadline) newErrors.deadline = "A deadline is required.";
+    if (!formData.coverImage)
+      newErrors.coverImage = "Please upload A cover Image.";
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // If no errors, return true
   };
@@ -189,6 +195,85 @@ const CreateCampaign = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: file,
+    }));
+  };
+
+  const handleCoverImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (!files || files.length === 0) return;
+
+    const validFormats = ["image/png", "image/jpeg", "image/jpg"];
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+
+    const file = files[0]; // Only validate the first file
+    if (!validFormats.includes(file.type)) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "Invalid file format. Allowed: PNG, JPG, JPEG",
+      }));
+      return;
+    }
+
+    if (file.size > maxSize) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "File size must be 5MB or less",
+      }));
+      return;
+    }
+
+    // Clear errors if valid
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    // Save file to state
+    setFormData((prev) => ({
+      ...prev,
+      [name]: file,
+    }));
+  };
+
+  const handleOtherImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (!files || files.length === 0) return;
+
+    const validFormats = ["image/png", "image/jpeg", "image/jpg"];
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+
+    if (files.length > 4) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "You can only upload a maximum of 4 images",
+      }));
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      if (!validFormats.includes(file.type)) {
+        setErrors((prev) => ({
+          ...prev,
+          [name]: "Invalid file format. Allowed: PNG, JPG, JPEG",
+        }));
+        return;
+      }
+
+      if (file.size > maxSize) {
+        setErrors((prev) => ({
+          ...prev,
+          [name]: "Each file size must be 5MB or less",
+        }));
+        return;
+      }
+    }
+
+    // Clear errors if valid
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    // Save files to state
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files,
     }));
   };
 
@@ -412,22 +497,36 @@ const CreateCampaign = () => {
 
           {/* Registration Certificate */}
           <label className="block font-semibold mb-1">
-            Registration Certificate (PDF, DOCX, Image)
+            Registration License (PDF, DOCX, Image)
           </label>
           <input
             type="file"
-            name="registrationCertificate"
+            name="registrationLicense"
             onChange={handleFileChange}
             required
             accept=".pdf,.docx,.png,.jpg,.jpeg"
             className={`w-full p-2 border rounded mb-2 ${
-              errors.registrationCertificate ? "border-red-500" : ""
+              errors.registrationLicense ? "border-red-500" : ""
             }`}
           />
-          {errors.registrationCertificate && (
-            <p className="text-red-500 text-sm">
-              {errors.registrationCertificate}
-            </p>
+          {errors.registratonLicense && (
+            <p className="text-red-500 text-sm">{errors.registrationLicense}</p>
+          )}
+          <label className="block font-semibold mb-1">
+            Personal Documents (Optional - PDF, DOCX, Image)
+          </label>
+          <input
+            type="file"
+            name="personalDocument"
+            onChange={handleFileChange}
+            required
+            accept=".pdf,.docx,.png,.jpg,.jpeg"
+            className={`w-full p-2 border rounded mb-2 ${
+              errors.personalDocument ? "border-red-500" : ""
+            }`}
+          />
+          {errors.personalDocument && (
+            <p className="text-red-500 text-sm">{errors.personalDocument}</p>
           )}
 
           {/* Supporting Files */}
@@ -534,6 +633,30 @@ const CreateCampaign = () => {
           {errors.deadline && (
             <p className="text-red-500 text-sm">{errors.deadline}</p>
           )}
+          <label className="block font-semibold mb-1">Cover Image</label>
+          <input
+            type="file"
+            name="coverImage"
+            accept="image/*"
+            onChange={handleCoverImageChange}
+            required
+            className={`w-full p-2 border rounded mb-2 ${
+              errors.coverImage ? "border-red-500" : ""
+            }`}
+          />
+          <label className="block font-semibold mb-1">
+            Other Images (Optional)
+          </label>
+          <input
+            type="file"
+            name="otherImages"
+            accept="image/*"
+            multiple
+            onChange={handleOtherImagesChange}
+            className={`w-full p-2 border rounded mb-2 ${
+              errors.otherImages ? "border-red-500" : ""
+            }`}
+          />
 
           {/* Navigation Buttons */}
           <div className="flex justify-between">
