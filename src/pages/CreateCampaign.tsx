@@ -1,6 +1,7 @@
 import Button from "@/components/ui/Button";
 import ProgressBar from "@/components/ui/ProgressBar";
 import { banks, categories, sectors } from "@/data/data";
+import { createCampaign } from "@/services/campaign";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -633,7 +634,10 @@ const CreateCampaign = () => {
 
       {step === 3 && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Campaign Information</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            <span>Campaign Information:</span> This is what will be displayed
+            for other people.
+          </h2>
 
           {/* Title */}
           <input
@@ -746,7 +750,10 @@ const CreateCampaign = () => {
 
       {step === 4 && (
         <div>
-          <h2 className="text-xl font-semibold mb-4">Bank Information</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            <span>Bank Information:</span> Select where to recieve your
+            donations
+          </h2>
 
           {/* Bank Name Dropdown */}
           <select
@@ -794,10 +801,11 @@ const CreateCampaign = () => {
               Back
             </Button>
             <Button
-              onClick={() => {
+              onClick={async () => {
                 if (validateSectionFour()) {
-                  console.log("Submitted");
-                  console.log(formData);
+                  const res = await createCampaign(formData, type);
+
+                  console.log(res);
                 }
               }}
               variant="primary"
