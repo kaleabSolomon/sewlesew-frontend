@@ -25,14 +25,12 @@ export const getCampaigns = async (
     }
 
     const url = `/campaign?${params.toString()}`;
-    console.log("Fetching URL:", url);
     const res = await axiosInstance.get(url, {
       headers: {
         "Content-Type": "Application/json",
       },
     });
 
-    console.log(res.data);
     return res.data;
   } catch (err) {
     if (axios.isAxiosError(err)) {
@@ -52,7 +50,6 @@ export const getCampaign = async (
 
   try {
     const { data } = await axiosInstance.get(`/campaign/${id}`);
-    console.log(data);
     return data;
   } catch (error) {
     onIsLoading(false); // Stop loading on error
@@ -81,14 +78,34 @@ export const createCampaign = async (data: CampaignFormData, type: string) => {
         ? "/charity/organization"
         : "/charity/personal"
     }`;
-    const res = await axiosInstance.post(`/campaign${url}`, data, {
+
+    // Create a FormData object
+    const formData = new FormData();
+
+    // Append non-file fields
+    Object.entries(data).forEach(([key, value]) => {
+      if (
+        value instanceof File ||
+        (Array.isArray(value) && value[0] instanceof File)
+      ) {
+        // Append files (for multiple files, append each separately)
+        if (Array.isArray(value)) {
+          value.forEach((file) => formData.append(key, file));
+        } else {
+          formData.append(key, value);
+        }
+      } else {
+        formData.append(key, value as string); // Convert non-file values to string
+      }
+    });
+
+    const res = await axiosInstance.post(`/campaign${url}`, formData, {
       headers: {
-        "Content-Type": "Application/json",
         Authorization: `Bearer ${Cookies.get("access_token")}`,
+        "Content-Type": "multipart/form-data", // Ensure correct content type
       },
     });
 
-    console.log(res.data);
     return res.data;
   } catch (err) {
     if (axios.isAxiosError(err)) {
