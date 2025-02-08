@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button";
 import ProgressBar from "@/components/ui/ProgressBar";
 import { banks, categories, sectors } from "@/data/data";
 import { createCampaign } from "@/services/campaign";
+import { CampaignFormData } from "@/types/campaign";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -39,10 +40,6 @@ const CreateCampaign = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const { type = "" } = useParams();
-
-  console.log("type: ", type);
-
-  console.log(formData);
 
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
@@ -803,7 +800,15 @@ const CreateCampaign = () => {
             <Button
               onClick={async () => {
                 if (validateSectionFour()) {
-                  const res = await createCampaign(formData, type);
+                  const cleanFormData = Object.fromEntries(
+                    Object.entries(formData).filter(([_, value]) => value)
+                  );
+                  cleanFormData.contactPhoneNumber = "+251911111111";
+                  console.log("cleaned form: ", cleanFormData);
+                  const res = await createCampaign(
+                    cleanFormData as unknown as CampaignFormData,
+                    type
+                  );
 
                   console.log(res);
                 }
