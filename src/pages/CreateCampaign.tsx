@@ -1,6 +1,7 @@
 import Button from "@/components/ui/Button";
 import ProgressBar from "@/components/ui/ProgressBar";
-import { categories } from "@/data/data";
+import { categories, sectors } from "@/data/data";
+import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { useState } from "react";
 
 const CreateCampaign = () => {
@@ -53,15 +54,49 @@ const CreateCampaign = () => {
   };
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    let errorMessage = "";
+
+    // Validate specific fields
+    if (name === "publicEmail" || name === "contactEmail") {
+      if (value.trim() && !isValidEmail(value)) {
+        errorMessage = "Please Enter a valid email";
+        console.log(errorMessage);
+      }
+
+      console.log(
+        "name",
+        name,
+        "\n",
+        "Email",
+        value,
+        "\n",
+        "isValid",
+        isValidEmail(value)
+      );
+    }
+
+    if (name === "publicPhoneNumber" || name === "contactPhoneNumber") {
+      if (value.trim() && !isValidPhone(value)) {
+        errorMessage = "Please Enter a valid phone number";
+      }
+    }
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
     setErrors({
       ...errors,
-      [e.target.name]: "", // Clear the error for this field
+      [name]: errorMessage, // Update error message for this field
     });
   };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFormData({ ...formData, [e.target.name]: e.target.files[0] });
@@ -78,6 +113,7 @@ const CreateCampaign = () => {
           <input
             type="text"
             name="fullName"
+            value={formData.fullName || ""}
             placeholder="Full Name"
             onChange={handleChange}
             required
@@ -89,21 +125,38 @@ const CreateCampaign = () => {
           <input
             type="email"
             name="publicEmail"
+            value={formData.publicEmail || ""}
             placeholder="Public Email (Optional)"
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
           />
+          {errors.publicEmail && (
+            <p className="text-red-500 text-sm">{errors.publicEmail}</p>
+          )}
+          {
+            //TODO: add a country code thing here.
+          }{" "}
           <input
             type="text"
             name="publicPhoneNumber"
+            value={formData.publicPhoneNumber || ""}
             placeholder="Public Phone Number (Optional)"
-            onChange={handleChange}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!isNaN(Number(value))) {
+                handleChange(e);
+              }
+            }}
             className="w-full p-2 border rounded mb-2"
           />
+          {errors.publicPhoneNumber && (
+            <p className="text-red-500 text-sm">{errors.publicPhoneNumber}</p>
+          )}
           <input
             type="email"
             name="contactEmail"
             placeholder="Contact Email"
+            value={formData.contactEmail || ""}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded mb-2"
@@ -114,8 +167,14 @@ const CreateCampaign = () => {
           <input
             type="text"
             name="contactPhoneNumber"
+            value={formData.contactPhoneNumber || ""}
             placeholder="Contact Phone Number"
-            onChange={handleChange}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!isNaN(Number(value))) {
+                handleChange(e);
+              }
+            }}
             required
             className="w-full p-2 border rounded mb-2"
           />
@@ -126,6 +185,7 @@ const CreateCampaign = () => {
             type="text"
             name="region"
             placeholder="Region"
+            value={formData.region || ""}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded mb-2"
@@ -136,6 +196,7 @@ const CreateCampaign = () => {
           <input
             type="text"
             name="city"
+            value={formData.city || ""}
             placeholder="City"
             onChange={handleChange}
             required
@@ -145,6 +206,7 @@ const CreateCampaign = () => {
           <input
             type="text"
             name="relativeLocation"
+            value={formData.relativeLocation || ""}
             placeholder="Relative Location (Optional)"
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
@@ -152,6 +214,7 @@ const CreateCampaign = () => {
           <input
             type="text"
             name="website"
+            value={formData.website || ""}
             placeholder="Website (Optional)"
             onChange={handleChange}
             className="w-full p-2 border rounded mb-2"
@@ -159,19 +222,20 @@ const CreateCampaign = () => {
           <select
             name="sector"
             onChange={handleChange}
+            value={formData.sector || ""}
             className="w-full p-2 border rounded mb-2"
           >
             <option value="">Select Sector</option>
-            <option value="Agriculture">Agriculture</option>
-            <option value="Technology">Technology</option>
-            <option value="Health">Health</option>
-            <option value="Education">Education</option>
+            {sectors.map((sector) => {
+              return <option value={sector.id}>{sector.label}</option>;
+            })}
           </select>
           {errors.sector && (
             <p className="text-red-500 text-sm">{errors.sector}</p>
           )}
           <select
             name="category"
+            value={formData.category || ""}
             onChange={handleChange}
             required
             className="w-full p-2 border rounded mb-2"
