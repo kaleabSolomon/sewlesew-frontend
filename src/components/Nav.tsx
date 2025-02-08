@@ -120,13 +120,14 @@ const Nav = () => {
       <div className="flex gap-4 items-center">
         {/* Desktop Nav Links */}
         <div className="hidden lg:flex gap-x-8 items-center text-sm">
-          <NavLink to="/stories">Success Stories</NavLink>
-          <NavLink to="/campaigns">Open Campaigns</NavLink>
+          <NavLink to="/stories">Stories</NavLink>
+          <NavLink to="/campaigns">Campaigns</NavLink>
           <Button
             variant="secondary"
             size="md"
             shape="rounded"
             className="flex gap-1"
+            onClick={() => navigate("/campaign/create")}
           >
             <IoAddCircleSharp size={20} /> Create Campaign
           </Button>
@@ -208,6 +209,7 @@ const Nav = () => {
                 size="md"
                 shape="rounded"
                 className="flex gap-1 "
+                onClick={() => navigate("/campaign/create")}
               >
                 <IoAddCircleSharp size={20} /> Create Campaign
               </Button>
@@ -233,6 +235,7 @@ const Nav = () => {
                 size="md"
                 shape="rounded"
                 className="flex gap-1 "
+                onClick={() => navigate("/campaign/create")}
               >
                 <IoAddCircleSharp size={20} /> Create Campaign
               </Button>
