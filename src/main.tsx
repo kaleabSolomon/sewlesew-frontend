@@ -18,6 +18,7 @@ import HomeLayout from "./layout/homeLayout.tsx";
 import CampaignDetail from "./pages/campaign/CampaignDetail.tsx";
 import CampaignSelection from "./pages/campaign/CreateCampaignType.tsx";
 import CreateCampaign from "./pages/campaign/CreateCampaign.tsx";
+import ConfirmationPage from "./pages/campaign/CampaignConfirmation.tsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         ],
       },
       { path: "/campaign/:id", element: <CampaignDetail /> },
+      {
+        path: "campaign/confirmation",
+        element: <ConfirmationPage />,
+      },
     ],
   },
   {

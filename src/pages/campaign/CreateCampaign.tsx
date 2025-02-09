@@ -302,9 +302,10 @@ const CreateCampaign = () => {
   useEffect(() => {
     if (requestError) {
       toast.dismiss();
-      toast.error(requestError, { autoClose: 3000 });
-      handleError("");
+      console.log("requestError", requestError);
+      toast.error(requestError[0], { autoClose: 3000 });
     }
+    handleError("");
   }, [requestError]);
 
   return (
@@ -856,7 +857,7 @@ const CreateCampaign = () => {
                         autoClose: 3000,
                       });
 
-                      navigate("/campaign/confirm");
+                      navigate("/campaign/confirmation");
                     }
                   }
                 } catch (err) {
