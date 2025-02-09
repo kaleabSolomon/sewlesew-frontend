@@ -10,6 +10,7 @@ import { FaUser } from "react-icons/fa";
 import { getUserBrief } from "@/services/user";
 import DropDown from "./ui/DropDown";
 import { userBrief } from "@/types/user";
+import LogoutBtn from "./ui/LogoutBtn";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -182,15 +183,7 @@ const Nav = () => {
             <div className="flex flex-col items-center gap-4">
               <NavLink to="/campaigns">My Campaigns</NavLink>
               <NavLink to="/settings">Settings</NavLink>
-              <Button
-                variant="destructive"
-                size="md"
-                shape="rounded"
-                className="flex gap-1"
-                onClick={() => alert("Logout")}
-              >
-                <PiSignInBold /> Logout
-              </Button>
+              <LogoutBtn />
             </div>
           )}
           {isMobile && isAuthenticated() && (
@@ -209,15 +202,7 @@ const Nav = () => {
               >
                 <IoAddCircleSharp size={20} /> Create Campaign
               </Button>
-              <Button
-                variant="destructive"
-                size="md"
-                shape="rounded"
-                className="flex gap-1 "
-                onClick={() => alert("Logout")}
-              >
-                <PiSignInBold /> Logout
-              </Button>
+              <LogoutBtn />
             </div>
           )}
 

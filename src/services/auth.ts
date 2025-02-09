@@ -211,3 +211,23 @@ export const resendCode = async (
 //     console.error("error while refreshing...", err);
 //   }
 // };
+
+export const logout = async (updateAuthData: () => void) => {
+  try {
+    await axiosInstance.post("/auth/logout", {
+      headers: {
+        Authorization: `Bearer ${Cookie.get("access_token")}`,
+      },
+    });
+
+    // Remove the authentication token from cookies
+    Cookie.remove("access_token");
+
+    // Optional: Redirect to login or home page
+    updateAuthData();
+    window.location.href = "/";
+  } catch (err) {
+    console.error("Logout failed:", err);
+    throw new Error("Failed to log out. Please try again.");
+  }
+};
