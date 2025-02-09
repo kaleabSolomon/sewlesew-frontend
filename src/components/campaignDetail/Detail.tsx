@@ -66,7 +66,7 @@ export default function Detail({ campaign }: { campaign: ICampaignDetail }) {
                 <img
                   src={img.url}
                   alt="Supporting"
-                  className="w-full h-64 object-cover rounded-lg border"
+                  className="w-full h-96 object-cover rounded-lg border"
                 />
               </CarouselItem>
             ))}
