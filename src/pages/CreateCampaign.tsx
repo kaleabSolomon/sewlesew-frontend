@@ -790,7 +790,12 @@ const CreateCampaign = () => {
             type="text"
             name="accountNumber"
             placeholder="Account Number"
-            onChange={handleChange}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!isNaN(Number(value))) {
+                handleChange(e);
+              }
+            }}
             value={formData.accountNumber || ""}
             className="w-full p-2 border rounded mb-2"
           />
