@@ -132,7 +132,7 @@ export interface CampaignFormData {
   personalDocument: File | null;
   coverImage: File | null;
   otherImages: File[];
-  supportingFiles: File[];
+  supportingDocuments: File[];
   title: string;
   description: string;
   goalAmount: string;

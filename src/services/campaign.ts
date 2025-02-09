@@ -79,25 +79,24 @@ export const createCampaign = async (data: CampaignFormData, type: string) => {
         : "/charity/personal"
     }`;
 
-    // Create a FormData object
     const formData = new FormData();
 
-    // Append non-file fields
+    // Append non-file fields to FormData
     Object.entries(data).forEach(([key, value]) => {
-      if (
-        value instanceof File ||
-        (Array.isArray(value) && value[0] instanceof File)
-      ) {
-        // Append files (for multiple files, append each separately)
+      if (key === "otherImages" || key === "supportingDocuments") {
+        // Append each file in the array
         if (Array.isArray(value)) {
-          value.forEach((file) => formData.append(key, file));
-        } else {
-          formData.append(key, value);
+          value.forEach((file) => {
+            formData.append(key, file);
+          });
         }
-      } else {
-        formData.append(key, value as string); // Convert non-file values to string
+      } else if (value !== null && value !== "") {
+        // Append other fields (skip null or empty values)
+        formData.append(key, value);
       }
     });
+
+    console.log(formData);
 
     const res = await axiosInstance.post(`/campaign${url}`, formData, {
       headers: {

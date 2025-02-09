@@ -2,7 +2,6 @@ import Button from "@/components/ui/Button";
 import ProgressBar from "@/components/ui/ProgressBar";
 import { banks, categories, sectors } from "@/data/data";
 import { createCampaign } from "@/services/campaign";
-import { CampaignFormData } from "@/types/campaign";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -28,7 +27,8 @@ const CreateCampaign = () => {
     personalDocument: null,
     coverImage: null,
     otherImages: [],
-    supportingFiles: [],
+
+    supportingDocuments: [],
     title: "",
     description: "",
     goalAmount: "",
@@ -244,6 +244,10 @@ const CreateCampaign = () => {
     const validFormats = ["image/png", "image/jpeg", "image/jpg"];
     const maxSize = 5 * 1024 * 1024; // 5MB in bytes
 
+    // Clear previous errors
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    // Validate file count
     if (files.length > 4) {
       setErrors((prev) => ({
         ...prev,
@@ -252,6 +256,8 @@ const CreateCampaign = () => {
       return;
     }
 
+    // Validate each file
+    const validFiles: File[] = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
@@ -270,15 +276,14 @@ const CreateCampaign = () => {
         }));
         return;
       }
+
+      validFiles.push(file);
     }
 
-    // Clear errors if valid
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-
-    // Save files to state
+    // Update formData state with the valid files
     setFormData((prev) => ({
       ...prev,
-      [name]: files,
+      [name]: validFiles, // Update otherImages with the array of valid files
     }));
   };
 
@@ -601,14 +606,14 @@ const CreateCampaign = () => {
           </label>
           <input
             type="file"
-            name="supportingFiles"
+            name="supportingDocuments"
             multiple
             onChange={handleFileChange}
             accept=".pdf,.docx,.png,.jpg,.jpeg"
             className="w-full p-2 border rounded mb-2"
           />
-          {errors.supportingFiles && (
-            <p className="text-red-500 text-sm">{errors.supportingFiles}</p>
+          {errors.supportingDocuments && (
+            <p className="text-red-500 text-sm">{errors.supportingDocuments}</p>
           )}
 
           {/* Navigation Buttons */}
@@ -800,15 +805,9 @@ const CreateCampaign = () => {
             <Button
               onClick={async () => {
                 if (validateSectionFour()) {
-                  const cleanFormData = Object.fromEntries(
-                    Object.entries(formData).filter(([_, value]) => value)
-                  );
-                  cleanFormData.contactPhoneNumber = "+251911111111";
-                  console.log("cleaned form: ", cleanFormData);
-                  const res = await createCampaign(
-                    cleanFormData as unknown as CampaignFormData,
-                    type
-                  );
+                  formData.contactPhoneNumber = "+251911111111";
+                  formData.publicPhoneNumber = "+251911111111";
+                  const res = await createCampaign(formData, type);
 
                   console.log(res);
                 }
