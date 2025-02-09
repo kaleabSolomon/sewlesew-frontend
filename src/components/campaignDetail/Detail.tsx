@@ -98,7 +98,7 @@ export default function Detail({ campaign }: { campaign: ICampaignDetail }) {
                rounded-full"
             />
           ) : (
-            <FaUser className="w-3/5 h-3/5 overflow-hidden text-white" />
+            <FaUser className="w-2/5 h-2/5 overflow-hidden text-white" />
           )}
         </div>
         <p className="text-gray-800">
