@@ -27,6 +27,7 @@ export default function Detail({ campaign }: { campaign: ICampaignDetail }) {
     (img) => img.imageType === "SUPPORTING_IMAGE"
   );
 
+  console.log(coverImage, supportingImages);
   const campaignType = business
     ? "Business"
     : charity?.isOrganization
@@ -49,24 +50,26 @@ export default function Detail({ campaign }: { campaign: ICampaignDetail }) {
           <p>{campaignType}</p>
         </div>
         <Carousel>
-          {coverImage && (
-            <CarouselItem>
+          {coverImage ? (
+            <CarouselItem key="cover">
               <img
                 src={coverImage.url}
                 alt="Cover"
-                className="w-full h-96 object-fill rounded-lg"
+                className="w-full h-96 object-cover rounded-lg"
               />
             </CarouselItem>
-          )}
-          {supportingImages.map((img) => (
-            <CarouselItem key={img.id}>
-              <img
-                src={img.url}
-                alt="Supporting"
-                className="w-full h-64 object-cover rounded-lg border-1"
-              />
-            </CarouselItem>
-          ))}
+          ) : null}
+
+          {supportingImages?.length > 0 &&
+            supportingImages.map((img) => (
+              <CarouselItem key={img.id}>
+                <img
+                  src={img.url}
+                  alt="Supporting"
+                  className="w-full h-64 object-cover rounded-lg border"
+                />
+              </CarouselItem>
+            ))}
         </Carousel>
       </div>
       <div className="grid grid-cols-2  text-gray-700">
@@ -86,7 +89,7 @@ export default function Detail({ campaign }: { campaign: ICampaignDetail }) {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <div className="w-10 h-10 bg-customTeal rounded-full">
+        <div className="w-10 h-10 bg-customTeal rounded-full flex items-center justify-center">
           {user.profilePicture ? (
             <img
               src={user.profilePicture}
@@ -95,7 +98,7 @@ export default function Detail({ campaign }: { campaign: ICampaignDetail }) {
                rounded-full"
             />
           ) : (
-            <FaUser />
+            <FaUser className="w-3/5 h-3/5 overflow-hidden text-white" />
           )}
         </div>
         <p className="text-gray-800">
