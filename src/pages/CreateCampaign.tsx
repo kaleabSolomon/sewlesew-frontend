@@ -3,8 +3,9 @@ import ProgressBar from "@/components/ui/ProgressBar";
 import { banks, categories, sectors } from "@/data/data";
 import { createCampaign } from "@/services/campaign";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CreateCampaign = () => {
   const [step, setStep] = useState(1);
@@ -39,6 +40,16 @@ const CreateCampaign = () => {
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [requestError, setRequestError] = useState("");
+
+  const handleIsLoading = (isLoading: boolean) => {
+    setIsLoading(isLoading);
+  };
+
+  const handleError = (error: string) => {
+    setRequestError(error);
+  };
   const { type = "" } = useParams();
 
   const nextStep = () => setStep(step + 1);
@@ -286,6 +297,14 @@ const CreateCampaign = () => {
       [name]: validFiles, // Update otherImages with the array of valid files
     }));
   };
+
+  useEffect(() => {
+    if (requestError) {
+      toast.dismiss();
+      toast.error(requestError, { autoClose: 3000 });
+      handleError("");
+    }
+  }, [requestError]);
 
   return (
     <div className="max-w-4xl my-32 mx-auto p-6 bg-white rounded-lg border border-customTeal ">
@@ -804,19 +823,45 @@ const CreateCampaign = () => {
           )}
 
           <div className="flex justify-between">
-            <Button onClick={prevStep} variant="destructive" shape="block">
+            <Button
+              onClick={prevStep}
+              variant="destructive"
+              shape="block"
+              disabled={isLoading}
+            >
               Back
             </Button>
             <Button
               onClick={async () => {
-                if (validateSectionFour()) {
-                  formData.contactPhoneNumber = "+251911111111";
-                  formData.publicPhoneNumber = "+251911111111";
-                  const res = await createCampaign(formData, type);
+                const toastId = toast.loading(
+                  "Please wait while we create your campaign.\n This may take a few seconds."
+                );
+                try {
+                  if (validateSectionFour()) {
+                    formData.contactPhoneNumber = "+251911111111";
+                    formData.publicPhoneNumber = "+251911111111";
+                    const res = await createCampaign(
+                      formData,
+                      type,
+                      handleIsLoading,
+                      handleError
+                    );
 
-                  console.log(res);
+                    if (res) {
+                      toast.update(toastId, {
+                        render: "Campaign created successfully!",
+                        type: "success",
+                        isLoading: false,
+                        autoClose: 3000,
+                      });
+                    }
+                  }
+                } catch (err) {
+                  console.error(err);
+                  toast.dismiss();
                 }
               }}
+              loading={isLoading}
               variant="primary"
               shape="block"
             >

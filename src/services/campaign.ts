@@ -68,7 +68,13 @@ export const getCampaign = async (
   }
 };
 
-export const createCampaign = async (data: CampaignFormData, type: string) => {
+export const createCampaign = async (
+  data: CampaignFormData,
+  type: string,
+  onIsLoading: (isLoading: boolean) => void,
+  onError: (err: string) => void
+) => {
+  onIsLoading(true);
   try {
     const url = `${
       type === "business"
@@ -105,10 +111,14 @@ export const createCampaign = async (data: CampaignFormData, type: string) => {
 
     return res.data;
   } catch (err) {
+    onIsLoading(false);
     if (axios.isAxiosError(err)) {
-      console.error(err.response?.data); // Log for debugging
+      console.error(err.response?.data);
+      onError(err.response?.data.message || "Could not Create Campaign."); // Log for debugging
       throw new Error(err.response?.data.message || "An error occurred");
     }
     throw new Error("An unexpected error occurred");
+  } finally {
+    onIsLoading(false);
   }
 };
