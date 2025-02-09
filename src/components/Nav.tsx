@@ -181,8 +181,10 @@ const Nav = () => {
           {/* Desktop & Authenticated */}
           {!isMobile && isAuthenticated() && (
             <div className="flex flex-col items-center gap-4">
-              <NavLink to="/campaigns">My Campaigns</NavLink>
-              <NavLink to="/settings">Settings</NavLink>
+              <NavLink to="/Profile">
+                <FaUser />
+                Profile
+              </NavLink>
               <LogoutBtn />
             </div>
           )}

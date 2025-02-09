@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "./Button";
 import { logout } from "@/services/auth";
 import useLocalUser from "@/hooks/useLocalStorage";
+import { FiLogOut } from "react-icons/fi";
 
 const LogoutBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +20,12 @@ const LogoutBtn = () => {
   return (
     <>
       {/* Logout Button */}
-      <Button onClick={() => setIsOpen(true)} variant="destructive">
-        Logout
+      <Button
+        onClick={() => setIsOpen(true)}
+        variant="destructive"
+        shape="rounded"
+      >
+        <FiLogOut className="mr-2" /> Logout
       </Button>
 
       {/* Modal */}
