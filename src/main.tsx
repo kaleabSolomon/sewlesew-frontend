@@ -15,9 +15,9 @@ import ProtectedRoute from "./components/routes/protectedRoute.tsx";
 import PublicRoute from "./components/routes/publicRoutes.tsx";
 import Landing from "./pages/Landing.tsx";
 import HomeLayout from "./layout/homeLayout.tsx";
-import CampaignDetail from "./pages/CampaignDetail.tsx";
-import CampaignSelection from "./pages/CreateCampaignType.tsx";
-import CreateCampaign from "./pages/CreateCampaign.tsx";
+import CampaignDetail from "./pages/campaign/CampaignDetail.tsx";
+import CampaignSelection from "./pages/campaign/CreateCampaignType.tsx";
+import CreateCampaign from "./pages/campaign/CreateCampaign.tsx";
 
 const router = createBrowserRouter([
   {

@@ -4,7 +4,7 @@ import { banks, categories, sectors } from "@/data/data";
 import { createCampaign } from "@/services/campaign";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const CreateCampaign = () => {
@@ -43,6 +43,7 @@ const CreateCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [requestError, setRequestError] = useState("");
 
+  const navigate = useNavigate();
   const handleIsLoading = (isLoading: boolean) => {
     setIsLoading(isLoading);
   };
@@ -854,6 +855,8 @@ const CreateCampaign = () => {
                         isLoading: false,
                         autoClose: 3000,
                       });
+
+                      navigate("/campaign/confirm");
                     }
                   }
                 } catch (err) {
