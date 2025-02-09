@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { signUp } from "@/services/auth";
 import { toast } from "react-toastify";
-import { useAuthContext } from "@/context/authContext";
+import useLocalUser from "@/hooks/useLocalStorage";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -18,8 +18,9 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { updateAuthData } = useAuthContext();
+  const { user, setUser } = useLocalUser();
 
+  console.log("Signing UP, user");
   const navigate = useNavigate();
 
   const handleIsLoading = (isLoading: boolean) => {
@@ -79,9 +80,10 @@ const Signup = () => {
         },
         handleIsLoading, // Not using loading state separately
         handleError, // Update error state
-        updateAuthData
+        setUser
       );
 
+      console.log("Signed Up:", user);
       if (data) {
         toast.update(toastId, {
           render: "Signed up successfully!",

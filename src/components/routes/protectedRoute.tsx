@@ -1,23 +1,24 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { isAuthenticated } from "../../utils/auth";
-import { useAuthContext } from "@/context/authContext";
+import { jwtPayload } from "@/types/auth";
+import { isAuthenticated } from "@/utils/auth";
+
+const getStoredUser = (): jwtPayload | null => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+};
 
 const ProtectedRoute = () => {
-  const { authData } = useAuthContext();
+  const user = getStoredUser();
 
   if (!isAuthenticated()) {
     return <Navigate to="/auth/signin" replace />;
   }
 
-  // console.log(authData);
-
-  console.log("Auth: ", isAuthenticated(), "\nAuthData: ", authData);
-
-  if (isAuthenticated() && !authData?.isActive) {
+  if (user && !user.isActive) {
     return <Navigate to="/auth/signin" replace />;
   }
 
-  if (isAuthenticated() && !authData?.isVerified) {
+  if (user && !user.isVerified) {
     return <Navigate to="/auth/verify" replace />;
   }
 

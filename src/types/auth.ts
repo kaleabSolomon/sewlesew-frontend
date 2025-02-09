@@ -14,6 +14,7 @@ export interface jwtPayload {
   isActive: boolean;
   isVerified: boolean;
   role: string;
+  iat: number;
   exp: number;
 }
 

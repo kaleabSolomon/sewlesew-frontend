@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 import { signIn } from "@/services/auth";
-import { useAuthContext } from "@/context/authContext";
+import useLocalUser from "@/hooks/useLocalStorage";
 
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
@@ -15,7 +15,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { updateAuthData } = useAuthContext();
+  const { setUser } = useLocalUser();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ const SignIn = () => {
         { identifier, password },
         handleIsLoading,
         handleError,
-        updateAuthData
+        setUser
       );
 
       if (data) {

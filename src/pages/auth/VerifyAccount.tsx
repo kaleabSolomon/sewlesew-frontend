@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
-import { useAuthContext } from "@/context/authContext";
+import useLocalUser from "@/hooks/useLocalStorage";
+
 import { resendCode, verifyAccount } from "@/services/auth";
 import { useState, useEffect } from "react";
 import { FiClock, FiRefreshCw } from "react-icons/fi";
@@ -13,6 +14,7 @@ const VerifyAccount = () => {
   const [verificationLoading, setVerificationLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const navigate = useNavigate();
+  const { user, updateUser } = useLocalUser();
 
   const handleVerificationLoading = (isLoading: boolean) => {
     setVerificationLoading(isLoading);
@@ -24,10 +26,6 @@ const VerifyAccount = () => {
   const handleResendLoading = (isLoading: boolean) => {
     setResendLoading(isLoading);
   };
-
-  const { authData, updateAuthData } = useAuthContext();
-
-  console.log(authData?.identifier);
 
   // Countdown timer effect
   useEffect(() => {
@@ -62,17 +60,15 @@ const VerifyAccount = () => {
     try {
       const data = await verifyAccount(
         Number(code),
-        authData?.identifier || "",
+        user?.identifier ?? "",
         handleVerificationLoading,
         handleError,
-        updateAuthData
+        updateUser
       );
 
       if (data) {
         toast.success("verified account successfully. logging you in.");
-        if (authData) {
-          authData.isVerified = true;
-        }
+
         navigate("/");
       }
     } catch (err) {
@@ -93,7 +89,7 @@ const VerifyAccount = () => {
 
     try {
       const data = await resendCode(
-        authData?.identifier || "sth",
+        user?.identifier || "",
         handleResendLoading,
         handleError
       );

@@ -12,7 +12,6 @@ import ForgotPassword from "./pages/auth/ForgotPassword.tsx";
 import AuthLayout from "./layout/AuthLayout.tsx";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/routes/protectedRoute.tsx";
-import { AuthContextProvider } from "./context/authContext.tsx";
 import PublicRoute from "./components/routes/publicRoutes.tsx";
 import Landing from "./pages/Landing.tsx";
 import HomeLayout from "./layout/homeLayout.tsx";
@@ -26,20 +25,13 @@ const router = createBrowserRouter([
     element: <HomeLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "", element: <Landing /> },
-
       {
         path: "",
         element: <ProtectedRoute />,
         children: [
-          {
-            path: "/campaign/create",
-            element: <CampaignSelection />,
-          },
-          {
-            path: "/campaign/create/:type",
-            element: <CreateCampaign />,
-          },
+          { path: "", element: <Landing /> },
+          { path: "/campaign/create", element: <CampaignSelection /> },
+          { path: "/campaign/create/:type", element: <CreateCampaign /> },
         ],
       },
       { path: "/campaign/:id", element: <CampaignDetail /> },
@@ -62,31 +54,30 @@ const router = createBrowserRouter([
       },
     ],
   },
-
-  // {
-  //   path: "/home",
-  //   element: <ProtectedRoute />,
-  //   children: [
-  //     {
-  //       path: "",
-  //       element: <HomeLayout />,
-  //       children: [{ path: "", element: <Home /> }],
-  //     },
-  //   ],
-  // },
 ]);
+
+// {
+//   path: "/home",
+//   element: <ProtectedRoute />,
+//   children: [
+//     {
+//       path: "",
+//       element: <HomeLayout />,
+//       children: [{ path: "", element: <Home /> }],
+//     },
+//   ],
+// },
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <AuthContextProvider>
-      <CampaingContextProvider>
-        <RouterProvider router={router} />
-        <ToastContainer
-          closeOnClick
-          pauseOnFocusLoss={false}
-          autoClose={3000}
-          pauseOnHover={false}
-        ></ToastContainer>
-      </CampaingContextProvider>
-    </AuthContextProvider>
+    <CampaingContextProvider>
+      <RouterProvider router={router} />
+      <ToastContainer
+        closeOnClick
+        pauseOnFocusLoss={false}
+        autoClose={3000}
+        pauseOnHover={false}
+      ></ToastContainer>
+    </CampaingContextProvider>
   </StrictMode>
 );

@@ -3,17 +3,19 @@ import axiosInstance from "./axiosInstance";
 import axios from "axios";
 import {
   AuthError,
+  jwtPayload,
   signinData,
   SignInResponseSuccess,
   SignupData,
 } from "@/types/auth";
 import { isValidEmail } from "@/utils/validators";
+import { decodeToken } from "@/utils/auth";
 
 export const signIn = async (
   signinData: signinData,
   onIsLoading: (isLoading: boolean) => void,
   onError: (err: string) => void,
-  updateAuthData: () => void
+  setUser: (user: jwtPayload) => void
 ) => {
   onIsLoading(true); // Indicate that the request has started
 
@@ -49,7 +51,8 @@ export const signIn = async (
       sameSite: "Strict",
     });
 
-    updateAuthData();
+    const user = decodeToken("access_token");
+    if (user) setUser(user);
 
     return data;
   } catch (error) {
@@ -72,7 +75,7 @@ export const signUp = async (
   signupData: SignupData,
   onIsLoading: (isLoading: boolean) => void,
   onError: (err: string) => void,
-  updateAuthData: () => void
+  setUser: (user: jwtPayload) => void
 ) => {
   onIsLoading(true); // Indicate the request has started
 
@@ -103,7 +106,10 @@ export const signUp = async (
       sameSite: "Strict",
     });
 
-    updateAuthData();
+    const user = decodeToken(data.access_token);
+
+    if (user) setUser(user);
+
     return data; // Return response data on success
   } catch (error) {
     onIsLoading(false); // Stop loading on error
@@ -126,7 +132,7 @@ export const verifyAccount = async (
   identifier: string,
   onIsLoading: (isLoading: boolean) => void,
   onError: (err: string) => void,
-  updateAuthData: () => void
+  updateUser: (user: Partial<jwtPayload>) => void
 ) => {
   onIsLoading(true);
 
@@ -140,7 +146,7 @@ export const verifyAccount = async (
       verificationCode,
     });
 
-    updateAuthData();
+    if (data) updateUser({ isVerified: true } as Partial<jwtPayload>);
 
     return data; // Return response data on success
   } catch (error) {
@@ -212,7 +218,7 @@ export const resendCode = async (
 //   }
 // };
 
-export const logout = async (updateAuthData: () => void) => {
+export const logout = async (removeUser: () => void) => {
   try {
     await axiosInstance.post("/auth/logout", {
       headers: {
@@ -222,9 +228,8 @@ export const logout = async (updateAuthData: () => void) => {
 
     // Remove the authentication token from cookies
     Cookie.remove("access_token");
-
+    removeUser();
     // Optional: Redirect to login or home page
-    updateAuthData();
     window.location.href = "/";
   } catch (err) {
     console.error("Logout failed:", err);

@@ -1,5 +1,5 @@
 import { jwtPayload } from "@/types/auth";
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 export const isAuthenticated = (): boolean => {
@@ -13,7 +13,7 @@ export const isAuthenticated = (): boolean => {
 };
 
 export function decodeToken(tokenName: string) {
-  const token = Cookies.get(tokenName);
+  const token = Cookie.get(tokenName);
 
   if (!token) return null;
 

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import Button from "./Button";
-import { useAuthContext } from "@/context/authContext";
 import { logout } from "@/services/auth";
+import useLocalUser from "@/hooks/useLocalStorage";
 
 const LogoutBtn = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { updateAuthData } = useAuthContext();
+  const { removeUser } = useLocalUser();
 
   const handleLogout = async () => {
     try {
-      await logout(updateAuthData);
+      await logout(removeUser);
       setIsOpen(false);
     } catch (err) {
       console.error(err);

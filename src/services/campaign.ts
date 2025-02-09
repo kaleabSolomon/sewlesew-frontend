@@ -1,8 +1,7 @@
 import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import { CampaignFormData } from "@/types/campaign";
-import Cookies from "js-cookie";
-
+import Cookie from "js-cookie";
 export const getCampaigns = async (
   page?: number,
   limit?: number,
@@ -95,12 +94,11 @@ export const createCampaign = async (data: CampaignFormData, type: string) => {
         formData.append(key, value);
       }
     });
-
-    console.log(formData);
+    console.log(Cookie.get("access_token"));
 
     const res = await axiosInstance.post(`/campaign${url}`, formData, {
       headers: {
-        Authorization: `Bearer ${Cookies.get("access_token")}`,
+        Authorization: `Bearer ${Cookie.get("access_token")}`,
         "Content-Type": "multipart/form-data", // Ensure correct content type
       },
     });
