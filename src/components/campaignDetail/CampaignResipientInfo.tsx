@@ -1,32 +1,38 @@
-import { CampaignResipient } from "@/types/campaign";
 import { formatText } from "@/utils/helpers";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaGlobe } from "react-icons/fa6";
 import { MdOutlineWork, MdLocationOn, MdEmail } from "react-icons/md";
 
-const CampaignResipientInfo = ({
-  resipient,
-}: {
-  resipient: CampaignResipient | null;
-}) => {
+interface Recipient {
+  fullName?: string;
+  sector?: string;
+  website?: string;
+  region?: string;
+  city?: string;
+  relativeLocation?: string;
+  publicEmail?: string;
+  publicPhoneNumber?: string;
+}
+
+const CampaignRecipientInfo = ({ recipient }: { recipient: Recipient }) => {
   return (
     <div className="bg-white rounded-md shadow-lg p-6 border border-customTeal space-y-2">
       <h3 className="text-lg">
         This campaign is for{" "}
-        <span className="text-customTeal">{resipient?.fullName} </span>
+        <span className="text-customTeal">{recipient?.fullName} </span>
       </h3>
 
-      {resipient?.sector && (
+      {recipient?.sector && (
         <p className="flex gap-2 items-center">
           <MdOutlineWork className="text-customTeal" />
 
-          {formatText(resipient.sector)}
+          {formatText(recipient.sector)}
         </p>
       )}
 
-      {resipient?.website && (
+      {recipient?.website && (
         <a
-          href={resipient.website}
+          href={recipient.website}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 text-customTeal hover:underline"
@@ -37,28 +43,28 @@ const CampaignResipientInfo = ({
 
       <div className="flex items-start gap-2">
         <MdLocationOn size={26} className=" text-customTeal" />{" "}
-        {resipient?.region}, {resipient?.city}, {resipient?.relativeLocation}
+        {recipient?.region}, {recipient?.city}, {recipient?.relativeLocation}
       </div>
 
-      {resipient?.publicEmail && (
+      {recipient?.publicEmail && (
         <a
-          href={`mailto:${resipient.publicEmail}`}
+          href={`mailto:${recipient.publicEmail}`}
           className="flex items-center gap-2 text-customTeal hover:underline"
         >
-          <MdEmail /> {resipient.publicEmail}
+          <MdEmail /> {recipient.publicEmail}
         </a>
       )}
 
-      {resipient?.publicPhoneNumber && (
+      {recipient?.publicPhoneNumber && (
         <a
-          href={`tel:${resipient.publicPhoneNumber}`}
+          href={`tel:${recipient.publicPhoneNumber}`}
           className="flex items-center gap-2 text-customTeal hover:underline"
         >
-          <FaPhoneAlt /> {resipient.publicPhoneNumber}
+          <FaPhoneAlt /> {recipient.publicPhoneNumber}
         </a>
       )}
     </div>
   );
 };
 
-export default CampaignResipientInfo;
+export default CampaignRecipientInfo;

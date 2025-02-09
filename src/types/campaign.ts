@@ -110,7 +110,7 @@ export interface CampaignResipient {
   city: string;
   relativeLocation: string | null;
   isOrganization?: boolean;
-  sector: string | null;
+  sector?: string;
 }
 
 export interface CampaignFormData {
