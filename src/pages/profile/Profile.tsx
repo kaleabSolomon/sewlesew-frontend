@@ -4,11 +4,11 @@ import { useState } from "react";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<
-    "profile" | "myCampaigns" | "editProfile" | "settings"
+    "profile" | "myCampaigns" | "editProfile" | "settings" | "donationHistory"
   >("profile");
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex items-start justify-center mt-32 mx-44 min-h-screen gap-x-5 ">
       {/* Sidebar */}
       <ProfileSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 

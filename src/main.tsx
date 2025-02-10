@@ -27,11 +27,11 @@ const router = createBrowserRouter([
     element: <HomeLayout />,
     errorElement: <ErrorPage />,
     children: [
+      { path: "", element: <Landing /> },
       {
         path: "",
         element: <ProtectedRoute />,
         children: [
-          { path: "", element: <Landing /> },
           { path: "/campaign/create", element: <CampaignSelection /> },
           { path: "/campaign/create/:type", element: <CreateCampaign /> },
         ],

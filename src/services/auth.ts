@@ -66,6 +66,7 @@ export const signIn = async (
       onError("An unexpected error occurred. Could not sign you in.");
       console.error("Unexpected sign-in error:", error);
     }
+    console.log("error", error);
   } finally {
     onIsLoading(false);
   }
