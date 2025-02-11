@@ -36,8 +36,8 @@ export const updateUser = async (
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(data);
-    return data;
+
+    return data.data;
   } catch (err) {
     onIsLoading(false);
     if (axios.isAxiosError(err)) {

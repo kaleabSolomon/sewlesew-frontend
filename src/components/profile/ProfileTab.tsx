@@ -1,66 +1,185 @@
-import { getUserBrief } from "@/services/user";
-import { userBrief } from "@/types/user";
 import { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import Button from "../ui/Button";
+import { useUser } from "@/context/userContext";
+import { updateUser } from "@/services/user";
+import { toast } from "react-toastify";
+import { isValidEmail, isValidPhone } from "@/utils/validators";
 
 const ProfileTab = () => {
-  const [user, setUser] = useState<userBrief | null>(null); // Store user data
+  const { user, setUser } = useUser();
   const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
-  const [formData, setFormData] = useState<any>(null); // Store form input values
-  const [loading, setLoading] = useState(true); // Loading state
+  const [formData, setFormData] = useState({
+    email: "",
+    phoneNumber: "",
+    dateOfBirth: "",
+    profilePicture: "",
+  });
+  const [updatedData, setUpdatedData] = useState<any>({});
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Store the actual file
+  const [isLoading, setIsLoading] = useState(false);
+  const [reqError, setReqError] = useState("");
+  const [errors, setErrors] = useState({
+    email: "",
+    phoneNumber: "",
+    dateOfBirth: "",
+  });
+
+  // useEffect(() => {
+  //   console.log("User updated:", user);
+  // }, [user]);
 
   useEffect(() => {
-    // Fetch user profile on mount
-    const fetchUserProfile = async () => {
-      try {
-        const data = await getUserBrief();
-        setUser(data);
-        setFormData(data);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUserProfile();
-  }, []);
+    console.log("FormData updated:", selectedFile);
+  }, [selectedFile]);
 
-  // Handle input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  // useEffect(() => {
+  //   console.log("UpdatedData updated:", updatedData);
+  // }, [updatedData]);
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        dateOfBirth: user.dateOfBirth || "",
+        profilePicture: user.profilePicture || "",
+      });
+    }
+  }, [user]);
+  const handleIsLoading = (loading: boolean) => {
+    setIsLoading(loading);
   };
 
-  // Handle profile update
+  const handleReqError = (err: string) => {
+    setReqError(err);
+  };
+  // 🔹 Validate input fields
+  const validateInput = (name: string, value: string) => {
+    let error = "";
+
+    if (name === "email" && value) {
+      if (!isValidEmail(value)) {
+        error = "Invalid email format";
+      }
+    }
+
+    if (name === "phoneNumber" && value) {
+      if (!isValidPhone(value)) {
+        error = "Invalid phone number";
+      }
+    }
+
+    if (name === "dateOfBirth" && value) {
+      const birthDate = new Date(value);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      if (age < 13 || age > 100) {
+        error = "Age must be between 13 and 100";
+      }
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: error }));
+  };
+
+  // 🔹 Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    validateInput(name, value);
+    setFormData({ ...formData, [name]: value });
+    setUpdatedData({ ...updatedData, [name]: value });
+  };
+
+  // 🔹 Handle profile image change
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log(file);
+      setSelectedFile(file); // Store the file for later upload
+      const imageUrl = URL.createObjectURL(file); // Preview the image
+      setFormData((prev) => ({ ...prev, profilePicture: imageUrl }));
+    }
+  };
+
+  // 🔹 Handle profile update
   const handleSave = async () => {
+    const toastId = toast.loading("Updating your Data...");
+    const fmData = new FormData();
+
+    if (selectedFile) {
+      fmData.append("profileImg", selectedFile);
+    }
+
+    // Append other updated fields
+    Object.entries(updatedData).forEach(([key, value]) => {
+      fmData.append(key, value as string);
+    });
+
+    console.log("Now Were on save. The data to be sent to api is: ", fmData);
+    // Prevent saving if errors exist
     try {
-      const updatedUser = await updateProfile(formData);
-      setUser(updatedUser); // Update displayed user data
-      setIsEditing(false); // Exit edit mode
+      const usr = await updateUser(fmData, handleIsLoading, handleReqError);
+      if (usr) {
+        toast.update(toastId, {
+          render: "Profile updated successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
+        setUser(usr); // Update global user state
+        setFormData({
+          email: usr.email || "",
+          phoneNumber: usr.phoneNumber || "",
+          dateOfBirth: usr.dateOfBirth || "",
+          profilePicture: usr.profilePicture || "",
+        });
+        // setFormData({
+        //   email: user.email || "",
+        //   phoneNumber: user.phoneNumber || "",
+        //   dateOfBirth: user.dateOfBirth || "",
+        //   profilePicture: user.profilePicture || "",
+        // });
+
+        setIsEditing(false);
+        setUpdatedData({});
+        setSelectedFile(null);
+      }
     } catch (error) {
       console.error("Error updating profile:", error);
     }
   };
-
-  if (loading) {
-    return <p className="text-center text-gray-500">Loading...</p>;
-  }
-
+  useEffect(() => {
+    if (reqError) {
+      toast.dismiss();
+      toast.error(reqError, { autoClose: 3000 });
+      handleReqError("");
+    }
+  }, [reqError]);
   return (
     <div className="bg-white p-6 w-full max-w-2xl mx-auto">
       {/* Profile Picture */}
       <div className="flex flex-col items-center justify-center space-y-8">
-        <div className="flex items-center justify-center w-32 h-32 rounded-full border border-customTealLight bg-customTeal overflow-hidden">
-          {user?.profilePicture ? (
-            <img
-              src={user.profilePicture}
-              alt="Profile"
-              className="w-full h-full object-cover border-2 border-gray-300"
+        <label className="cursor-pointer">
+          <div className=" w-32 h-32 rounded-full flex justify-center items-center border border-customTealLight bg-customTeal overflow-hidden">
+            {formData?.profilePicture ? (
+              <img
+                src={formData.profilePicture}
+                alt="Profile"
+                className="w-full h-full object-cover border-2 border-gray-300"
+              />
+            ) : (
+              <FaUser className="text-5xl text-white" />
+            )}
+          </div>
+          {isEditing && (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="hidden"
             />
-          ) : (
-            <FaUser className="text-5xl text-white" />
           )}
-        </div>
+        </label>
+
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-semibold">
             {user?.firstName} {user?.lastName}
@@ -82,7 +201,6 @@ const ProfileTab = () => {
 
             {isEditing ? (
               field === "dateOfBirth" ? (
-                // 📅 Use date picker for dateOfBirth
                 <input
                   type="date"
                   name={field}
@@ -91,7 +209,6 @@ const ProfileTab = () => {
                   className="border p-1 rounded w-2/3"
                 />
               ) : (
-                // 📩 Regular input for other fields
                 <input
                   type="text"
                   name={field}
@@ -101,7 +218,6 @@ const ProfileTab = () => {
                 />
               )
             ) : (
-              // 📅 Format date for display, show normal text otherwise
               <span>
                 {field === "dateOfBirth"
                   ? user?.dateOfBirth
@@ -111,11 +227,24 @@ const ProfileTab = () => {
                         day: "numeric",
                       })
                     : "Not provided"
-                  : user?.[field] || "Not provided"}
+                  : field === "email"
+                  ? user?.email || "Not provided"
+                  : field === "phoneNumber"
+                  ? user?.phoneNumber || "Not provided"
+                  : "Not provided"}
               </span>
             )}
           </div>
         ))}
+        {/* 🔹 Show validation errors */}
+        {Object.keys(errors).map(
+          (key) =>
+            errors[key as keyof typeof errors] && (
+              <p key={key} className="text-red-500 text-sm">
+                {errors[key as keyof typeof errors]}
+              </p>
+            )
+        )}
       </div>
 
       {/* Edit & Save Button */}
@@ -125,19 +254,23 @@ const ProfileTab = () => {
             <Button
               onClick={handleSave}
               variant="primary"
-              loading={loading}
               shape="curved"
+              disabled={Object.values(errors).some(Boolean) || isLoading}
             >
               Save
             </Button>
             <Button
               onClick={() => {
-                setFormData(user); // Reset changes
+                setFormData({
+                  email: user?.email || "",
+                  phoneNumber: user?.phoneNumber || "",
+                  dateOfBirth: user?.dateOfBirth || "",
+                  profilePicture: user?.profilePicture || "",
+                });
                 setIsEditing(false); // Exit edit mode
               }}
               variant="destructive"
               shape="curved"
-              loading={loading}
             >
               Cancel
             </Button>
