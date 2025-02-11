@@ -97,19 +97,25 @@ export const signUp = async (
 
     // Make API request
     const { data } = await axiosInstance.post("/auth/local/signup", reqBody);
-    // Store tokens securely in cookies
-    Cookie.set("access_token", data.access_token, {
-      secure: true,
-      sameSite: "Strict",
-    });
-    Cookie.set("refresh_token", data.refresh_token, {
-      secure: true,
-      sameSite: "Strict",
-    });
 
-    const user = decodeToken(data.access_token);
+    console.log(data);
 
-    if (user) setUser(user);
+    if (data.access_token && data.refresh_token) {
+      // Store tokens securely in cookies
+      Cookie.set("access_token", data.access_token, {
+        secure: true,
+        sameSite: "Strict",
+      });
+      Cookie.set("refresh_token", data.refresh_token, {
+        secure: true,
+        sameSite: "Strict",
+      });
+
+      const user = decodeToken("access_token");
+      console.log("decoded user: ", user);
+
+      if (user) setUser(user);
+    }
 
     return data; // Return response data on success
   } catch (error) {
