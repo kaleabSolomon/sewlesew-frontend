@@ -30,6 +30,7 @@ type Campaign = {
 type Donation = {
   id: string;
   campaignId: string;
+  campaign: Campaign;
   userId?: string | null;
   amount: number;
   txRef: string;

@@ -1,28 +1,9 @@
+import { useUser } from "@/context/userContext";
+
 const DonationHistoryTab = () => {
-  // Mock donation data
-  const donations = [
-    {
-      id: "1",
-      campaign: "Help Build a School",
-      amount: 50,
-      date: "2024-12-10",
-      status: "Successful",
-    },
-    {
-      id: "2",
-      campaign: "Medical Support for Alex",
-      amount: 100,
-      date: "2024-11-28",
-      status: "Failed",
-    },
-    {
-      id: "3",
-      campaign: "Clean Water Initiative",
-      amount: 75,
-      date: "2024-10-15",
-      status: "Successful",
-    },
-  ];
+  const { user } = useUser();
+
+  const donations = user?.Donation || [];
 
   return (
     <div className="bg-white p-6 rounded-lg w-full max-w-3xl mx-auto">
@@ -38,20 +19,22 @@ const DonationHistoryTab = () => {
               className="p-4 border rounded-lg shadow-sm flex justify-between items-center"
             >
               <div>
-                <h2 className="text-lg font-semibold">{donation.campaign}</h2>
+                <h2 className="text-lg font-semibold">
+                  {donation.campaign.title}
+                </h2>
                 <p className="text-gray-600">
                   Donated: ${donation.amount.toLocaleString()} •{" "}
-                  {new Date(donation.date).toLocaleDateString()}
+                  {new Date(donation.createdAt).toLocaleDateString()}
                 </p>
               </div>
               <span
                 className={`px-3 py-1 text-sm font-medium rounded-lg ${
-                  donation.status === "Successful"
+                  donation.paymentStatus === "SUCCESS"
                     ? "bg-green-200 text-green-800"
                     : "bg-red-200 text-red-800"
                 }`}
               >
-                {donation.status}
+                {donation.paymentStatus.toLowerCase()}
               </span>
             </li>
           ))}

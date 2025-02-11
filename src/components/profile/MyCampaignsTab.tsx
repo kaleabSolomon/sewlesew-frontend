@@ -13,7 +13,7 @@ const MyCampaignsTab = () => {
       {campaigns.length === 0 ? (
         <p className="text-gray-500">You haven't created any campaigns yet.</p>
       ) : (
-        <div className="max-h-[400px] overflow-y-auto  rounded-lg p-4">
+        <div className="max-h-[500px] overflow-y-auto  rounded-lg p-4">
           <ul className="space-y-4">
             {campaigns.map((campaign) => (
               <li
