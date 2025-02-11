@@ -9,8 +9,8 @@ import { isAuthenticated } from "@/utils/auth";
 import { FaUser } from "react-icons/fa";
 import { getUserBrief } from "@/services/user";
 import DropDown from "./ui/DropDown";
-import { userBrief } from "@/types/user";
 import LogoutBtn from "./ui/LogoutBtn";
+import { useUser } from "@/context/userContext";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -20,7 +20,8 @@ const Nav = () => {
   const [isBeyondHero, setIsBeyondHero] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-  const [profile, setProfile] = useState<userBrief | null>(null);
+
+  const { user, setUser } = useUser();
 
   const isHome = location.pathname === "/";
 
@@ -71,32 +72,14 @@ const Nav = () => {
       try {
         const pf = await getUserBrief();
 
-        const {
-          id,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          dateOfBirth,
-          profilePicture,
-        } = pf;
-
-        setProfile({
-          id,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          dateOfBirth,
-          profilePicture,
-        });
+        setUser(pf);
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [setUser]);
 
   return (
     <div
@@ -137,9 +120,9 @@ const Nav = () => {
               className="h-10 w-10 rounded-full bg-customTeal flex items-center justify-center"
               onClick={toggleMenu}
             >
-              {profile && profile.profilePicture ? (
+              {user && user.profilePicture ? (
                 <img
-                  src={profile.profilePicture}
+                  src={user.profilePicture}
                   alt="profile"
                   className="rounded-full"
                 />
@@ -147,7 +130,7 @@ const Nav = () => {
                 <FaUser size={16} color="white" />
               )}
             </button>
-            <h1>Hello, {profile?.firstName}</h1>
+            <h1>Hello, {user?.firstName}</h1>
           </div>
         ) : isMobile ? (
           <Button

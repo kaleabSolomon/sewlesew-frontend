@@ -20,6 +20,7 @@ import CampaignSelection from "./pages/campaign/CreateCampaignType.tsx";
 import CreateCampaign from "./pages/campaign/CreateCampaign.tsx";
 import ConfirmationPage from "./pages/campaign/CampaignConfirmation.tsx";
 import ProfilePage from "./pages/profile/Profile.tsx";
+import { UserContextProvider } from "./context/userContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -81,13 +82,15 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <CampaingContextProvider>
-      <RouterProvider router={router} />
-      <ToastContainer
-        closeOnClick
-        pauseOnFocusLoss={false}
-        autoClose={3000}
-        pauseOnHover={false}
-      ></ToastContainer>
+      <UserContextProvider>
+        <RouterProvider router={router} />
+        <ToastContainer
+          closeOnClick
+          pauseOnFocusLoss={false}
+          autoClose={3000}
+          pauseOnHover={false}
+        ></ToastContainer>
+      </UserContextProvider>
     </CampaingContextProvider>
   </StrictMode>
 );
