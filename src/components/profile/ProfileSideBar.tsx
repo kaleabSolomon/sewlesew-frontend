@@ -1,12 +1,7 @@
 type Props = {
   activeTab: string;
   setActiveTab: (
-    tab:
-      | "profile"
-      | "myCampaigns"
-      | "editProfile"
-      | "settings"
-      | "donationHistory"
+    tab: "profile" | "myCampaigns" | "settings" | "donationHistory"
   ) => void;
 };
 
@@ -18,7 +13,6 @@ const ProfileSidebar = ({ activeTab, setActiveTab }: Props) => {
       id: "donationHistory",
       label: "Donation History",
     },
-    { id: "editProfile", label: "Edit Profile" },
     { id: "settings", label: "Settings" },
   ];
 
@@ -34,7 +28,15 @@ const ProfileSidebar = ({ activeTab, setActiveTab }: Props) => {
                 ? "border-l-4 border-customTealDark bg-customTealDark/20 "
                 : "hover:bg-customTealDark/20"
             }`}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() =>
+              setActiveTab(
+                tab.id as
+                  | "profile"
+                  | "myCampaigns"
+                  | "settings"
+                  | "donationHistory"
+              )
+            }
           >
             {tab.label}
           </li>

@@ -1,16 +1,10 @@
-import EditProfileTab from "./EditProfileTab";
 import MyCampaignsTab from "./MyCampaignsTab";
 import ProfileTab from "./ProfileTab";
 import SettingsTab from "./SettingsTab";
 import DonationHistoryTab from "./DonationHistory";
 
 type Props = {
-  activeTab:
-    | "profile"
-    | "myCampaigns"
-    | "editProfile"
-    | "settings"
-    | "donationHistory";
+  activeTab: "profile" | "myCampaigns" | "settings" | "donationHistory";
 };
 
 const ProfileContent = ({ activeTab }: Props) => {
@@ -18,7 +12,6 @@ const ProfileContent = ({ activeTab }: Props) => {
     <div className="w-[800px] p-6 bg-white shadow-md rounded-lg border border-customTeal">
       {activeTab === "profile" && <ProfileTab />}
       {activeTab === "myCampaigns" && <MyCampaignsTab />}
-      {activeTab === "editProfile" && <EditProfileTab />}
       {activeTab === "settings" && <SettingsTab />}
       {activeTab === "donationHistory" && <DonationHistoryTab />}
     </div>

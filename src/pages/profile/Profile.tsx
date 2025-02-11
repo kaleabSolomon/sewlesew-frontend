@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<
-    "profile" | "myCampaigns" | "editProfile" | "settings" | "donationHistory"
+    "profile" | "myCampaigns" | "settings" | "donationHistory"
   >("profile");
 
   return (
