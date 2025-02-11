@@ -10,6 +10,8 @@ const ProfileTab = () => {
   const { user, setUser } = useUser();
   const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     phoneNumber: "",
     dateOfBirth: "",
@@ -25,20 +27,15 @@ const ProfileTab = () => {
     dateOfBirth: "",
   });
 
-  // useEffect(() => {
-  //   console.log("User updated:", user);
-  // }, [user]);
-
   useEffect(() => {
     console.log("FormData updated:", selectedFile);
   }, [selectedFile]);
 
-  // useEffect(() => {
-  //   console.log("UpdatedData updated:", updatedData);
-  // }, [updatedData]);
   useEffect(() => {
     if (user) {
       setFormData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
         email: user.email || "",
         phoneNumber: user.phoneNumber || "",
         dateOfBirth: user.dateOfBirth || "",
@@ -127,6 +124,8 @@ const ProfileTab = () => {
         });
         setUser(usr); // Update global user state
         setFormData({
+          firstName: usr.firstName || "",
+          lastName: usr.lastName || "",
           email: usr.email || "",
           phoneNumber: usr.phoneNumber || "",
           dateOfBirth: usr.dateOfBirth || "",
@@ -181,8 +180,8 @@ const ProfileTab = () => {
         </label>
 
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-semibold">
-            {user?.firstName} {user?.lastName}
+          <h2 className="text-xl font-semibold py-2">
+            {user?.email ? user.email : user?.phoneNumber}
           </h2>
           <p className="text-gray-500 text-sm">User ID: {user?.id}</p>
         </div>
@@ -190,7 +189,7 @@ const ProfileTab = () => {
 
       {/* User Details */}
       <div className="mt-6 space-y-4">
-        {["email", "phoneNumber", "dateOfBirth"].map((field) => (
+        {["firstName", "lastName", "dateOfBirth"].map((field) => (
           <div key={field} className="flex justify-between border-b pb-2">
             <span className="font-medium">
               {field === "dateOfBirth"
@@ -227,10 +226,10 @@ const ProfileTab = () => {
                         day: "numeric",
                       })
                     : "Not provided"
-                  : field === "email"
-                  ? user?.email || "Not provided"
-                  : field === "phoneNumber"
-                  ? user?.phoneNumber || "Not provided"
+                  : field === "firstName"
+                  ? user?.firstName || "Not provided"
+                  : field === "lastName"
+                  ? user?.lastName || "Not provided"
                   : "Not provided"}
               </span>
             )}
@@ -262,6 +261,8 @@ const ProfileTab = () => {
             <Button
               onClick={() => {
                 setFormData({
+                  firstName: user?.firstName || "",
+                  lastName: user?.lastName || "",
                   email: user?.email || "",
                   phoneNumber: user?.phoneNumber || "",
                   dateOfBirth: user?.dateOfBirth || "",
