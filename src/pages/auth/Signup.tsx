@@ -18,9 +18,8 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { user, setUser } = useLocalUser();
+  const { setUser } = useLocalUser();
 
-  console.log("Signing UP, user");
   const navigate = useNavigate();
 
   const handleIsLoading = (isLoading: boolean) => {
@@ -83,7 +82,6 @@ const Signup = () => {
         setUser
       );
 
-      console.log("Signed Up:", user);
       if (data) {
         toast.update(toastId, {
           render: "Signed up successfully!",
