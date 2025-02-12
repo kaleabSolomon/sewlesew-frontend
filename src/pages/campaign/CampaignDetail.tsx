@@ -97,7 +97,6 @@ export default function CampaignDetail() {
             <CampaignDonations
               raisedAmount={campaign.raisedAmount}
               goalAmount={campaign.goalAmount}
-              donations={campaign?.Donation}
             />
             {(campaign.business || campaign.charity) && (
               <CampaignRecipientInfo
