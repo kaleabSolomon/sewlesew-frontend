@@ -34,7 +34,7 @@ type Donation = {
   userId?: string | null;
   amount: number;
   txRef: string;
-  paymentStatus: "PENDING" | "SUCCESS" | "FAILED"; // Add more statuses if needed
+  paymentStatus: "VERIFIED" | "PENDING" | "FAILED"; // Add more statuses if needed
   email?: string | null;
   isAnonymous: boolean;
   createdAt: string; // ISO date string
