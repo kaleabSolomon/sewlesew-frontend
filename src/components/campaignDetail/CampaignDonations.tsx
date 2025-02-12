@@ -2,37 +2,94 @@ import { Donation } from "@/types/campaign";
 import { FaShare } from "react-icons/fa6";
 import Button from "../ui/Button";
 import ProgressBar from "../ui/ProgressBar";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DonationModal from "../ui/DonationModal";
+import {
+  donate,
+  donateGuest,
+  getDonationsByCampaign,
+} from "@/services/donation";
+import { useParams } from "react-router-dom";
+import { isAuthenticated } from "@/utils/auth";
 
 const CampaignDonations = ({
   raisedAmount,
   goalAmount,
-  donations,
 }: {
   raisedAmount: number;
   goalAmount: number;
-  donations: Donation[];
 }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  const [donations, setDonations] = useState<Donation[]>([]);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const params = useParams();
+  const campaignId = params.id;
 
-  const handleDonation = (
+  const fetchDonations = useCallback(async () => {
+    try {
+      if (!campaignId) return;
+      const res = await getDonationsByCampaign(campaignId);
+      console.log("donation Data:", res.data);
+      setDonations(res.data);
+    } catch (error) {
+      console.error("Error fetching donation history:", error);
+    }
+  }, [campaignId]);
+
+  // Fetch donations on mount
+  useEffect(() => {
+    fetchDonations();
+  }, [fetchDonations]);
+
+  // Refetch when the tab becomes active again
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        fetchDonations();
+      }
+    };
+
+    window.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", fetchDonations);
+
+    return () => {
+      window.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", fetchDonations);
+    };
+  }, [fetchDonations]);
+
+  const handleDonation = async (
     donorFirstName: string,
     donorLastName: string,
     email: string,
     amount: number,
     isAnonymous: boolean
   ) => {
-    console.log("Donation submitted:", {
-      donorFirstName,
-      donorLastName,
-      email,
-      amount,
-      isAnonymous,
-    });
+    try {
+      const campaignId = params.id;
+      if (campaignId) {
+        const res = isAuthenticated()
+          ? await donate(
+              { donorFirstName, donorLastName, email, amount, isAnonymous },
+              campaignId
+            )
+          : await donateGuest(
+              { donorFirstName, donorLastName, email, amount, isAnonymous },
+              campaignId
+            );
+
+        if (res && res.status == "success") {
+          if (!res.data.checkoutUrl) return;
+          window.open(res.data.checkoutUrl, "_blank", "noopener,noreferrer");
+        }
+        console.log(res);
+      } else {
+        console.error("Campaign ID is undefined");
+      }
+    } catch (err) {
+      console.log(err);
+    }
     // Call your API or service to handle the donation submission
   };
 
@@ -62,6 +119,12 @@ const CampaignDonations = ({
         handleDonation={handleDonation}
       />
       <h3 className="text-lg font-semibold text-gray-800">Recent Donations</h3>
+      {donations.length === 0 && (
+        <p className="text-gray-700">
+          No donations yet.{" "}
+          <span className="text-customTeal">Be the first one!</span>
+        </p>
+      )}
       <ul className="mt-2 space-y-2">
         {donations.map((donation, index) => (
           <li
