@@ -2,10 +2,11 @@ import Button from "./ui/Button";
 import { FaShare } from "react-icons/fa6";
 import ProgressBar from "./ui/ProgressBar";
 import { CampaignPreview } from "@/types/campaign";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { formatDaysLeft } from "@/utils/helpers";
 import CampaignSkeleton from "./ui/CampaignSkeleton";
 import { useNavigate } from "react-router-dom";
+import ShareModal from "./ui/ShareModal";
 
 interface CampaignProps {
   isLoading: boolean;
@@ -15,6 +16,8 @@ interface CampaignProps {
 
 const Campaigns: FC<CampaignProps> = ({ isLoading, error, campaigns }) => {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
   return isLoading ? (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 max-w-6xl gap-6">
       {Array(6)
@@ -48,10 +51,10 @@ const Campaigns: FC<CampaignProps> = ({ isLoading, error, campaigns }) => {
                 {campaign.businessId
                   ? "Business"
                   : campaign.charityId
-                  ? campaign.charity?.isOrganizational
+                  ? campaign.charity?.isOrganization
                     ? "Charity"
                     : "Personal"
-                  : "Personal"}
+                  : "charity"}
               </span>
             </div>
             <div className="px-6">
@@ -81,9 +84,20 @@ const Campaigns: FC<CampaignProps> = ({ isLoading, error, campaigns }) => {
                 >
                   Donate now
                 </Button>
-                <Button variant="secondary" shape="block">
+                <Button
+                  variant="secondary"
+                  shape="block"
+                  onClick={() => setShowModal(true)}
+                >
                   <FaShare />
                 </Button>
+
+                {showModal && (
+                  <ShareModal
+                    content={`http://localhost:5173/campaign/${campaign.id}`}
+                    onClose={() => setShowModal(false)}
+                  />
+                )}
               </div>
             </div>
           </div>
