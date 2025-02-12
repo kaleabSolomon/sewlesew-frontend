@@ -50,3 +50,37 @@ export const updateUser = async (
     onIsLoading(false);
   }
 };
+
+export const changePassword = async (
+  passwords: {
+    oldPassword: string;
+    newPassword: string;
+    passwordConfirm: string;
+  },
+  onIsLoading: (isLoading: boolean) => void,
+  onError: (err: string) => void
+) => {
+  onIsLoading(true);
+  try {
+    const { data } = await axiosInstance.patch("/user/password", passwords, {
+      headers: {
+        Authorization: `Bearer ${Cookie.get("access_token")}`,
+        "Content-Type": "Application/json",
+      },
+    });
+
+    console.log(data);
+
+    return data;
+  } catch (err) {
+    onIsLoading(false);
+    if (axios.isAxiosError(err)) {
+      console.error(err.response?.data);
+      onError(err.response?.data.message || "Could not Create Campaign."); // Log for debugging
+      throw new Error(err.response?.data.message || "An error occurred");
+    }
+    throw new Error("An unexpected error occurred");
+  } finally {
+    onIsLoading(false);
+  }
+};
