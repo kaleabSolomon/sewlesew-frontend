@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Include this if you're using credentials
 });
 
 axiosInstance.interceptors.request.use((config) => {
