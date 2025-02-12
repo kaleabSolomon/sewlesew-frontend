@@ -10,7 +10,7 @@ export interface CampaignPreview {
   businessId: string | null;
   charityId: string | null;
   charity: {
-    isOrganizational: boolean;
+    isOrganization: boolean;
   } | null;
   campaignMedia: [
     {
@@ -38,7 +38,7 @@ export interface ICampaignDetail {
   charity: {
     id: string;
     fullName: string;
-    isOrganization: string;
+    isOrganization: boolean;
     website: string | null;
     publicEmail: string | null;
     publicPhoneNumber: string | null;
