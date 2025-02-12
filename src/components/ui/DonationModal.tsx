@@ -1,4 +1,7 @@
+import { useUser } from "@/context/userContext";
 import React, { useState, useEffect } from "react";
+import chapa from "../../assets/chapa-logo.png";
+import Button from "./Button";
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -17,15 +20,30 @@ const DonationModal: React.FC<DonationModalProps> = ({
   closeModal,
   handleDonation,
 }) => {
-  const [donorFirstName, setDonorFirstName] = useState<string>("");
-  const [donorLastName, setDonorLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const { user } = useUser();
+  const [donorFirstName, setDonorFirstName] = useState<string>(
+    user?.firstName || ""
+  );
+  const [donorLastName, setDonorLastName] = useState<string>(
+    user?.lastName || ""
+  );
+  const [email, setEmail] = useState<string>(user?.email || "");
   const [amount, setAmount] = useState<number>(0);
   const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user) {
+      setDonorFirstName((prev) => prev || user.firstName);
+      setDonorLastName((prev) => prev || user.lastName);
+      setEmail((prev) => prev || user.email || "");
+    }
+  }, [user]);
 
   const handleSubmit = () => {
     if (donorFirstName && donorLastName && email && amount > 0) {
       handleDonation(donorFirstName, donorLastName, email, amount, isAnonymous);
+      setAmount(0); // Reset amount after donation
+      setIsAnonymous(false);
       closeModal(); // Close the modal after donation
     }
   };
@@ -36,53 +54,50 @@ const DonationModal: React.FC<DonationModalProps> = ({
     }
   };
 
-  useEffect(() => {
-    // Reset form fields when modal is opened
-    if (isOpen) {
-      setDonorFirstName("");
-      setDonorLastName("");
-      setEmail("");
-      setAmount(0);
-      setIsAnonymous(false);
-    }
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   return (
     <div
-      className="modal-overlay fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="modal-overlay fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex justify-center items-start pt-32 z-50"
       onClick={handleOutsideClick}
     >
-      <div className="modal-content bg-white p-6 rounded-md w-96">
-        <h2 className="text-xl font-semibold mb-4">Make a Donation</h2>
-
-        <div className="mb-4">
-          <label htmlFor="firstName" className="block text-sm mb-1">
-            First Name
-          </label>
-          <input
-            id="firstName"
-            type="text"
-            value={donorFirstName}
-            onChange={(e) => setDonorFirstName(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
-          />
+      <div className="modal-content bg-white border-2 border-customTeal p-6 rounded-md w-[420px]">
+        <div className="flex  mb-6 items-center justify-between">
+          <h2 className="text-xl font-semibold  text-customTeal">
+            Make a Donation
+          </h2>
+          <div className="flex text-xs">
+            Powered by <img className="w-20 ml-1" src={chapa} alt="chapa" />
+          </div>
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="lastName" className="block text-sm mb-1">
-            Last Name
-          </label>
-          <input
-            id="lastName"
-            type="text"
-            value={donorLastName}
-            onChange={(e) => setDonorLastName(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
-          />
+        <div className="mb-4 flex items-center justify-around gap-2">
+          <div>
+            <label htmlFor="firstName" className="block text-sm mb-1">
+              First Name
+            </label>
+            <input
+              id="firstName"
+              type="text"
+              value={donorFirstName}
+              onChange={(e) => setDonorFirstName(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
+          <div className="">
+            <label htmlFor="lastName" className="block text-sm mb-1">
+              Last Name
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              value={donorLastName}
+              onChange={(e) => setDonorLastName(e.target.value)}
+              className="w-full p-2 border rounded"
+              required
+            />
+          </div>
         </div>
 
         <div className="mb-4">
@@ -107,8 +122,12 @@ const DonationModal: React.FC<DonationModalProps> = ({
             id="amount"
             type="number"
             value={amount}
-            onChange={(e) => setAmount(Number(e.target.value))}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              if (value >= 0) setAmount(value); // Prevent negative numbers
+            }}
             className="w-full p-2 border rounded"
+            min="0"
             required
           />
         </div>
@@ -126,18 +145,12 @@ const DonationModal: React.FC<DonationModalProps> = ({
         </div>
 
         <div className="flex justify-between">
-          <button
-            onClick={closeModal}
-            className="bg-gray-500 text-white py-2 px-4 rounded-md"
-          >
+          <Button onClick={closeModal} variant="destructive" shape="block">
             Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="bg-blue-500 text-white py-2 px-4 rounded-md"
-          >
-            Pay
-          </button>
+          </Button>
+          <Button onClick={handleSubmit} variant="primary" shape="block">
+            Donate
+          </Button>
         </div>
       </div>
     </div>

@@ -14,7 +14,6 @@ const SettingsTab = () => {
           <ChangePassword />
         </div>
         <div className="flex-end flex items-center justify-end mt-20 gap-x-3 px-6">
-          <Button variant="destructive">Diactivate Account</Button>
           <LogoutBtn />
         </div>
       </div>
