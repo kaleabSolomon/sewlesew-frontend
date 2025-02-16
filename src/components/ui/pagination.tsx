@@ -1,7 +1,17 @@
 import React from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   const getPaginationRange = () => {
     const range = [];
 
@@ -31,7 +41,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     return range;
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       onPageChange(page);
     }
@@ -59,7 +69,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             <span className="px-3 py-2 mx-1 text-gray-500">...</span>
           ) : (
             <button
-              onClick={() => handlePageChange(page)}
+              onClick={() => typeof page === "number" && handlePageChange(page)}
               className={`px-3 py-2 mx-1 rounded-md transition ${
                 page === currentPage
                   ? "bg-customTeal text-white shadow"
