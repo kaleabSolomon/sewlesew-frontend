@@ -18,6 +18,10 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleGoogleClick = () => {
+    window.location.href = "http://localhost:3333/api/auth/google/login";
+  };
+
   const { setUser } = useLocalUser();
 
   const navigate = useNavigate();
@@ -208,7 +212,10 @@ const Signup = () => {
       </div>
 
       <div className="text-center mt-2">
-        <Button className="w-full text-gray-700 border py-3 rounded-lg flex items-center justify-center space-x-2 shadow">
+        <Button
+          className="w-full text-gray-700 border py-3 rounded-lg flex items-center justify-center space-x-2 shadow"
+          onClick={handleGoogleClick}
+        >
           <FaGoogle />
           <span>Sign up with Google</span>
         </Button>

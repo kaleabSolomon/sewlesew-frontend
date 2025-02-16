@@ -17,6 +17,10 @@ const SignIn = () => {
 
   const { setUser } = useLocalUser();
 
+  const handleGoogleClick = () => {
+    window.location.href = "http://localhost:3333/api/auth/google/login";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -116,7 +120,10 @@ const SignIn = () => {
       </div>
 
       <div className="text-center mt-2">
-        <Button className="w-full  text-gray-700 border py-3 rounded-lg flex items-center justify-center space-x-2 shadow">
+        <Button
+          className="w-full  text-gray-700 border py-3 rounded-lg flex items-center justify-center space-x-2 shadow"
+          onClick={handleGoogleClick}
+        >
           <FaGoogle />
           <span>Sign in with Google</span>
         </Button>
