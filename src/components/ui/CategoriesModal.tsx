@@ -2,6 +2,7 @@ import { categories } from "@/data/data";
 import React, { useRef, useEffect } from "react";
 import Button from "./Button";
 import { IoClose } from "react-icons/io5";
+import { FaTimes } from "react-icons/fa";
 
 type ModalProps = {
   isOpen: boolean;
@@ -69,6 +70,11 @@ const CategoriesModal: React.FC<ModalProps> = ({
               onClick={() => handleSelectCategory(category.id)}
             >
               {category.label}
+              {selectedCategory === category.id ? (
+                <FaTimes className="ml-2 text-red-600" />
+              ) : (
+                ""
+              )}
             </Button>
           ))}
         </ul>

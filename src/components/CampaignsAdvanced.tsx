@@ -10,6 +10,8 @@ const CampaignsAdvanced = () => {
   const { campaigns, isLoading, error, meta, fetchCampaigns } =
     useCampaignContext();
 
+  const [searchTerm, setSearchTerm] = useState(""); // Shared search state
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page: number) => {
@@ -17,8 +19,8 @@ const CampaignsAdvanced = () => {
     fetchCampaigns(page);
   };
   useEffect(() => {
-    fetchCampaigns(currentPage);
-  }, [currentPage]);
+    fetchCampaigns(currentPage, 9, selectedCategory, searchTerm);
+  }, [currentPage, searchTerm, selectedCategory]);
 
   return (
     <div className="flex flex-col items-center mt-32 mb-5">
@@ -26,8 +28,11 @@ const CampaignsAdvanced = () => {
         Open <span className="text-customTeal ">Campaigns</span>
       </h1>
       <div className="flex items-center md:flex-col mb-6 ">
-        <SearchBar fetchCampaigns={fetchCampaigns} />
-        <Categories fetchCampaigns={fetchCampaigns} />
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        <Categories
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </div>
       <Campaigns isLoading={isLoading} error={error} campaigns={campaigns} />
       <div className="place-self-end mr-32">

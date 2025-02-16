@@ -1,28 +1,22 @@
 import Button from "./Button";
-import { useEffect, useState } from "react";
 import { IoFilterOutline } from "react-icons/io5";
 import CategoriesModal from "./CategoriesModal";
 import { categories } from "@/data/data";
+import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
 const Categories = ({
-  fetchCampaigns,
+  selectedCategory,
+  setSelectedCategory,
 }: {
-  fetchCampaigns: (
-    page?: number,
-    limit?: number,
-    category?: string,
-    fullName?: string
-  ) => void;
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleSelectCategory = (id: string) => {
-    setSelectedCategory(id);
+    setSelectedCategory((prev: string) => (prev === id ? "" : id));
   };
-  useEffect(() => {
-    fetchCampaigns(1, 9, selectedCategory);
-  }, [selectedCategory]);
 
   return (
     <div className="space-x-5">
@@ -38,6 +32,11 @@ const Categories = ({
             }}
           >
             {category.label}
+            {selectedCategory === category.id ? (
+              <FaTimes className="ml-2 text-red-600" />
+            ) : (
+              ""
+            )}
           </Button>
         ))}
         {categories.length > 5 && (
