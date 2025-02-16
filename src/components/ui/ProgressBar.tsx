@@ -27,7 +27,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
             color: progress > 40 ? "white" : "#37b3ba",
           }}
         >
-          {progress}%
+          {Math.round(progress * 100) / 100}%
         </span>
       )}
     </div>
