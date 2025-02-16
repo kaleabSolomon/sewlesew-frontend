@@ -1,4 +1,4 @@
-import Donations from "@/components/Donations";
+import Donations from "@/components/CampaignsAdvanced";
 import Hero from "@/components/Hero";
 
 const Home = () => {

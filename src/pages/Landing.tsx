@@ -67,7 +67,7 @@ const Landing = () => {
             className="flex gap-2 place-self-end"
             shape="rounded"
             onClick={() => {
-              navigate("/campaigns");
+              navigate("/donations");
             }}
           >
             See More <GrLinkNext />

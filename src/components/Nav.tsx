@@ -100,7 +100,6 @@ const Nav = () => {
       <div className="flex gap-4 items-center">
         {/* Desktop Nav Links */}
         <div className="hidden lg:flex gap-x-8 items-center text-sm">
-          <NavLink to="/stories">Stories</NavLink>
           <NavLink to="/campaigns">Campaigns</NavLink>
           <Button
             variant="secondary"
@@ -123,7 +122,7 @@ const Nav = () => {
               {user && user.profilePicture ? (
                 <img
                   src={user.profilePicture}
-                  alt="profile"
+                  alt="pfp"
                   className="rounded-full"
                 />
               ) : (
@@ -173,11 +172,8 @@ const Nav = () => {
           )}
           {isMobile && isAuthenticated() && (
             <div className="flex flex-col items-center gap-4">
-              <NavLink to={"/campaigns"}>Campaigns</NavLink>
-              <NavLink to={"/stories"}>Stories</NavLink>
-
               <NavLink to="/campaigns">My Campaigns</NavLink>
-              <NavLink to="/settings">Settings</NavLink>
+              <NavLink to="/profile">profile</NavLink>
               <Button
                 variant="secondary"
                 size="md"
@@ -194,7 +190,6 @@ const Nav = () => {
           {isMobile && !isAuthenticated() && (
             <div className="flex flex-col items-center gap-4">
               <NavLink to={"/campaigns"}>Campaigns</NavLink>
-              <NavLink to={"/stories"}>Stories</NavLink>
 
               <Button
                 variant="secondary"

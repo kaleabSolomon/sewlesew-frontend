@@ -10,7 +10,7 @@ const ContactCard = () => {
         </div>
         <div>
           <p className="text-sm uppercase font-semibold">Email</p>
-          <p className=" text-md sm:text-xl font-bold">contact@sewasew.com</p>
+          <p className=" text-md sm:text-xl font-bold">contact@sewlesew.com</p>
         </div>
       </div>
 
