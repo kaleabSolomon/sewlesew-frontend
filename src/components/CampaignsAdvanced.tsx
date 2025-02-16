@@ -2,12 +2,11 @@ import SearchBar from "./ui/SearchBar";
 import Categories from "./ui/Categories";
 import Campaigns from "./Campaigns";
 
-import { GrLinkNext } from "react-icons/gr";
 import Pagination from "./ui/pagination";
 import { useCampaignContext } from "@/context/campaignContext";
 import { useEffect, useState } from "react";
 
-const Donations = () => {
+const CampaignsAdvanced = () => {
   const { campaigns, isLoading, error, meta, fetchCampaigns } =
     useCampaignContext();
 
@@ -22,7 +21,7 @@ const Donations = () => {
   }, [currentPage]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mt-32 mb-5">
       <h1 className="font-semibold text-4xl">
         Open <span className="text-customTeal ">Campaigns</span>
       </h1>
@@ -31,21 +30,15 @@ const Donations = () => {
         <Categories fetchCampaigns={fetchCampaigns} />
       </div>
       <Campaigns isLoading={isLoading} error={error} campaigns={campaigns} />
-      <div className=" flex justify-between w-full mt-8 mb-24 ">
-        <div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={meta?.totalPages || 1} // Get total pages from metadata
-            onPageChange={handlePageChange}
-          />
-        </div>
-
-        <p className="text-customTeal flex w-32 items-center gap-2">
-          See More <GrLinkNext />
-        </p>
+      <div className="place-self-end mr-32">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={meta?.totalPages || 1} // Get total pages from metadata
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
 };
 
-export default Donations;
+export default CampaignsAdvanced;
