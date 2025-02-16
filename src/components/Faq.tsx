@@ -1,6 +1,6 @@
 import { faqData } from "@/data/data";
 import Accordion from "./ui/Accordion";
-import mobApp from "../assets/kenalib-mob-app.jpg";
+import mobApp from "../assets/sewlesew.jpg";
 
 const Faq = () => {
   return (

@@ -1,7 +1,9 @@
-import { FaCirclePlay } from "react-icons/fa6";
 import Button from "./ui/Button";
+import { IoMdAddCircle } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center justify-center h-full text-white ">
       <p className="font-bold text-4xl sm:text-6xl flex flex-col items-center">
@@ -30,9 +32,9 @@ const Hero = () => {
           size="lg"
           shape="rounded"
           className="flex gap-2 font-normal"
+          onClick={() => navigate("/campaign/create")}
         >
-          <FaCirclePlay />
-          Watch Video
+          <IoMdAddCircle /> Create A Campaign
         </Button>
       </div>
     </div>
