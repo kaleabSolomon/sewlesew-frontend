@@ -33,7 +33,6 @@ export const getCampaigns = async (
     return res.data;
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      console.error(err.response?.data); // Log for debugging
       throw new Error(err.response?.data.message || "An error occurred");
     }
     throw new Error("An unexpected error occurred");
@@ -56,12 +55,10 @@ export const getCampaign = async (
     if (axios.isAxiosError(error) && error.response) {
       const errData = error.response.data;
       onError(errData.message || "failed to get detaild of campaign");
-      console.error("fetching error: ", errData);
     } else {
       onError(
         "An unexpected error occurred. Could not fetch the campaign detail"
       );
-      console.error("Unexpected error:", error);
     }
   } finally {
     onIsLoading(false);
@@ -100,7 +97,6 @@ export const createCampaign = async (
         formData.append(key, value);
       }
     });
-    console.log(Cookie.get("access_token"));
 
     const res = await axiosInstance.post(`/campaign${url}`, formData, {
       headers: {
@@ -113,7 +109,6 @@ export const createCampaign = async (
   } catch (err) {
     onIsLoading(false);
     if (axios.isAxiosError(err)) {
-      console.error(err.response?.data);
       onError(err.response?.data.message || "Could not Create Campaign."); // Log for debugging
       throw new Error(err.response?.data.message || "An error occurred");
     }

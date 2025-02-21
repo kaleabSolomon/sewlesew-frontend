@@ -58,7 +58,6 @@ const VerifyAccount = () => {
     }
 
     try {
-      console.log("user:", user);
       const data = await verifyAccount(
         Number(code),
         user?.identifier ?? "",

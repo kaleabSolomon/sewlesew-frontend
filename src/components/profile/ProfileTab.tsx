@@ -36,9 +36,7 @@ const ProfileTab = () => {
     dateOfBirth: "",
   });
 
-  useEffect(() => {
-    console.log("FormData updated:", selectedFile);
-  }, [selectedFile]);
+  useEffect(() => {}, [selectedFile]);
 
   useEffect(() => {
     if (user) {
@@ -99,7 +97,6 @@ const ProfileTab = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      console.log(file);
       setSelectedFile(file); // Store the file for later upload
       const imageUrl = URL.createObjectURL(file); // Preview the image
       setFormData((prev) => ({ ...prev, profilePicture: imageUrl }));
@@ -120,7 +117,6 @@ const ProfileTab = () => {
       fmData.append(key, value as string);
     });
 
-    console.log("Now Were on save. The data to be sent to api is: ", fmData);
     // Prevent saving if errors exist
     try {
       const usr = await updateUser(fmData, handleIsLoading, handleReqError);

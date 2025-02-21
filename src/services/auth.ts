@@ -61,12 +61,9 @@ export const signIn = async (
     if (axios.isAxiosError(error) && error.response) {
       const errData = error.response.data as AuthError;
       onError(errData.message || "Authentication failed.");
-      console.error("Sign-in error:", errData);
     } else {
       onError("An unexpected error occurred. Could not sign you in.");
-      console.error("Unexpected sign-in error:", error);
     }
-    console.log("error", error);
   } finally {
     onIsLoading(false);
   }
@@ -98,8 +95,6 @@ export const signUp = async (
     // Make API request
     const { data } = await axiosInstance.post("/auth/local/signup", reqBody);
 
-    console.log(data);
-
     if (data.access_token && data.refresh_token) {
       // Store tokens securely in cookies
       Cookie.set("access_token", data.access_token, {
@@ -112,7 +107,6 @@ export const signUp = async (
       });
 
       const user = decodeToken("access_token");
-      console.log("decoded user: ", user);
 
       if (user) setUser(user);
     }
@@ -124,10 +118,8 @@ export const signUp = async (
     if (axios.isAxiosError(error) && error.response) {
       const errData = error.response.data as AuthError;
       onError(errData.message || "Sign-up failed.");
-      console.error("Sign-up error:", errData);
     } else {
       onError("An unexpected error occurred. Could not sign you up.");
-      console.error("Unexpected sign-up error:", error);
     }
   } finally {
     onIsLoading(false);
@@ -162,10 +154,8 @@ export const verifyAccount = async (
     if (axios.isAxiosError(error) && error.response) {
       const errData = error.response.data as { message: string };
       onError(errData.message || "Verification failed.");
-      console.error("Verification error:", errData);
     } else {
       onError("An unexpected error occurred. Could not verify your account.");
-      console.error("Unexpected verification error:", error);
     }
   } finally {
     onIsLoading(false);
@@ -195,10 +185,8 @@ export const resendCode = async (
     if (axios.isAxiosError(error) && error.response) {
       const errData = error.response.data as { message: string };
       onError(errData.message || "Verification failed.");
-      console.error("Verification error:", errData);
     } else {
       onError("An unexpected error occurred. Could not verify your account.");
-      console.error("Unexpected verification error:", error);
     }
   } finally {
     onIsLoading(false);
@@ -239,7 +227,6 @@ export const logout = async (removeUser: () => void) => {
     // Optional: Redirect to login or home page
     window.location.href = "/";
   } catch (err) {
-    console.error("Logout failed:", err);
-    throw new Error("Failed to log out. Please try again.");
+    throw (new Error("Failed to log out. Please try again."), err);
   }
 };

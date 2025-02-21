@@ -30,7 +30,7 @@ const CampaignDonations = ({
     try {
       if (!campaignId) return;
       const res = await getDonationsByCampaign(campaignId);
-      console.log("donation Data:", res.data);
+
       setDonations(res.data);
     } catch (error) {
       console.error("Error fetching donation history:", error);
@@ -83,12 +83,11 @@ const CampaignDonations = ({
           if (!res.data.checkoutUrl) return;
           window.open(res.data.checkoutUrl, "_blank", "noopener,noreferrer");
         }
-        console.log(res);
       } else {
         console.error("Campaign ID is undefined");
       }
     } catch (err) {
-      console.log(err);
+      console.error("Error donating:", err);
     }
     // Call your API or service to handle the donation submission
   };

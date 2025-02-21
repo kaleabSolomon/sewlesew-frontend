@@ -74,7 +74,9 @@ const Nav = () => {
 
         setUser(pf);
       } catch (error) {
-        console.error("Failed to fetch user data:", error);
+        if (error) {
+          // do nothing
+        }
       }
     };
 

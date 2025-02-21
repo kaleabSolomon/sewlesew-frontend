@@ -4,8 +4,6 @@ import Button from "./Button";
 export default function ErrorPage() {
   const error = useRouteError() as { statusText?: string; message?: string };
 
-  console.error(error);
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="max-w-lg text-center p-8 bg-gray-800 shadow-lg rounded-lg">

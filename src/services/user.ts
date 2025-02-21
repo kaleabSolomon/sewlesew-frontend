@@ -12,11 +12,9 @@ export const getUserBrief = async () => {
       },
     });
 
-    console.log(res.data.data);
     return res.data.data;
   } catch (err) {
     if (axios.isAxiosError(err)) {
-      console.error(err.response?.data); // Log for debugging
       throw new Error(err.response?.data.message || "An error occurred");
     }
     throw new Error("An unexpected error occurred");
@@ -41,7 +39,6 @@ export const updateUser = async (
   } catch (err) {
     onIsLoading(false);
     if (axios.isAxiosError(err)) {
-      console.error(err.response?.data);
       onError(err.response?.data.message || "Could not Create Campaign."); // Log for debugging
       throw new Error(err.response?.data.message || "An error occurred");
     }
@@ -69,13 +66,10 @@ export const changePassword = async (
       },
     });
 
-    console.log(data);
-
     return data;
   } catch (err) {
     onIsLoading(false);
     if (axios.isAxiosError(err)) {
-      console.error(err.response?.data);
       onError(err.response?.data.message || "Could not Create Campaign."); // Log for debugging
       throw new Error(err.response?.data.message || "An error occurred");
     }

@@ -27,7 +27,6 @@ export default function Detail({ campaign }: { campaign: ICampaignDetail }) {
     (img) => img.imageType === "SUPPORTING_IMAGE"
   );
 
-  console.log(coverImage, supportingImages);
   const campaignType = business
     ? "Business"
     : charity?.isOrganization

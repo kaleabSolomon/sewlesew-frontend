@@ -125,19 +125,7 @@ const CreateCampaign = () => {
     if (name === "publicEmail" || name === "contactEmail") {
       if (value.trim() && !isValidEmail(value)) {
         errorMessage = "Please Enter a valid email";
-        console.log(errorMessage);
       }
-
-      console.log(
-        "name",
-        name,
-        "\n",
-        "Email",
-        value,
-        "\n",
-        "isValid",
-        isValidEmail(value)
-      );
     }
 
     if (name === "publicPhoneNumber" || name === "contactPhoneNumber") {
@@ -302,7 +290,6 @@ const CreateCampaign = () => {
   useEffect(() => {
     if (requestError) {
       toast.dismiss();
-      console.log("requestError", requestError);
       toast.error(requestError[0], { autoClose: 3000 });
     }
     handleError("");
