@@ -7,9 +7,18 @@ import { toast } from "react-toastify";
 import { isValidEmail, isValidPhone } from "@/utils/validators";
 
 const ProfileTab = () => {
+  type FormField =
+    | "firstName"
+    | "lastName"
+    | "email"
+    | "phoneNumber"
+    | "dateOfBirth"
+    | "profilePicture";
   const { user, setUser } = useUser();
   const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    [key in FormField]: string;
+  }>({
     firstName: "",
     lastName: "",
     email: "",
@@ -211,7 +220,7 @@ const ProfileTab = () => {
                 <input
                   type="text"
                   name={field}
-                  value={formData?.[field] || ""}
+                  value={formData?.[field as FormField] || ""}
                   onChange={handleChange}
                   className="border p-1 rounded w-2/3"
                 />

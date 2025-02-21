@@ -3,18 +3,21 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { FaGlobe } from "react-icons/fa6";
 import { MdOutlineWork, MdLocationOn, MdEmail } from "react-icons/md";
 
-interface Recipient {
-  fullName?: string;
-  sector?: string;
-  website?: string;
-  region?: string;
-  city?: string;
+export interface Recipient {
+  fullName: string;
+  sector: string;
+  website: string | null;
+  region: string;
+  city: string;
   relativeLocation?: string;
   publicEmail?: string;
   publicPhoneNumber?: string;
 }
 
 const CampaignRecipientInfo = ({ recipient }: { recipient: Recipient }) => {
+  if (!recipient) {
+    return <div>No recipient info available</div>;
+  }
   return (
     <div className="bg-white rounded-md shadow-lg p-6 border border-customTeal space-y-2">
       <h3 className="text-lg">

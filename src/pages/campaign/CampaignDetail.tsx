@@ -5,7 +5,9 @@ import { ICampaignDetail } from "@/types/campaign";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
-import CampaignRecipientInfo from "@/components/campaignDetail/CampaignResipientInfo";
+import CampaignRecipientInfo, {
+  Recipient,
+} from "@/components/campaignDetail/CampaignResipientInfo";
 
 export default function CampaignDetail() {
   const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +102,7 @@ export default function CampaignDetail() {
             />
             {(campaign.business || campaign.charity) && (
               <CampaignRecipientInfo
-                recipient={campaign.business ?? campaign.charity}
+                recipient={(campaign.business ?? campaign.charity) as Recipient}
               />
             )}
           </div>

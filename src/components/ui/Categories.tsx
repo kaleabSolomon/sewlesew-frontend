@@ -15,7 +15,7 @@ const Categories = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSelectCategory = (id: string) => {
-    setSelectedCategory((prev: string) => (prev === id ? "" : id));
+    setSelectedCategory(selectedCategory === id ? "" : id);
   };
 
   return (
