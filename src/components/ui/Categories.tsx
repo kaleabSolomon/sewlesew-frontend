@@ -27,6 +27,7 @@ const Categories = ({
             key={category.id}
             variant={selectedCategory === category.id ? "primary" : "secondary"}
             onClick={(e) => {
+              console.log(e.target);
               handleSelectCategory(category.id);
             }}
           >
