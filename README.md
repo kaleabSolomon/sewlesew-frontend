@@ -1,4 +1,4 @@
-🌍 Sewlesew Frontend
+# 🌍 Sewlesew Frontend
 
 Sewlesew is a **community crowdfunding platform** designed to empower local initiatives by connecting them with potential backers. This repository contains the **frontend codebase** for the Sewlesew application, built to provide a **seamless** and **intuitive** user experience for campaign creation, browsing, and support.
 
